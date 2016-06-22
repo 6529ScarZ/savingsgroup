@@ -1,0 +1,5 @@
+localhost
+root
+6529
+hrd
+3307
