@@ -69,7 +69,7 @@ require_once 'class/table_create.php';?>
         <!-- Logo -->
         <a href="index.php" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>S</b>AVING</span>
+          <span class="logo-mini"><b>S</b>aving</span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg"><b>SAVINGS-</b>System v.1.0</span>
         </a>
@@ -110,7 +110,7 @@ require_once 'class/table_create.php';?>
                                         $sql = "select p.photo,
                                             CASE m.user_type
                                             WHEN '1' THEN 'สมาชิกสามัญ'
-                                            WHEN 'Y' THEN 'สมาชิกสมทบ'
+                                            WHEN '2' THEN 'สมาชิกสมทบ'
                                             ELSE 'Unknown'
                                             END AS posname 
                                             from person p 
