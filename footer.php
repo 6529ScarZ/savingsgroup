@@ -7,8 +7,8 @@
       </footer>
 
       <!-- Control Sidebar -->
-      <?php if(!empty($_SESSION['Status_s'])){
-          if($_SESSION['Status_s']=='ADMIN'){?>
+      <?php if(!empty($_SESSION['Status'])){
+          if($_SESSION['Status']=='ADMIN'){?>
       <aside class="control-sidebar control-sidebar-dark">
         <!-- Create the tabs -->
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">

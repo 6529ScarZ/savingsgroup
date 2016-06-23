@@ -1,11 +1,11 @@
-<?php session_start(); 
-require 'class/table_create.php';?>
+<?php @session_start(); 
+require_once 'class/table_create.php';?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ระบบพัสดุโรงพยาบาล</title>
+    <title>ระบบบริหารจัดการกลุ่มออมทรัพย์ </title>
     <LINK REL="SHORTCUT ICON" HREF="<?=$resultHos[0]['url']?>/hrd/images/logo.png">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -69,9 +69,9 @@ require 'class/table_create.php';?>
         <!-- Logo -->
         <a href="index.php" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>S</b>UPPLY</span>
+          <span class="logo-mini"><b>S</b>AVING</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>SUPPLY-</b>System v.1.0</span>
+          <span class="logo-lg"><b>SAVINGS-</b>System v.1.0</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -85,7 +85,7 @@ require 'class/table_create.php';?>
           
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <?php if(empty($_SESSION['user_s'])){?>
+                <?php if(empty($_SESSION['user'])){?>
                 <li class="dropdown messages-menu">
                     
                         <a href="#" onClick="return popup('login_page.php', popup, 300, 330);" title="เข้าสู่ระบบพัสดุ">
@@ -104,29 +104,31 @@ require 'class/table_create.php';?>
      die ('Connect Failed! :'.mysqli_connect_error ());
      exit;
 }
-                                    $user_id = $_SESSION['user_s'];
+                                    $user_id = $_SESSION['user'];
                                     if (!empty($user_id)) {
                                         
-                                        $sql = "select em.photo,po.posname ,d1.depName from emppersonal em 
-                                                        INNER JOIN posid po on em.posid=po.posId
-                                                        INNER JOIN department d1 on em.depid=d1.depId
-                                                        WHERE empno='$user_id'";
+                                        $sql = "select p.photo,
+                                            CASE m.user_type
+                                            WHEN '1' THEN 'สมาชิกสามัญ'
+                                            WHEN 'Y' THEN 'สมาชิกสมทบ'
+                                            ELSE 'Unknown'
+                                            END AS posname 
+                                            from person p 
+                                                        INNER JOIN member m on m.Name=p.person_id
+                                                        WHERE p.person_id='$user_id'";
                                       $myconn->db_m($sql);
                                       $result=$myconn->select();
                                       //$myconn->close_mysqli();
                                       
                                       $empno_photo=$result[0]['photo'];
                                       $posname=$result[0]['posname'];
-                                      $depname=$result[0]['depName'];
                                       
                                         if (empty($empno_photo)) {
                                     $photo = 'person.png';
-                                    $fold = $resultHos[0]['url']."/hrd/images/";
-                                    //$fold = "images/";
+                                    $fold = "images/";
                                 } else {
                                     $photo = $empno_photo;
-                                    $fold = $resultHos[0]['url']."/hrd/photo/";
-                                    //$fold = "photo/";
+                                    $fold = "photo/";
                                 }
                                         //$db->close();
                                     }
@@ -136,7 +138,7 @@ require 'class/table_create.php';?>
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="<?= $fold.$photo?>" class="user-image" alt="User Image">
-                  <span class="hidden-xs"><?= $_SESSION['fullname_s']?></span>
+                  <span class="hidden-xs"><?= $_SESSION['fullname']?></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
@@ -144,14 +146,13 @@ require 'class/table_create.php';?>
                     <img src="<?= $fold.$photo?>" class="img-circle" alt="User Image">
                     <p>
                       <?= $posname?>
-                      <small><?= $depname?></small>
                     </p>
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
-                      <?php if($_SESSION['Status_s']=='ADMIN' or ($_SESSION['Status_s']=='SUSER' and $_SESSION['process_s']=='5')){?>
+                      <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
                     <div class="pull-left">
-                        <a href="index.php?page=content/add_User&ss_id=<?= $_SESSION['user_s']?>" class="btn btn-default btn-flat">ข้อมูลส่วนตัว</a>
+                        <a href="index.php?page=content/add_User&ss_id=<?= $_SESSION['user']?>" class="btn btn-default btn-flat">ข้อมูลส่วนตัว</a>
                       </div><?php }?>
                     <div class="pull-right">
                         <a href="index.php?page=process/logout" class="btn btn-default btn-flat">ออกจากระบบ</a>
@@ -160,8 +161,8 @@ require 'class/table_create.php';?>
                 </ul>
               </li>
               <!-- Control Sidebar Toggle Button -->
-              <?php if(!empty($_SESSION['Status_s'])){
-          if($_SESSION['Status_s']=='ADMIN'){?>
+              <?php if(!empty($_SESSION['Status'])){
+          if($_SESSION['Status']=='ADMIN'){?>
               <li>
                 <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
               </li>
@@ -180,18 +181,18 @@ require 'class/table_create.php';?>
     if($db){
 //===ชื่อโรงพยาบาล
             
-                    $sql = "select * from  hospital order by hospital limit 1";
+                    $sql = "select * from  community order by comm_id limit 1";
                     $myread->db_m($sql);
-                    $resultHos=$myread->select();
+                    $resultComm=$myread->select();
                     $myread->close_mysqli();
      }                     
-                    if (!empty($resultHos[0]['logo'])) {
-                                    $pic = $resultHos[0]['logo'];
-                                    $fol = $resultHos[0]['url']."/hrd/logo/";
+                    if (!empty($resultComm[0]['logo'])) {
+                                    $pic = $resultComm[0]['logo'];
+                                    $fol = $resultComm[0]['url']."/savingsgroup/logo/";
                                     //$fol = "logo/";
                                 } else {
                                     $pic = 'agency.ico';
-                                    $fol = $resultHos[0]['url']."/hrd/images/";
+                                    $fol = $resultComm[0]['url']."/savingsgroup/images/";
                                     //$fol = "images/";
                                 }
                     
@@ -207,8 +208,8 @@ require 'class/table_create.php';?>
                 <img src="<?= $fol.$pic?>" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-              <p><?= $resultHos[0]['name2']?></p>
-              <a href="#"><i class="fa fa-circle text-success"></i> ระบบพัสดุ</a>
+              <p><?= $resultComm[0]['group_name']?></p>
+              <a href="#"><i class="fa fa-circle text-success"></i> ระบบบริหารกลุ่มออมทรัพย์</a>
             </div>
           </div>
           <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -217,7 +218,7 @@ require 'class/table_create.php';?>
             <li class=""><a href="index.php">
                     <img src="images/gohome.ico" width="20"> <span>หน้าหลัก</span></a>
             </li>
-            <?php if(isset($_SESSION['user_s'])){ ?>
+            <?php if(isset($_SESSION['user'])){ ?>
             <li class="treeview">
               <a href="#">
                   <img src="images/icon_set1/load_upload.ico" width="20">
@@ -229,7 +230,7 @@ require 'class/table_create.php';?>
                   <a href="#"><i class="fa fa-circle-o text-orange"></i> การเบิกวัสดุ <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
                 <li><a href="index.php?page=content/add_withdrawal_order"><i class="fa fa-circle-o text-red"></i> เบิกวัสดุ</a></li>
-                <?php if($_SESSION['Status_s']=='ADMIN' or ($_SESSION['Status_s']=='SUSER' and $_SESSION['process_s']=='5')){?>
+                <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
                 <li><a href="index.php?page=content/add_pay_order"><i class="fa fa-circle-o text-red"></i> จ่ายวัสดุ</a></li>
                 </ul>
                 </li>
@@ -238,12 +239,12 @@ require 'class/table_create.php';?>
                   <a href="#"><i class="fa fa-circle-o text-orange"></i> การยืมวัสดุ <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
                     <li><a href="index.php?page=content/add_borrow_order"><i class="fa fa-circle-o text-yellow"></i> ยืมวัสดุ</a></li>
-                    <?php if($_SESSION['Status_s']=='ADMIN' or ($_SESSION['Status_s']=='SUSER' and $_SESSION['process_s']=='5')){?>
+                    <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
                     <li><a href="index.php?page=content/add_pay_borrow"><i class="fa fa-circle-o text-yellow"></i> จ่ายวัสดุ</a></li>
                     <?php }?>
                     </ul>
                 </li>
-                <?php if($_SESSION['Status_s']=='ADMIN' or ($_SESSION['Status_s']=='SUSER' and $_SESSION['process_s']=='5')){?>
+                <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
                 <li>
                   <a href="#"><i class="fa fa-circle-o text-orange"></i> รายงาน <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
@@ -254,7 +255,7 @@ require 'class/table_create.php';?>
                 <?php }?>
               </ul>
             </li>
-             <?php if($_SESSION['Status_s']=='ADMIN' or ($_SESSION['Status_s']=='SUSER' and $_SESSION['process_s']=='5')){?>
+             <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
                         <li class="treeview">
               <a href="#">
                   <img src="images/icon_set1/load_download.ico" width="20">
