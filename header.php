@@ -1,5 +1,11 @@
-<?php @session_start(); 
-require_once 'class/table_create.php';?>
+<?php session_start(); 
+require_once 'class/table_create.php';
+$conn_DB= new Db_mng();
+$conn_DB->read="connection/conn_DB.txt";
+$conn_DB->config();
+$db=$conn_DB->conn_mysqli();
+
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -94,16 +100,12 @@ require_once 'class/table_create.php';?>
                    
                 </li>
                 <?php }else{
-                    
-                    $myconn=new Db_mng();
-                    $myconn->read="connection/conn_DB.txt";
-                    $myconn->config();
-                    $db=$myconn->conn_mysqli();
-                    
                     if(!$db){
      die ('Connect Failed! :'.mysqli_connect_error ());
      exit;
 }
+                    
+
                                     $user_id = $_SESSION['user'];
                                     if (!empty($user_id)) {
                                         
@@ -116,8 +118,8 @@ require_once 'class/table_create.php';?>
                                             from person p 
                                                         INNER JOIN member m on m.Name=p.person_id
                                                         WHERE p.person_id='$user_id'";
-                                      $myconn->db_m($sql);
-                                      $result=$myconn->select();
+                                      $conn_DB->db_m($sql);
+                                      $result=$conn_DB->select();
                                       //$myconn->close_mysqli();
                                       
                                       $empno_photo=$result[0]['photo'];
@@ -172,19 +174,12 @@ require_once 'class/table_create.php';?>
         </nav>
       </header>
         <?php                
-                //require 'class/db_mng.php';
-                $myread=new Db_mng();
-                $myread->read="connection/conn_DB.txt";
-                $reader=$myread->config();
-                $db=$myread->conn_mysqli();
-                //print_r($db);
     if($db){
 //===ชื่อโรงพยาบาล
-            
                     $sql = "select * from  community order by comm_id limit 1";
-                    $myread->db_m($sql);
-                    $resultComm=$myread->select();
-                    $myread->close_mysqli();
+                    $conn_DB->db_m($sql);
+                    $resultComm=$conn_DB->select();
+                    //$myconn->close_mysqli();
      }                     
                     if (!empty($resultComm[0]['logo'])) {
                                     $pic = $resultComm[0]['logo'];
