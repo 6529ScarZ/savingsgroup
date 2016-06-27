@@ -184,6 +184,6 @@
     <!-- AdminLTE for demo purposes -->
     <script src="dist/js/demo.js"></script>
 
-<?php //$myconn->close_mysqli();?>
+<?php $conn_DB->close_mysqli();?>
   </body>
 </html>

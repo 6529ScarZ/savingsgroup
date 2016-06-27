@@ -1,9 +1,9 @@
 ﻿ 
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	 
-                <link type="text/css" href="plugins/DatePickerS/css/ui-lightness/jquery-ui-1.8.10.custom.css" rel="stylesheet" />	
-                <script type="text/javascript" src="plugins/DatePickerS/js/jquery-1.4.4.min.js"></script>
-                <script type="text/javascript" src="plugins/DatePickerS/js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
+                <link type="text/css" href="../plugins/DatePickerS/css/ui-lightness/jquery-ui-1.8.10.custom.css" rel="stylesheet" />	
+                <script type="text/javascript" src="../plugins/DatePickerS/js/jquery-1.4.4.min.js"></script>
+                <script type="text/javascript" src="../plugins/DatePickerS/js/jquery-ui-1.8.10.offset.datepicker.min.js"></script>
 		<script type="text/javascript">
 		  $(function () {
 		    var d = new Date();

@@ -68,7 +68,7 @@ $db=$conn_DB->conn_mysqli();
 </script>
 
   </head>
-  <body class="hold-transition skin-red-light fixed sidebar-collapse sidebar-mini">
+  <body class="hold-transition skin-blue-light fixed sidebar-collapse sidebar-mini">
     <div class="wrapper">
 
       <header class="main-header">
