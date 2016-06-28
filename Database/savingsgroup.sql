@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2016-06-22 16:31:29
+Date: 2016-06-27 16:27:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,9 +25,9 @@ CREATE TABLE `address` (
   `hourseno` varchar(10) DEFAULT NULL,
   `village` varchar(50) DEFAULT NULL,
   `moo` int(2) NOT NULL,
-  `tambon` int(2) NOT NULL,
+  `district` int(2) NOT NULL,
   `amphur` int(2) NOT NULL,
-  `changwat` int(2) NOT NULL,
+  `province` int(2) NOT NULL,
   `post` int(5) NOT NULL,
   `tel` int(10) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
@@ -1092,6 +1092,8 @@ CREATE TABLE `community` (
   `regist_date` date NOT NULL,
   `reg_gov_name` varchar(150) NOT NULL,
   `authorized_person` varchar(5) NOT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
   `d_update` datetime DEFAULT NULL,
   PRIMARY KEY (`comm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -10035,11 +10037,51 @@ CREATE TABLE `member` (
   `time_login` time DEFAULT NULL,
   PRIMARY KEY (`UserID`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=MyISAM AUTO_INCREMENT=172 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=173 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of member
 -- ----------------------------
+INSERT INTO `member` VALUES ('0172', 'a182e991eb5396de1e18f430dbc49a37', 'ac10ec1ace51b2d973cd87973a98d3ab', 'scarz', '0001', 'ADMIN', '1', null, null);
+
+-- ----------------------------
+-- Table structure for member_status
+-- ----------------------------
+DROP TABLE IF EXISTS `member_status`;
+CREATE TABLE `member_status` (
+  `mem_status_id` int(1) NOT NULL AUTO_INCREMENT,
+  `mem_status` varchar(50) NOT NULL,
+  PRIMARY KEY (`mem_status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of member_status
+-- ----------------------------
+INSERT INTO `member_status` VALUES ('1', 'เป็นสมาชิก');
+INSERT INTO `member_status` VALUES ('2', 'ลาออก');
+INSERT INTO `member_status` VALUES ('3', 'ตาย');
+INSERT INTO `member_status` VALUES ('4', 'ให้ออก');
+
+-- ----------------------------
+-- Table structure for mstatus
+-- ----------------------------
+DROP TABLE IF EXISTS `mstatus`;
+CREATE TABLE `mstatus` (
+  `mstatus_id` int(1) NOT NULL,
+  `mstatus` varchar(50) NOT NULL,
+  PRIMARY KEY (`mstatus_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of mstatus
+-- ----------------------------
+INSERT INTO `mstatus` VALUES ('1', 'โสด');
+INSERT INTO `mstatus` VALUES ('2', 'สมรส');
+INSERT INTO `mstatus` VALUES ('3', 'ม่าย');
+INSERT INTO `mstatus` VALUES ('4', 'หย่า');
+INSERT INTO `mstatus` VALUES ('5', 'แยกกันอยู่');
+INSERT INTO `mstatus` VALUES ('6', 'สมณะ');
+INSERT INTO `mstatus` VALUES ('9', 'ไม่ทราบ');
 
 -- ----------------------------
 -- Table structure for person
@@ -10057,13 +10099,15 @@ CREATE TABLE `person` (
   `mstatus` int(1) DEFAULT NULL,
   `member_status` int(1) DEFAULT NULL,
   `regist_date` date DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   `d_update` datetime NOT NULL,
   PRIMARY KEY (`person_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of person
 -- ----------------------------
+INSERT INTO `person` VALUES ('1', '6529', '1234567890987', '1', 'ทดสอบ', 'ระบบออมทรัพย์', '1', '2016-06-23', '1', '1', '2016-06-23', null, '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for preface
@@ -10078,6 +10122,11 @@ CREATE TABLE `preface` (
 -- ----------------------------
 -- Records of preface
 -- ----------------------------
+INSERT INTO `preface` VALUES ('1', 'นาย');
+INSERT INTO `preface` VALUES ('2', 'นาง');
+INSERT INTO `preface` VALUES ('3', 'นางสาว');
+INSERT INTO `preface` VALUES ('4', 'เด็กชาย');
+INSERT INTO `preface` VALUES ('5', 'เด็กหญิง');
 
 -- ----------------------------
 -- Table structure for province

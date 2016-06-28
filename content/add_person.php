@@ -31,7 +31,7 @@
     }
 ?>
 <section class="content">
-<form class="navbar-form" role="form" action='prcperson.php' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
+<form class="navbar-form" role="form" action='index.php?page=process/prcperson' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
 <div class="row">
           <div class="col-lg-12">
               <div class="box box-success box-solid collapsed-box">
@@ -44,11 +44,11 @@
                 <div class="box-body">
                     <div class="form-group"> 
                 <label>รหัสสมาชิก &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="member_no" id="member_no" placeholder="รหัสสมาชิก" onkeydown="return nextbox(event, 'cidid')" required>
+                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="member_no" id="member_no" placeholder="รหัสสมาชิก" onkeydown="return nextbox(event, 'cid')" required>
              	</div>
                     <div class="form-group"> 
                     <label>หมายเลขบัตรประชาชน &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="cid" id="cid" placeholder="หมายเลขบัตรประชาชน" maxlength="13" onkeydown="return nextbox(event, 'pname')" onKeyUp="javascript:inputDigits(this);" required>
+                    <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="cid" id="cid" min="13" max="13" placeholder="หมายเลขบัตรประชาชน" maxlength="13" onkeydown="return nextbox(event, 'pname')" onKeyUp="javascript:inputDigits(this);" required>
                     </div><br><br>
                     <div class="form-group">
          			<label>คำนำหน้า &nbsp;</label>
@@ -78,7 +78,7 @@
              	</div>
                 <div class="form-group">
          			<label>เพศ &nbsp;</label>
- 				<select name="sex" id="sex" required  class="form-control"  onkeydown="return nextbox(event, 'bday');">
+ 				<select name="sex" id="sex" required  class="form-control"  onkeydown="return nextbox(event, 'birth');">
                                     <?php if(!empty($edit_person[0]['sex'])){
                                           if($edit_person[0]['sex']==1){?>
                                  <option value='<?=$edit_person['sex'];?>'>ชาย</option>
@@ -92,18 +92,18 @@
 			 </div>
                 <div class="form-group"> 
                 <label>วันเดือนปีเกิด &nbsp;</label>
-                <?php //include_once'plugins/DatePickerS/index2.php'; ?>
+                <?php //include_once'plugins/DatePickerS/datepicker.php'; ?>
                 <?php /*
  		if(isset($method)=='edit'){
  			$take_date=$edit_person[0]['birth'];
  			edit_date($take_date);
                         }*/
  		?>
-                <input name="birth" type="date" id="datepicker-th-1"  placeholder='รูปแบบ 22/07/2557' class="form-control"  value="<?php if(isset($method)=='edit'){};?>" required><br>
+                <input name="birth" type="date" id="birth"  placeholder='รูปแบบ 22/07/2557' class="form-control"  value="<?php if(isset($method)=='edit'){};?>" onkeydown="return nextbox(event, 'mstatus');"required><br>
                 </div><br><br>
                 <div class="form-group">
          			<label>สถานะสมรส &nbsp;</label>
- 				<select name="mstatus" id="mstatus" required  class="form-control"  onkeydown="return nextbox(event, 'htell');"> 
+ 				<select name="mstatus" id="mstatus" required  class="form-control"  onkeydown="return nextbox(event, 'member_status');"> 
 				<?php	$sql = "SELECT *  FROM mstatus order by mstatus_id";
                                 $conn_DB2->conn_mysqli();
                                 $conn_DB2->db_m($sql);
@@ -118,7 +118,7 @@
                 </div>
                 <div class="form-group">
          			<label>สถานะการเป็นสมาชิก &nbsp;</label>
- 				<select name="member_status" id="member_status" required  class="form-control"  onkeydown="return nextbox(event, 'htell');"> 
+ 				<select name="member_status" id="member_status" required  class="form-control"  onkeydown="return nextbox(event, 'hourseno');"> 
 				<?php	$sql = "SELECT *  FROM member_status order by mem_status_id";
                                 $conn_DB2->conn_mysqli();
                                 $conn_DB2->db_m($sql);
@@ -133,32 +133,32 @@
                 </div><br><br>
                 <div class="form-group"> 
                 <label>ที่อยุ่บ้านเลขที่ &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="hourseno" id="hourseno" placeholder="บ้านเลขที่" onkeydown="return nextbox(event, 'hname')" required>
+                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="hourseno" id="hourseno" placeholder="บ้านเลขที่" onkeydown="return nextbox(event, 'village')" onKeyUp="javascript:inputDigits(this);" required>
              	</div>
                 <div class="form-group"> 
                 <label>ชื่อหมู่บ้าน &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="village" id="village" placeholder="ชื่อหมู่บ้าน" onkeydown="return nextbox(event, 'postcode')">
+                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="village" id="village" placeholder="ชื่อหมู่บ้าน" onkeydown="return nextbox(event, 'moo')">
                 </div>
                 <div class="form-group"> 
                 <label>หมู่ที่ &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="moo" id="moo" placeholder="หมู่ที่" onkeydown="return nextbox(event, 'postcode')">
+                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="moo" id="moo" placeholder="หมู่ที่" onkeydown="return nextbox(event, 'post')" onKeyUp="javascript:inputDigits(this);">
                 </div><br><br>
                     <?php include_once 'content/js/address.php';?>
                 <div class="form-group"> 
                 <label>รหัสไปรษณีย์ &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="post" id="post" placeholder="รหัสไปรษณีย์" maxlength="5" onkeydown="return nextbox(event, 'status')" onKeyUp="javascript:inputDigits(this);">
+                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="post" id="post" placeholder="รหัสไปรษณีย์" maxlength="5" onkeydown="return nextbox(event, 'tel')" onKeyUp="javascript:inputDigits(this);">
                 </div><br><br>
                 <div class="form-group"> 
                 <label>หมายเลขโทรศัพท์ &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="tel" id="tel" placeholder="เบอร์โทรศัพท์" maxlength="10" onkeydown="return nextbox(event, 'email')" onKeyUp="javascript:inputDigits(this);">
+                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="tel" id="tel" placeholder="เบอร์โทรศัพท์" maxlength="10" min="10" onkeydown="return nextbox(event, 'email')" onKeyUp="javascript:inputDigits(this);">
              	</div>
                 <div class="form-group"> 
                 <label>e-mail &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){};?>' type="text" class="form-control" name="email" id="email" placeholder="email" onkeydown="return nextbox(event, 'order')">
+                <input value='<?php if(isset($method)=='edit'){};?>' type="email" class="form-control" name="email" id="email" placeholder="email" onkeydown="return nextbox(event, 'image')">
              	</div>
                 <div class="form-group">
                 <label>รูปถ่าย &nbsp;</label>
-                <input type="file" name="image"  id="image" class="form-control"/>
+                <input type="file" name="image"  id="image" class="form-control" onkeydown="return nextbox(event, 'Submit')"/>
                     </div>
                 </div>
                 </div>
@@ -168,7 +168,7 @@
 </div>
     <?php if(isset($method)=='edit'){?>
     <input type="hidden" name="method" id="method" value="edit">
-    <input type="hidden" name="edit_id" id="edit_id" value="<?=$edit_person['empno'];?>">
+    <input type="hidden" name="edit_id" id="edit_id" value="<?=$edit_person['member_no'];?>">
    <input class="btn btn-warning" type="submit" name="Submit" id="Submit" value="แก้ไข">
    <?php }else{?> 
    <input type="hidden" name="method" id="method" value="add_person">

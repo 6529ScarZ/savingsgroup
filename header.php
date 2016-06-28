@@ -38,11 +38,6 @@ $db=$conn_DB->conn_mysqli();
     <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="plugins/select2/select2.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
     <!-- Date Picker -->
     <!--<link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
     <!-- Daterange picker -->
@@ -66,7 +61,26 @@ $db=$conn_DB->conn_mysqli();
 				window.open(url,name,properties);
 	}
 </script>
+<script type="text/javascript">
+                    function inputDigits(sensor) {
+                        var regExp = /[0-9.-/]$/;
+                        if (!regExp.test(sensor.value)) {
+                            alert("กรอกตัวเลขเท่านั้นครับ");
+                            sensor.value = sensor.value.substring(0, sensor.value.length - 1);
+                        }
+                    }
+                </script>
+                <!--scrip check ตัวอักษร-->
+                <script type="text/javascript">
+                    function inputString(sensor) {
+                        var regExp = /[A-Za-zก-ฮะ-็่-๋์/]$/;
+                        if (!regExp.test(sensor.value)) {
+                            alert("กรอกตัวอักษรเท่านั้นครับ");
+                            sensor.value = sensor.value.substring(0, sensor.value.length - 1);
+                        }
+                    }
 
+                </script>
   </head>
   <body class="hold-transition skin-blue-light fixed sidebar-collapse sidebar-mini">
     <div class="wrapper">
