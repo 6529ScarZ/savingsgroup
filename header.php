@@ -197,12 +197,12 @@ $db=$conn_DB->conn_mysqli();
      }                     
                     if (!empty($resultComm[0]['logo'])) {
                                     $pic = $resultComm[0]['logo'];
-                                    $fol = $resultComm[0]['url']."/savingsgroup/logo/";
-                                    //$fol = "logo/";
+                                    //$fol = $resultComm[0]['url']."/savingsgroup/logo/";
+                                    $fol = "logo/";
                                 } else {
                                     $pic = 'agency.ico';
-                                    $fol = $resultComm[0]['url']."/savingsgroup/images/";
-                                    //$fol = "images/";
+                                    //$fol = $resultComm[0]['url']."/savingsgroup/images/";
+                                    $fol = "images/";
                                 }
                     
                                 //$db->close();

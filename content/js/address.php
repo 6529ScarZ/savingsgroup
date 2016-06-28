@@ -31,7 +31,7 @@ function Check_txt(){
 }
 </script>
     <div class="form-group"> 
-                    <label>จังหวัด &nbsp;</label>
+                    <label> จังหวัด &nbsp;</label>
 	<select class="form-control" name='province' id='province' onchange="data_show(this.value,'amphur');">
 		<option value="">---โปรดเลือกจังหวัด---</option>
 		<?php
@@ -44,19 +44,23 @@ function Check_txt(){
                                 $result=$conn_DB2->select();
                                 $conn_DB2->close_mysqli();
                                 for($i=0;$i<count($result);$i++){
-                    if($result[$i]['PROVINCE_ID']==$edit_person[0]['provice']){$selected='selected';}else{$selected='';}
+                    if($result[$i]['PROVINCE_ID']==$edit_person[0]['province']){$selected='selected';}else{$selected='';}
 		echo "<option value='".$result[$i]['PROVINCE_ID']."' $selected>".$result[$i]['PROVINCE_NAME']."</option>";
 		}?>
 	</select>
     </div>
       <div class="form-group">
-        <label>อำเภอ &nbsp;</label>
+        <label> อำเภอ &nbsp;</label>
 	<select class="form-control" name='amphur' id='amphur'onchange="data_show(this.value,'district');">
             <?php if(isset($method)=='edit'){
-                $rstTemp = mysql_query("select * from amphur where AMPHUR_ID='$edit_person[empure]'");
-                while ($arr_2 = mysql_fetch_array($rstTemp)){
-                if($arr_2[AMPHUR_ID]==$edit_person[empure]){$selected='selected';}else{$selected='';}
-                echo "<option value='$arr_2[AMPHUR_ID]' $selected>$arr_2[AMPHUR_NAME]</option>";
+                $sql = "select * from amphur where AMPHUR_ID='".$edit_person[0]['amphur']."'";
+                                $conn_DB2->conn_mysqli();
+                                $conn_DB2->db_m($sql);
+                                $result=$conn_DB2->select();
+                                $conn_DB2->close_mysqli();
+                                for($i=0;$i<count($result);$i++){
+                if($result[$i]['AMPHUR_ID']==$edit_person[0]['amphur']){$selected='selected';}else{$selected='';}
+                echo "<option value='".$result[$i]['AMPHUR_ID']."' $selected>".$result[$i]['AMPHUR_NAME']."</option>";
                 
                 } }  else {?>
             <option value="">---โปรดเลือกอำเภอ---</option>
@@ -64,13 +68,17 @@ function Check_txt(){
 	</select>
 	</div>
         <div class="form-group">
-        <label>ตำบล &nbsp;</label>  
+        <label> ตำบล &nbsp;</label>  
 	<select class="form-control" name='district' id='district'>
             <?php if(isset($method)=='edit'){
-                $rstTemp = mysql_query("select * from district where DISTRICT_ID='$edit_person[tambol]'");
-                while ($arr_2 = mysql_fetch_array($rstTemp)){
-                if($arr_2[DISTRICT_ID]==$edit_person[tambol]){$selected='selected';}else{$selected='';}
-                echo "<option value='$arr_2[DISTRICT_ID]' $selected>$arr_2[DISTRICT_NAME]</option>";
+                $sql = "select * from district where DISTRICT_ID='".$edit_person[0]['district']."'";
+                                $conn_DB2->conn_mysqli();
+                                $conn_DB2->db_m($sql);
+                                $result=$conn_DB2->select();
+                                $conn_DB2->close_mysqli();
+                                for($i=0;$i<count($result);$i++){
+                if($result[$i]['DISTRICT_ID']==$edit_person[0]['district']){$selected='selected';}else{$selected='';}
+                echo "<option value='".$result[$i]['DISTRICT_ID']."' $selected>".$result[$i]['DISTRICT_NAME']."</option>";
                 
                 } }  else {?>
 		<option value="">---โปรดเลือกตำบล---</option>

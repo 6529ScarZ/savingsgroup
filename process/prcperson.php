@@ -35,7 +35,7 @@
             $data = array($_POST['member_no'], $_POST['cid'], $_POST['pname'],
                 $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],
                 $_POST['mstatus'], $_POST['member_status'], date("Y-m-d"),
-                $image, $_SESSION['user'], date("Y-m-d"));
+                $image, $_SESSION['user'], date("Y-m-d H:m:s"));
             $table = "person";
             $add_person = $mydata->insert($table, $data);
             $mydata->close_mysqli();
