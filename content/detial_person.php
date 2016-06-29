@@ -49,9 +49,12 @@ $myconn=new Db_mng();
 $myconn->read="../connection/conn_DB.txt";
 $myconn->config();
 $db=$myconn->conn_mysqli();
-    $sql = "SELECT p1.*,a1.*,p2.pname,m1.mstatus,m2.mem_status,CONCAT(p2.pname,p1.fname,' ',p1.lname) AS fullname,
+    $sql = "SELECT p1.*,a1.*,p2.pname,m1.mstatus,m2.mem_status,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
 IF (p1.sex=1,'ชาย','หญิง')AS sex_name,
-(SELECT CONCAT(p1.fname,' ',p1.lname) FROM person p1 WHERE p1.person_id=a1.updater) up_man,
+CONCAT(TIMESTAMPDIFF(year,p1.birth,NOW()),' ปี ',
+timestampdiff(month,p1.birth,NOW())-(timestampdiff(year,p1.birth,NOW())*12),' เดือน ',
+FLOOR(TIMESTAMPDIFF(DAY,p1.birth,NOW())%30.4375),' วัน')AS age,
+(SELECT CONCAT(p1.fname,'  ',p1.lname) FROM person p1 WHERE p1.person_id=a1.updater) up_man,
 d1.DISTRICT_NAME,a2.AMPHUR_NAME,p3.PROVINCE_NAME
 FROM person p1
 INNER JOIN address a1 ON a1.person_id=p1.person_id
@@ -100,7 +103,11 @@ WHERE p1.person_id='$person_id'";
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                         <td colspan="4">หมายเลขสมาชิก :&nbsp;<b><?= $detial_person[0]['member_no']?></b></td>
-                                        <td rowspan="5" align="right" valign="top"><img src="<?= $photo_person?>" width="150"></td>
+                                        <td rowspan="6" align="right" valign="top"><img src="<?= $photo_person?>" width="150"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">สถานะการเป็นสมาชิก :&nbsp;<b><?= $detial_person[0]['mem_status']?></b>
+                                        &nbsp;&nbsp;&nbsp; วันที่สมัคร :&nbsp;<b><?= DateThai1($detial_person[0]['regist_date'])?></b></td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">ชื่อ-นามสกุล :&nbsp;<b><?= $detial_person[0]['fullname']?></b></td>
@@ -109,13 +116,35 @@ WHERE p1.person_id='$person_id'";
                                         <td colspan="4">เลขที่บัตรประชาชน :&nbsp;<b><?= $detial_person[0]['cid']?></b></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4">วันเกิด :&nbsp;<b><?= DateThai1($detial_person[0]['birth'])?></b>&nbsp;&nbsp;&nbsp; เพศ :&nbsp;<b><?= $detial_person[0]['sex_name']?></b></td>
+                                        <td colspan="4">วันเกิด :&nbsp;<b><?= DateThai1($detial_person[0]['birth'])?></b>
+                                            &nbsp;&nbsp;&nbsp; อายุ :&nbsp;<b><?= $detial_person[0]['age']?></b>
+                                            &nbsp;&nbsp;&nbsp; เพศ :&nbsp;<b><?= $detial_person[0]['sex_name']?></b>
+                                            </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4">จำนวน :&nbsp;<b><?= $result[0]['total_amount']?></b> รายการ</td>
+                                        <td colspan="4">สถานะสมรส :&nbsp;<b><?= $detial_person[0]['mstatus']?></b></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="5">รวมเป็นเงิน :&nbsp;<b><?= $result[0]['order_amount']?></b> บาท</td>
+                                        <td colspan="5">ที่อยู่ :&nbsp;&nbsp;&nbsp;บ้านเลขที่&nbsp;<b><?= $detial_person[0]['hourseno']?></b>
+                                        &nbsp;&nbsp;&nbsp; ชื่อบ้าน&nbsp;<b><?= $detial_person[0]['village']?></b>
+                                        &nbsp;&nbsp;&nbsp; หมู่ที่&nbsp;<b><?= $detial_person[0]['moo']?></b>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">ตำบล&nbsp;<b><?= $detial_person[0]['DISTRICT_NAME']?></b>
+                                        &nbsp;&nbsp;&nbsp; อำเภอ&nbsp;<b><?= $detial_person[0]['AMPHUR_NAME']?></b>
+                                        &nbsp;&nbsp;&nbsp; จังหวัด&nbsp;<b><?= $detial_person[0]['PROVINCE_NAME']?></b>
+                                        &nbsp;&nbsp;&nbsp; รหัสไปรษณีย์&nbsp;<b><?= $detial_person[0]['post']?></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">หมายเลขโทรศัพท์ :&nbsp;<b><?= $detial_person[0]['tel']?></b>
+                                        &nbsp;&nbsp;&nbsp; E-mail :&nbsp;<b><?= $detial_person[0]['email']?></b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">ผู้บันทึก/แก้ไขล่าสุด :&nbsp;<b><?= $detial_person[0]['up_man']?></b>
+                                            &nbsp;&nbsp;&nbsp; วันที่ :&nbsp;<b><?= DateThai1(substr($detial_person[0]['d_update'], 0,10))?></b>
+                                            &nbsp;&nbsp;&nbsp; เวลา :&nbsp;<b><?= substr($detial_person[0]['d_update'], 11)?></b> น.
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
