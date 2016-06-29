@@ -64,7 +64,7 @@ class Table extends Db_mng {
                  
                  echo "<td align='center'>";
                  ?>
-                 <a href="index.php?page=process/prc_data&method=delete_<?= $this->process?>&del_id=<?= $query[$c][$field[$i]]?>" onClick="return confirm('กรุณายืนยันการลบอีกครั้ง !!!')">
+                 <a href="index.php?page=process/prc<?= $this->process?>&method=delete_<?= $this->process?>&del_id=<?= $query[$c][$field[$i]]?>" onClick="return confirm('กรุณายืนยันการลบอีกครั้ง !!!')">
                  <?php
                      echo "<img src='images/icon_set1/document_delete.ico' width='25'></a></td>";   
                 }

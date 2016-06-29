@@ -9,8 +9,8 @@
 $sql="SELECT p.member_no,CONCAT(p2.pname,p.fname,' ',p.lname) AS fullname,p.regist_date,m.mem_status,
 p.person_id,p.person_id,p.person_id
 FROM person p
-INNER JOIN preface p2 ON p.pname=p2.pname_id
-INNER JOIN member_status m ON m.mem_status_id=p.member_status
+INNER JOIN preface p2 ON p.pname_id=p2.pname_id
+INNER JOIN member_status m ON m.mem_status_id=p.mem_status_id
 ORDER BY p.person_id DESC";
 //หากเป็น TB_mng ต้องเพิ่ม id ต่อทาย 2 id เข้าไปด้วย 
 $column=array("รหัสสมาชิก","ชื่อ-นามสกุล","วันที่ลงบันทึก","สถานะการเป็นสมาชิก","รายละเอียด","แก้ไข","ลบ");//หากเป็น TB_mng ต้องเพิ่ม แก้ไข,ลบเข้าไปด้วย 

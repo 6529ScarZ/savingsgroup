@@ -64,7 +64,7 @@
                                 $conn_DB2->close_mysqli();
 				 echo "<option value=''>--คำนำหน้า--</option>";
 				 for($i=0;$i<count($result);$i++){
-                                if($result[$i]['pname_id']==$edit_person[0]['pname']){$selected='selected';}else{$selected='';}
+                                if($result[$i]['pname_id']==$edit_person[0]['pname_id']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['pname_id']."' $selected>".$result[$i]['pname']." </option>";
 				 } ?> 
 			 </select>
@@ -112,7 +112,7 @@
                                 $conn_DB2->close_mysqli();
 				 echo "<option value=''>--สถานะภาพ--</option>";
 				 for($i=0;$i<count($result);$i++){
-                    if($result[$i]['mstatus_id']==$edit_person[0]['mstatus']){$selected='selected';}else{$selected='';}
+                    if($result[$i]['mstatus_id']==$edit_person[0]['mstatus_id']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['mstatus_id']."' $selected>".$result[$i]['mstatus']." </option>";
 				 } ?>
 			 </select>
@@ -127,7 +127,7 @@
                                 $conn_DB2->close_mysqli();
 				 echo "<option value=''>--สถานะภาพ--</option>";
 				 for($i=0;$i<count($result);$i++){
-                    if($result[$i]['mem_status_id']==$edit_person[0]['member_status']){$selected='selected';}else{$selected='';}
+                    if($result[$i]['mem_status_id']==$edit_person[0]['mem_status_id']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['mem_status_id']."' $selected>".$result[$i]['mem_status']." </option>";
 				 } ?>
 			 </select>
@@ -168,8 +168,8 @@
           </div>
 </div>
     <?php if(isset($method)=='edit'){?>
-    <input type="hidden" name="method" id="method" value="edit">
-    <input type="hidden" name="edit_id" id="edit_id" value="<?=$edit_person['member_no'];?>">
+    <input type="hidden" name="method" id="method" value="edit_person">
+    <input type="hidden" name="edit_id" id="edit_id" value="<?=$edit_person[0]['person_id'];?>">
    <input class="btn btn-warning" type="submit" name="Submit" id="Submit" value="แก้ไข">
    <?php }else{?> 
    <input type="hidden" name="method" id="method" value="add_person">
