@@ -40,7 +40,7 @@ setTimeout("self.close()",StayAlive * 1000);
 </script>
   </head>
   <body class="hold-transition skin-green fixed sidebar-mini" onLoad="KillMe();self.focus();window.opener.location.reload();">
-     <section class="content">
+  <section class="content">
 <?php
 require '../connection/connect.php';
 $user_account = md5(trim(filter_input(INPUT_POST, 'user_account',FILTER_SANITIZE_ENCODED)));
@@ -72,11 +72,18 @@ if ($result) {
     $_SESSION['fullname'] = $result['fullname'];
     $_SESSION['Status'] = $result['Status'];
     $_SESSION['type'] = $type;
+$date = new DateTime(null, new DateTimeZone('Asia/Bangkok'));//กำหนด Time zone
+$date_login=$date->format('Y-m-d');
+$time_login=$date->format('H:m:s');
 
-    // require'myfunction/savelog.php';
-    //	  echo "<input type='hidden' name='acc_id' value='$acc_username'> ";
-
-    
+$sql="update member  set date_login=$date_login , time_login=$time_login
+where Username= :user_account && Password= :user_pwd";
+$sth = $dbh->prepare($sql);
+$sth->execute(array(':user_account' => $user_account, ':user_pwd' => $user_pwd));
+ $result2 = $sth->fetch(PDO::FETCH_ASSOC); 
+ if(!$result2){
+     echo 'Update datelogin is not complate';
+ }
 }else{
 	echo "<script>alert('ชื่อหรือรหัสผ่านผิด กรุณาตรวจสอบอีกครั้ง!')</script>";
     echo "<meta http-equiv='refresh' content='0;url=../login_page.php'>";

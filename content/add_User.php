@@ -24,7 +24,6 @@ function fncSubmit()
                 $mydata->read="connection/conn_DB.txt";
                 $mydata->config();
                 
-    
 			 if(null !==(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT))){ 
 			 $user_idGet=filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
                           if(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_STRING)=='update_user'){
@@ -52,7 +51,7 @@ function fncSubmit()
                     <form name='form1' class="navbar-form navbar-left"  action='index.php?page=process/prcuser' method='post' enctype="multipart/form-data" OnSubmit="return fncSubmit();">
                         <b>ชื่อ-นามสกุล </b><br>
                         <div class="form-group">	
-                        <?php if($_SESSION['Status']=='SUSER'){?>
+                        <?php if($_SESSION['Status']=='USER'){?>
                             <input type="text" name='names'   id='names' class='form-control' value='<?=$resultGet[0]['fullname']?>'  onkeydown="return nextbox(event, 'save');" readonly >
                             <input type="hidden" name="name" id="name" value="<?=$resultGet[0]['Name']?>">
                             <?php }else{?>
@@ -77,10 +76,27 @@ function fncSubmit()
 	<select name='admin' id='admin'class='form-control' onchange="data_show(this.value,'process');"  required >
 			<?php 		
 				echo "<option value=''>เลือกระดับการใช้งาน</option>";			
-		 		if( $resultGet[0]['ss_Status']=="ADMIN"){$ok='selected';}
-				if($resultGet[0]['ss_Status']=="USER"){$selected='selected';}
+		 		if($resultGet[0]['Status']=="ADMIN"){$ok='selected';}
+				if($resultGet[0]['Status']=="USER"){$selected='selected';}
 				echo "<option value='USER'  $selected>ผู้ใช้ทั่วไป</option>";	
 				echo "<option value='ADMIN'  $ok >ผู้ดูแลระบบ</option>";						
+				?>
+			</select>
+                         <?php }else{?>
+                                <input type="text" name=''   id='' class='form-control'  value='<?= 'ผู้ใช้ทั่วไป'?>' readonly >
+                                <input type="hidden" name="admin" id="admin" value="<?= $resultGet[0]['Status']?>">
+                         <?php }?>
+                        </div>
+                        <div class="form-group">
+        <label>ประเภทสมาชิก &nbsp;</label><br>
+                    <?php if($_SESSION['Status']=='ADMIN'){ ?>
+	<select name='user_type' id='user_type'class='form-control' onchange="data_show(this.value,'process');"  required >
+			<?php 		
+				echo "<option value=''>เลือกประเภทสมาชิก</option>";			
+		 		if( $resultGet[0]['user_type']=="2"){$ok='selected';}
+				if($resultGet[0]['user_type']=="1"){$selected='selected';}
+				echo "<option value='1'  $selected>สมาชิกทั่วไป</option>";	
+				echo "<option value='2'  $ok >สมาชิกสมทบ</option>";						
 				?>
 			</select>
                          <?php }else{?>
@@ -123,7 +139,7 @@ function fncSubmit()
                 $Get_id=$resultGet[0]['UserID'];
 }
                 echo "<input type='hidden' name='ID' value='$Get_id'>";
-		echo "<input type='hidden' name='ss_id' value='$user_idGet'>";
+		echo "<input type='hidden' name='id' value='$user_idGet'>";
 		echo "<input type='hidden' name='method' value='update_user'>";
                 ?>
         <p><button  class="btn btn-warning" id='save'> แก้ไข </button > <input type='reset' class="btn btn-danger"   > </p>

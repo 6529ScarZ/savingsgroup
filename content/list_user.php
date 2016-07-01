@@ -1,6 +1,6 @@
 <?php
-     $sql="SELECT CONCAT(p.fname,' ',p.lname) AS fullname,
-m.user_name,IF(m.`Status`='ADMIN','ผู้ดูแลระบบ','ผู้ใช้งานทั่วไป')as status,
+     $sql="SELECT CONCAT(p.fname,' ',p.lname) AS fullname,m.`Status`,
+m.user_name,IF(m.`Status`='ADMIN','ผู้ดูแลระบบ','ผู้ใช้งานทั่วไป')as status_name,
 IF(m.user_type=1,'สมาชิกสามัญ','สมาชิกสมทบ')AS user_type,m.UserID,m.Name as ID
 FROM member m
 INNER JOIN person p ON p.person_id=m.`Name`
@@ -28,15 +28,15 @@ for($i=0;$i<count($result);$i++){?>
  					<tr >	    
 				    <TD height="20" align="center" ><?= $I?></TD>
 					<TD><?=$result[$i]['fullname']; ?></TD>
-					<TD align="center"><?= $result[$i]['status']?></TD>
+					<TD align="center"><?= $result[$i]['status_name']?></TD>
                                         <td align="center"><?= $result[$i]['user_type']?></td>
 					<TD align="center"><?=$result[$i]['user_name']; ?></TD>
  					<TD align="center">
-                                        <a href='index.php?page=content/add_User&method=update_user&id=<?=$result[$i]['person_id']?>&status=<?=$result[$i]['status']?>&ID=<?= $result[$i]['ID']?>' >
+                                        <a href='index.php?page=content/add_User&method=update_user&id=<?=$result[$i]['ID']?>&status=<?=$result[$i]['Status']?>&ID=<?= $result[$i]['UserID']?>' >
                                         <img src="images/icon_set1/document_edit.ico" width="25"></a> 
                                         </td>
                                         <td align="center">
-					<a href='index.php?page=process/prcuser&method=delete_user&d=<?=$result[$i]['person_id']?>&ID=<?= $result[$i]['ID']?>'  title="confirm" onclick="if(confirm('ยืนยันการลบ <?= $result[$i]['fullname']?>&nbsp;ออกจากรายการ ')) return true; else return false;">   
+					<a href='index.php?page=process/prcuser&method=delete_user&d=<?=$result[$i]['ID']?>&ID=<?= $result[$i]['UserID']?>'  title="confirm" onclick="if(confirm('ยืนยันการลบ <?= $result[$i]['fullname']?>&nbsp;ออกจากรายการ ')) return true; else return false;">   
 					<img src="images/icon_set1/document_delete.ico" width="25"></a>
                                         </td>
 					</tr> 
