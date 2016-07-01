@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ระบบพัสดุโรงพยาบาล</title>
+    <title>ระบบบริหารจัดการกลุ่มออมทรัพย์</title>
     <LINK REL="SHORTCUT ICON" HREF="images/logo.png">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -28,7 +28,7 @@
   <body class="hold-transition login-page">
     <div class="login-box">
       <div class="login-logo">
-          <a href="../index.php"  style=" color: blueviolet ; margin:auto "><b>SUPPLY-System</b></a>
+          <a href="../index.php"  style=" color:darkslateblue ; margin:auto "><b>Saving-System</b></a>
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">เข้าสู่ระบบเพื่อเริ่มใช้งาน</p>

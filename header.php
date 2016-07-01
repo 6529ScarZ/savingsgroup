@@ -231,14 +231,14 @@ $db=$conn_DB->conn_mysqli();
             <li class="treeview">
               <a href="#">
                   <img src="images/icon_set1/load_upload.ico" width="20">
-                <span>ระบบการเบิกวัสดุ</span>
+                <span>ระบบสมาชิก</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
                   <li>
-                  <a href="#"><i class="fa fa-circle-o text-orange"></i> การเบิกวัสดุ <i class="fa fa-angle-left pull-right"></i></a>
+                  <a href="#"><i class="fa fa-circle-o text-orange"></i> จัดการสมาชิก <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                <li><a href="index.php?page=content/add_withdrawal_order"><i class="fa fa-circle-o text-red"></i> เบิกวัสดุ</a></li>
+                <li><a href="index.php?page=content/add_person"><i class="fa fa-circle-o text-red"></i> สมัคร/แก้ไขสมาชิก</a></li>
                 <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
                 <li><a href="index.php?page=content/add_pay_order"><i class="fa fa-circle-o text-red"></i> จ่ายวัสดุ</a></li>
                 </ul>
