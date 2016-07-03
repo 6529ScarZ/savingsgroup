@@ -58,32 +58,26 @@ echo "<div class='alert alert-dismissable alert-success'>
 	  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
 	  <a class='alert-link' target='_blank' href='#'><center>กำลังดำเนินการ</center></a> 
 </div>";
-$sql="select CONCAT(p.fname,' ',p.lname) as fullname, m.Name as id, m.Status as Status, m.user_type as type
+$sql="select CONCAT(p.fname,' ',p.lname) as fullname, m.Name as id, m.Status as Status
 from member m
 INNER JOIN person p on p.person_id=m.Name
 where m.Username= :user_account && m.Password= :user_pwd";
 $sth = $dbh->prepare($sql);
 $sth->execute(array(':user_account' => $user_account, ':user_pwd' => $user_pwd));
 $result = $sth->fetch(PDO::FETCH_ASSOC);
-$type=$result['type'];
 
 if ($result) {
     $_SESSION['user'] = $result['id'];
     $_SESSION['fullname'] = $result['fullname'];
     $_SESSION['Status'] = $result['Status'];
-    $_SESSION['type'] = $type;
 $date = new DateTime(null, new DateTimeZone('Asia/Bangkok'));//กำหนด Time zone
 $date_login=$date->format('Y-m-d');
 $time_login=$date->format('H:m:s');
 
-$sql="update member  set date_login=$date_login , time_login=$time_login
+$sql="update member  set date_login=:date_login , time_login=:time_login
 where Username= :user_account && Password= :user_pwd";
 $sth = $dbh->prepare($sql);
-$sth->execute(array(':user_account' => $user_account, ':user_pwd' => $user_pwd));
- $result2 = $sth->fetch(PDO::FETCH_ASSOC); 
- if(!$result2){
-     echo 'Update datelogin is not complate';
- }
+$sth->execute(array(':user_account' => $user_account, ':user_pwd' => $user_pwd,':date_login'=>$date_login,':time_login'=>$time_login));
 }else{
 	echo "<script>alert('ชื่อหรือรหัสผ่านผิด กรุณาตรวจสอบอีกครั้ง!')</script>";
     echo "<meta http-equiv='refresh' content='0;url=../login_page.php'>";

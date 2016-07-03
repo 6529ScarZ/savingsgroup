@@ -50,7 +50,7 @@ $myconn->read="../connection/conn_DB.txt";
 $myconn->config();
 $db=$myconn->conn_mysqli();
     $sql = "SELECT p1.*,a1.*,p2.pname,m1.mstatus,m2.mem_status,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
-IF (p1.sex=1,'ชาย','หญิง')AS sex_name,
+IF (p1.sex=1,'ชาย','หญิง')AS sex_name,IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,
 CONCAT(TIMESTAMPDIFF(year,p1.birth,NOW()),' ปี ',
 timestampdiff(month,p1.birth,NOW())-(timestampdiff(year,p1.birth,NOW())*12),' เดือน ',
 FLOOR(TIMESTAMPDIFF(DAY,p1.birth,NOW())%30.4375),' วัน')AS age,
@@ -102,7 +102,8 @@ WHERE p1.person_id='$person_id'";
                     ?>
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
-                                        <td colspan="4">หมายเลขสมาชิก :&nbsp;<b><?= $detial_person[0]['member_no']?></b></td>
+                                        <td colspan="4">หมายเลขสมาชิก :&nbsp;<b><?= $detial_person[0]['member_no']?></b>
+                                        &nbsp;&nbsp;&nbsp; ประเภทสมาชิก :&nbsp;<b><?= $detial_person[0]['user_type_name']?></b></td>
                                         <td rowspan="6" align="right" valign="top"><img src="<?= $photo_person?>" width="150"></td>
                                     </tr>
                                     <tr>

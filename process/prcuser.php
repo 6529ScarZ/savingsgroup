@@ -28,7 +28,7 @@
         if ($method == 'add_user'){
             $username=  trim(md5(filter_input(INPUT_POST,'user_account')));
             $pass_word=  trim(md5(filter_input(INPUT_POST,'user_pwd')));
-        $data=array($username,$pass_word,$_POST['user_account'],$_POST['name'],$_POST['admin'],$_POST['user_type']);
+        $data=array($username,$pass_word,$_POST['user_account'],$_POST['name'],$_POST['admin']);
         $table="member";
         $check_user=$mydata->insert($table, $data);
         $mydata->close_mysqli();
@@ -42,13 +42,13 @@
         if(!empty($_POST['user_pwd'])){
             $username=  trim(md5($_POST['user_account']));
             $pass_word=  trim(md5($_POST['user_pwd']));
-        $data=array($username,$pass_word,$_POST['user_account'],$_POST['name'],$_POST['admin'],$_POST['user_type']);
+        $data=array($username,$pass_word,$_POST['user_account'],$_POST['name'],$_POST['admin']);
         $table="member";
         $where="UserID='".$_POST['ID']."'";
         $check_user=$mydata->update($table, $data, $where, '');
         }else{
             $username=  trim(md5($_POST['user_account']));
-        $data=array($username,$_POST['user_account'],$_POST['name'],$_POST['admin'],$_POST['user_type']);
+        $data=array($username,$_POST['user_account'],$_POST['name'],$_POST['admin']);
         $table="member";
         $where="UserID='".$_POST['ID']."'";
         $field=array("Username","user_name","Name","Status","user_type");

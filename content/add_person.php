@@ -116,7 +116,30 @@
 				echo "<option value='".$result[$i]['mstatus_id']."' $selected>".$result[$i]['mstatus']." </option>";
 				 } ?>
 			 </select>
+                </div><br><br>
+                                <div class="form-group"> 
+                <label> วันสมัคร &nbsp;</label>
+                <?php //include_once'plugins/DatePickerS/datepicker.php'; ?>
+                <?php /*
+ 		if(isset($method)=='edit'){
+ 			$take_date=$edit_person[0]['birth'];
+ 			edit_date($take_date);
+                        }*/
+ 		?>
+                <input name="regist_date" type="date" id="regist_date"  placeholder='รูปแบบ 22/07/2557' class="form-control"  value="<?php if(isset($method)=='edit'){ echo $edit_person[0]['regist_date'];}?>" onkeydown="return nextbox(event, 'mstatus');"required><br>
                 </div>
+                <div class="form-group">
+        <label> ประเภทสมาชิก &nbsp;</label>
+	<select name='user_type' id='user_type'class='form-control' onchange="data_show(this.value,'process');"  required >
+			<?php 		
+				echo "<option value=''>เลือกประเภทสมาชิก</option>";			
+		 		if($edit_person[0]['user_type']=="2"){$ok='selected';}
+				if($edit_person[0]['user_type']=="1"){$selected='selected';}
+				echo "<option value='1'  $selected>สมาชิกทั่วไป</option>";	
+				echo "<option value='2'  $ok >สมาชิกสมทบ</option>";						
+				?>
+			</select>
+                        </div>
                 <div class="form-group">
          			<label> สถานะการเป็นสมาชิก &nbsp;</label>
  				<select name="member_status" id="member_status" required  class="form-control"  onkeydown="return nextbox(event, 'hourseno');"> 

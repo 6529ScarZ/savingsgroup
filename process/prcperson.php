@@ -34,8 +34,8 @@
                 $image = '';
             }
             $data = array($_POST['member_no'], $_POST['cid'], $_POST['pname'],
-                $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],
-                $_POST['mstatus'], $_POST['member_status'], date("Y-m-d"),
+                $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],$_POST['user_type'],
+                $_POST['mstatus'], $_POST['member_status'], $_POST['regist_date'],
                 $image);
             $table = "person";
             $add_person = $mydata->insert($table, $data);
@@ -72,18 +72,18 @@
                 $image = $upload->upload();
                 
                 $data = array($_POST['member_no'], $_POST['cid'], $_POST['pname'],
-                $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],
-                $_POST['mstatus'], $_POST['member_status'], date("Y-m-d"),
+                $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],$_POST['user_type'],
+                $_POST['mstatus'], $_POST['member_status'],  $_POST['regist_date'],
                 $image);
-                $field=array("member_no","cid","pname_id","fname","lname", "sex", "birth", "mstatus_id", "mem_status_id",
+                $field=array("member_no","cid","pname_id","fname","lname", "sex", "birth","user_type", "mstatus_id", "mem_status_id",
                 "regist_date", "photo");
             } else {
                 $image = '';
                 
                 $data = array($_POST['member_no'], $_POST['cid'], $_POST['pname'],
-                $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],
-                $_POST['mstatus'], $_POST['member_status'], date("Y-m-d"));
-                $field=array("member_no","cid","pname_id","fname","lname","sex","birth","mstatus_id","mem_status_id",
+                $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],$_POST['user_type'],
+                $_POST['mstatus'], $_POST['member_status'],  $_POST['regist_date']);
+                $field=array("member_no","cid","pname_id","fname","lname","sex","birth","user_type","mstatus_id","mem_status_id",
                 "regist_date");
             }
             

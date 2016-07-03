@@ -23,7 +23,6 @@
     echo $_SESSION['user']."<br>";
     echo $_SESSION['fullname']."<br>";
     echo $_SESSION['Status']."<br>";
-    echo $_SESSION['type'];
     
     //include 'connection/connect.php';
   //require 'class/db_mng.php';

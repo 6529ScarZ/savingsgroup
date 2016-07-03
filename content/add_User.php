@@ -87,23 +87,7 @@ function fncSubmit()
                                 <input type="hidden" name="admin" id="admin" value="<?= $resultGet[0]['Status']?>">
                          <?php }?>
                         </div>
-                        <div class="form-group">
-        <label>ประเภทสมาชิก &nbsp;</label><br>
-                    <?php if($_SESSION['Status']=='ADMIN'){ ?>
-	<select name='user_type' id='user_type'class='form-control' onchange="data_show(this.value,'process');"  required >
-			<?php 		
-				echo "<option value=''>เลือกประเภทสมาชิก</option>";			
-		 		if( $resultGet[0]['user_type']=="2"){$ok='selected';}
-				if($resultGet[0]['user_type']=="1"){$selected='selected';}
-				echo "<option value='1'  $selected>สมาชิกทั่วไป</option>";	
-				echo "<option value='2'  $ok >สมาชิกสมทบ</option>";						
-				?>
-			</select>
-                         <?php }else{?>
-                                <input type="text" name=''   id='' class='form-control'  value='<?= 'ผู้ใช้ทั่วไป'?>' readonly >
-                                <input type="hidden" name="admin" id="admin" value="<?= $resultGet[0]['Status']?>">
-                         <?php }?>
-                        </div><br>
+                        <br>
                         <?php if($_SESSION['Status']=='ADMIN'){
                             $read='';
                         }else{

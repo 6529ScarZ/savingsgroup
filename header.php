@@ -124,13 +124,12 @@ $db=$conn_DB->conn_mysqli();
                                     if (!empty($user_id)) {
                                         
                                         $sql = "select p.photo,
-                                            CASE m.user_type
+                                            CASE p.user_type
                                             WHEN '1' THEN 'สมาชิกสามัญ'
                                             WHEN '2' THEN 'สมาชิกสมทบ'
                                             ELSE 'Unknown'
                                             END AS posname 
                                             from person p 
-                                                        INNER JOIN member m on m.Name=p.person_id
                                                         WHERE p.person_id='$user_id'";
                                       $conn_DB->db_m($sql);
                                       $result=$conn_DB->select();

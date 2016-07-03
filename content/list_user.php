@@ -1,7 +1,7 @@
 <?php
      $sql="SELECT CONCAT(p.fname,' ',p.lname) AS fullname,m.`Status`,
 m.user_name,IF(m.`Status`='ADMIN','ผู้ดูแลระบบ','ผู้ใช้งานทั่วไป')as status_name,
-IF(m.user_type=1,'สมาชิกสามัญ','สมาชิกสมทบ')AS user_type,m.UserID,m.Name as ID
+IF(p.user_type=1,'สมาชิกสามัญ','สมาชิกสมทบ')AS user_type,m.UserID,m.Name as ID
 FROM member m
 INNER JOIN person p ON p.person_id=m.`Name`
 order by fullname "; 
