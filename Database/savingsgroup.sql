@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2016-06-27 16:27:30
+Date: 2016-07-04 14:17:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
   `add_id` int(5) NOT NULL AUTO_INCREMENT,
-  `member_no` varchar(5) NOT NULL,
+  `person_id` int(5) NOT NULL,
   `hourseno` varchar(10) DEFAULT NULL,
   `village` varchar(50) DEFAULT NULL,
   `moo` int(2) NOT NULL,
@@ -31,12 +31,15 @@ CREATE TABLE `address` (
   `post` int(5) NOT NULL,
   `tel` int(10) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
+  `updater` int(5) NOT NULL,
+  `d_update` datetime NOT NULL,
   PRIMARY KEY (`add_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of address
 -- ----------------------------
+INSERT INTO `address` VALUES ('1', '1', '311/7', 'เชียงคาน', '1', '4012', '448', '30', '42110', '890277607', 'scarza@hotmail.com', '1', '2016-07-04 14:07:22');
 
 -- ----------------------------
 -- Table structure for amphur
@@ -1070,6 +1073,22 @@ CREATE TABLE `board` (
 
 -- ----------------------------
 -- Records of board
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for budget
+-- ----------------------------
+DROP TABLE IF EXISTS `budget`;
+CREATE TABLE `budget` (
+  `budget_id` int(2) NOT NULL AUTO_INCREMENT,
+  `budget` decimal(10,2) NOT NULL,
+  `receipt` decimal(10,2) NOT NULL,
+  `charge` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`budget_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of budget
 -- ----------------------------
 
 -- ----------------------------
@@ -10002,7 +10021,7 @@ INSERT INTO `district` VALUES ('8860', '961303', 'มะรือโบออก
 DROP TABLE IF EXISTS `loan_card`;
 CREATE TABLE `loan_card` (
   `loan_id` int(5) NOT NULL AUTO_INCREMENT,
-  `member_no` varchar(5) NOT NULL,
+  `person_id` int(5) NOT NULL,
   `contract_id` int(1) NOT NULL,
   `loan_number` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `loan_startdate` date NOT NULL,
@@ -10032,17 +10051,16 @@ CREATE TABLE `member` (
   `user_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `Name` int(4) unsigned zerofill NOT NULL,
   `Status` enum('ADMIN','USER','SUSER','USUSER') CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL DEFAULT 'USER',
-  `user_type` int(1) NOT NULL,
   `date_login` date DEFAULT NULL,
   `time_login` time DEFAULT NULL,
   PRIMARY KEY (`UserID`),
   UNIQUE KEY `Username` (`Username`)
-) ENGINE=MyISAM AUTO_INCREMENT=173 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- ----------------------------
 -- Records of member
 -- ----------------------------
-INSERT INTO `member` VALUES ('0172', 'a182e991eb5396de1e18f430dbc49a37', 'ac10ec1ace51b2d973cd87973a98d3ab', 'scarz', '0001', 'ADMIN', '1', null, null);
+INSERT INTO `member` VALUES ('0001', 'd9f9133fb120cd6096870bc2b496805b', '81dc9bdb52d04dc20036dbd8313ed055', 'tech', '0001', 'ADMIN', '2016-07-04', '14:07:10');
 
 -- ----------------------------
 -- Table structure for member_status
@@ -10091,23 +10109,23 @@ CREATE TABLE `person` (
   `person_id` int(5) NOT NULL AUTO_INCREMENT,
   `member_no` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `cid` varchar(13) NOT NULL,
-  `pname` int(1) NOT NULL,
+  `pname_id` int(1) NOT NULL,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `sex` int(1) NOT NULL,
   `birth` date NOT NULL,
-  `mstatus` int(1) DEFAULT NULL,
-  `member_status` int(1) DEFAULT NULL,
+  `mstatus_id` int(1) DEFAULT NULL,
+  `user_type` int(1) NOT NULL,
+  `mem_status_id` int(1) DEFAULT NULL,
   `regist_date` date DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
-  `d_update` datetime NOT NULL,
   PRIMARY KEY (`person_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of person
 -- ----------------------------
-INSERT INTO `person` VALUES ('1', '6529', '1234567890987', '1', 'ทดสอบ', 'ระบบออมทรัพย์', '1', '2016-06-23', '1', '1', '2016-06-23', null, '0000-00-00 00:00:00');
+INSERT INTO `person` VALUES ('1', 'tech1', '9098765432123', '1', 'ผู้ดูแล', 'ระบบออมทรัพย์', '1', '2016-07-04', '1', '1', '1', '2016-07-04', '04-07-2016114-12-201511424751826-1415524122-o.png');
 
 -- ----------------------------
 -- Table structure for preface
@@ -10221,19 +10239,40 @@ INSERT INTO `province` VALUES ('75', '95', 'ยะลา   ', '6');
 INSERT INTO `province` VALUES ('76', '96', 'นราธิวาส   ', '6');
 
 -- ----------------------------
--- Table structure for saving
+-- Table structure for saving_account
 -- ----------------------------
-DROP TABLE IF EXISTS `saving`;
-CREATE TABLE `saving` (
-  `saving_id` int(5) NOT NULL AUTO_INCREMENT,
-  `member_no` varchar(5) NOT NULL,
-  `saving_code` int(1) NOT NULL,
-  `saving` decimal(10,2) NOT NULL,
-  `loan_number` varchar(8) NOT NULL,
-  `d_update` datetime DEFAULT NULL,
-  PRIMARY KEY (`saving_id`)
+DROP TABLE IF EXISTS `saving_account`;
+CREATE TABLE `saving_account` (
+  `account_id` int(5) NOT NULL AUTO_INCREMENT,
+  `person_id` int(5) NOT NULL,
+  `saving_total` decimal(10,2) NOT NULL,
+  `account_status` int(1) NOT NULL COMMENT '1=ปรกติ, 2=ยกเลิก',
+  PRIMARY KEY (`account_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of saving_account
+-- ----------------------------
+INSERT INTO `saving_account` VALUES ('1', '1', '0.00', '1');
+
+-- ----------------------------
+-- Table structure for saving_repayment
+-- ----------------------------
+DROP TABLE IF EXISTS `saving_repayment`;
+CREATE TABLE `saving_repayment` (
+  `saving_repay_id` int(5) NOT NULL AUTO_INCREMENT,
+  `person_id` int(5) NOT NULL,
+  `account_id` int(5) NOT NULL,
+  `saving_code` int(1) NOT NULL COMMENT '1=ออม, 2=คืนเงินต้น, 3=ดอกเบี้ย, 4=ค่าปรับ',
+  `receive_id` int(5) NOT NULL,
+  `
+receive_money` decimal(10,2) NOT NULL,
+  `receive_date` date NOT NULL,
+  `d_update` datetime NOT NULL,
+  `updater` int(5) NOT NULL,
+  PRIMARY KEY (`saving_repay_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of saving
+-- Records of saving_repayment
 -- ----------------------------

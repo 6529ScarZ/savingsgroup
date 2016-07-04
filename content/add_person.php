@@ -22,8 +22,8 @@
         $sql= "select * from person p left outer join address a on p.person_id=a.person_id
                 where p.person_id='$edit_id'";
                                 $conn_DB1=new Db_mng;
-                                $conn_DB1->read="connection/conn_DB.txt";
-                                $conn_DB1->config();
+                                $read='connection/conn_DB.txt';
+                                $conn_DB1->para_read($read);
                                 $conn_DB1->conn_mysqli();
                                 $conn_DB1->db_m($sql);
                                 $edit_person=$conn_DB1->select();
@@ -56,8 +56,8 @@
  				<select name="pname" id="pname" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
 				<?php	$sql = "SELECT *  FROM preface order by pname_id ";
                                 $conn_DB2=new Db_mng;
-                                $conn_DB2->read="connection/conn_DB.txt";
-                                $conn_DB2->config();
+                                $read='connection/conn_DB.txt';
+                                $conn_DB2->para_read($read);
                                 $conn_DB2->conn_mysqli();
                                 $conn_DB2->db_m($sql);
                                 $result=$conn_DB2->select();

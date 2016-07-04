@@ -17,8 +17,8 @@ ORDER BY p.person_id DESC";
 //หากเป็น TB_mng ต้องเพิ่ม id ต่อทาย 2 id เข้าไปด้วย 
 $column=array("รหัสสมาชิก","ชื่อ-นามสกุล","วันที่ลงบันทึก","ประเภทสามชิก","สถานะการเป็นสมาชิก","รายละเอียด","แก้ไข","ลบ");//หากเป็น TB_mng ต้องเพิ่ม แก้ไข,ลบเข้าไปด้วย 
                 $mydata=new Table($column);
-                $mydata->read="connection/conn_DB.txt";
-                $mydata->config();
+                $read='connection/conn_DB.txt';
+                $mydata->para_read($read);
                 $mydata->conn_mysqli();
                 $mydata->db_m($sql);
                 $result=$mydata->select();//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ

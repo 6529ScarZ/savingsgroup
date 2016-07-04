@@ -1,8 +1,8 @@
 <?php session_start(); 
 require_once 'class/table_create.php';
 $conn_DB= new Db_mng();
-$conn_DB->read="connection/conn_DB.txt";
-$conn_DB->config();
+$read='connection/conn_DB.txt';
+$conn_DB->para_read($read);
 $db=$conn_DB->conn_mysqli();
 
 ?>

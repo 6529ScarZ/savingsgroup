@@ -46,8 +46,8 @@ if (empty($_SESSION['user'])) {
     $person_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 require '../class/db_mng.php';
 $myconn=new Db_mng();
-$myconn->read="../connection/conn_DB.txt";
-$myconn->config();
+$read='../connection/conn_DB.txt';
+$myconn->para_read($read);
 $db=$myconn->conn_mysqli();
     $sql = "SELECT p1.*,a1.*,p2.pname,m1.mstatus,m2.mem_status,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
 IF (p1.sex=1,'ชาย','หญิง')AS sex_name,IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,

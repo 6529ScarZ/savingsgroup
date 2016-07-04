@@ -1,6 +1,6 @@
 <?php
 require 'read_conn.php';
-class Conn_DB extends Read_DB{
+class ConnPDO_DB extends Read_DB{
     public $dbconfig=array(
         "hostname"=>NULL,
         "username"=>NULL,
@@ -11,7 +11,7 @@ class Conn_DB extends Read_DB{
         "charector_set"=>NULL
     );
     public $db;
-    public function conn_mysqli(){
+    public function conn_PDO(){
         $conn_db=$this->Read_Text();
         $this->dbconfig["hostname"]= trim($conn_db[0]) ;
         $this->dbconfig["username"]= trim($conn_db[1]) ;
@@ -20,7 +20,6 @@ class Conn_DB extends Read_DB{
         $this->dbconfig["port"]= trim($conn_db[4]) ;
         $this->dbconfig["collation_connection"]= "utf8_unicode_ci";
         $this->dbconfig["charector_set"]= "utf8";
-      
         
         $host=$this->dbconfig["hostname"];
         $user=$this->dbconfig["username"];
@@ -29,24 +28,21 @@ class Conn_DB extends Read_DB{
         $port=$this->dbconfig["port"];
         $char=$this->dbconfig["charector_set"];
         
-        $this->db=mysqli_connect("$host", "$user", "$pass","", "$port");
-       
-	if($this->db) {
-            mysqli_select_db($this->db, $database);
-           $this->db->set_charset($char);  
-           return $this->db;
-        }/*elseif($this->db==mysqli_connect_error()) {
-			trigger_error("Failed to conencto to MySQL: " . mysql_connect_error(),
-				 E_USER_ERROR);
-                        return false;
-		}*/
-        //mysqli_select_db($this->db, $database);
-        //mysql_select_db($database);
-        
-	
+        try {  
+            $this->db = new PDO('mysql:host='.$host.';port='.$port.';dbname='.$database.';charset=utf8',''.$user.'',''.$pass.'');
+            $this->db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );  
+
+        return $this->db;
     }
-    public function close_mysqli(){
-        mysqli_close($this->db);
+    catch(PDOException $e) {  
+
+     echo 'ERROR: ' . $e->getMessage();
+    }   
     }
+    public function getDb() {
+       if ($this->db instanceof PDO) {//ใช้ในการเชคโครงสร้างของตัวแปรที่เป็น object ว่าเป็นของ object นั้นใช่หรือไม่ 
+            return $this->db;
+       }
+ }
 }
 ?>

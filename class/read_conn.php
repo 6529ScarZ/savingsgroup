@@ -1,6 +1,9 @@
 <?php
 class Read_DB{
-    public $read;
+    private $read;
+    public function para_read($read) {
+        $this->read=$read;
+    }
     public function Read_Text(){
         
 $myfile = fopen("$this->read", "r") or die("Unable to open file!");

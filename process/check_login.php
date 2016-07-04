@@ -40,9 +40,10 @@ setTimeout("self.close()",StayAlive * 1000);
 </script>
   </head>
   <body class="hold-transition skin-green fixed sidebar-mini" onLoad="KillMe();self.focus();window.opener.location.reload();">
-  <section class="content">
+<section class="content">
 <?php
-require '../connection/connect.php';
+//require '../connection/connect.php';
+          require '../class/connPDO_db.php';
 $user_account = md5(trim(filter_input(INPUT_POST, 'user_account',FILTER_SANITIZE_ENCODED)));
 $user_pwd = md5(trim(filter_input(INPUT_POST, 'user_pwd',FILTER_SANITIZE_ENCODED)));
 //include 'connection/connect.php';
@@ -58,11 +59,16 @@ echo "<div class='alert alert-dismissable alert-success'>
 	  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
 	  <a class='alert-link' target='_blank' href='#'><center>กำลังดำเนินการ</center></a> 
 </div>";
+$dbh=new ConnPDO_DB();
+$read="../connection/conn_DB.txt";
+$dbh->para_read($read);
+$dbh->conn_PDO();
+$db=$dbh->getDb();
 $sql="select CONCAT(p.fname,' ',p.lname) as fullname, m.Name as id, m.Status as Status
 from member m
 INNER JOIN person p on p.person_id=m.Name
 where m.Username= :user_account && m.Password= :user_pwd";
-$sth = $dbh->prepare($sql);
+$sth = $db->prepare($sql);
 $sth->execute(array(':user_account' => $user_account, ':user_pwd' => $user_pwd));
 $result = $sth->fetch(PDO::FETCH_ASSOC);
 
@@ -76,7 +82,7 @@ $time_login=$date->format('H:m:s');
 
 $sql="update member  set date_login=:date_login , time_login=:time_login
 where Username= :user_account && Password= :user_pwd";
-$sth = $dbh->prepare($sql);
+$sth = $db->prepare($sql);
 $sth->execute(array(':user_account' => $user_account, ':user_pwd' => $user_pwd,':date_login'=>$date_login,':time_login'=>$time_login));
 }else{
 	echo "<script>alert('ชื่อหรือรหัสผ่านผิด กรุณาตรวจสอบอีกครั้ง!')</script>";

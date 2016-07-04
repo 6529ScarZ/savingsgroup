@@ -13,13 +13,13 @@
     if (isset($_POST['check']) == 'plus') {
         require '../class/db_mng.php';
         $mydata = new Db_mng();
-        $mydata->read = "../connection/conn_DB.txt";
-        $mydata->config();
+        $read='../connection/conn_DB.txt';
+        $mydata->para_read($read);
         $mydata->conn_mysqli();
     } else {
         $mydata = new Db_mng();
-        $mydata->read = "connection/conn_DB.txt";
-        $mydata->config();
+        $read='connection/conn_DB.txt';
+        $mydata->para_read($read);
         $mydata->conn_mysqli();
     }
     $date = new DateTime(null, new DateTimeZone('Asia/Bangkok'));//กำหนด Time zone

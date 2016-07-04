@@ -13,16 +13,17 @@
     if (isset($_POST['check']) == 'plus') {
         require '../class/db_mng.php';
         $mydata = new Db_mng();
-        $mydata->read = "../connection/conn_DB.txt";
-        $mydata->config();
+        $read='../connection/conn_DB.txt';
+        $mydata->para_read($read);
         $mydata->conn_mysqli();
     } else {
         $mydata = new Db_mng();
-        $mydata->read = "connection/conn_DB.txt";
-        $mydata->config();
+        $read='connection/conn_DB.txt';
+        $mydata->para_read($read);
         $mydata->conn_mysqli();
     }
     $date = new DateTime(null, new DateTimeZone('Asia/Bangkok'));//กำหนด Time zone
+    
     if (null !== (filter_input(INPUT_POST, 'method'))) {
         $method = filter_input(INPUT_POST, 'method');
         if ($method == 'add_person') {
@@ -45,7 +46,7 @@
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='index.php?page=content/add_person' >กลับ</a>";
             } else {
-                $sql = "select person_id from person order by person_id desc limit 1";
+                $sql = "select person_id from person where cid='".$_POST['cid']."' order by person_id desc limit 1";
                 $mydata->conn_mysqli();
                 $mydata->db_m($sql);
                 $person_id = $mydata->select();
@@ -56,6 +57,10 @@
                 $table = "address";
                 $mydata->conn_mysqli();
                 $address = $mydata->insert($table, $data);
+                
+                $data2 = array($person_id[0]['person_id'], 0,1);
+                $table2 = "saving_account";
+                $add_account = $mydata->insert($table2, $data2);
                 $mydata->close_mysqli();
                 if (!$address) {
                     echo "<span class='glyphicon glyphicon-remove'></span>";

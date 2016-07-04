@@ -21,8 +21,8 @@ function fncSubmit()
 </section>
 			<?php 
                 $mydata=new Db_mng();
-                $mydata->read="connection/conn_DB.txt";
-                $mydata->config();
+                $read='connection/conn_DB.txt';
+                $mydata->para_read($read);
                 
 			 if(null !==(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT))){ 
 			 $user_idGet=filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
