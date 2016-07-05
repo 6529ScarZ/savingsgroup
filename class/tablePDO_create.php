@@ -7,8 +7,8 @@ class TablePDO extends DbPDO_mng {
         $this->column=$column;
     }
     public function createPDO_TB(){
-        $query=  $this->select($this->sql);
-        $field=  $this->listfield('', $this->sql);
+        $query=  $this->select('');
+        $field=  $this->listfield('');
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         foreach ($this->column as $key => $value) {
@@ -34,7 +34,7 @@ class TablePDO extends DbPDO_mng {
     }
      public function createPDO_TB_mng($process){
         $this->process=$process;
-        $query=  $this->select();
+        $query=  $this->select('');
         $field=  $this->listfield('');
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
@@ -82,7 +82,7 @@ class TablePDO extends DbPDO_mng {
     }
     public function createPDO_TB_PDF($process){
          $this->process=$process;
-        $query=  $this->select();
+        $query=  $this->select('');
         $field=  $this->listfield('');
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
@@ -122,7 +122,7 @@ class TablePDO extends DbPDO_mng {
     }
     public function createPDO_TB_Detial($process){
          $this->process=$process;
-        $query=  $this->select();
+        $query=  $this->select('');
         $field=  $this->listfield('');
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";

@@ -27,14 +27,14 @@
                                 $conn_DB1->conn_PDO();
                                 //$db=$conn_DB1->getDb();
                                 $conn_DB1->imp_sql($sql);
-                                $edit_person=$conn_DB1->select();
+                                $edit_person=$conn_DB1->select('');
                                 //$conn_DB1->close_mysqli();
     }
 ?>
 <section class="content">
 <div class="row">
           <div class="col-lg-12">
-              <?php// if(empty($method)){$coll_bos='collapsed-box';}?>
+              <?php if(empty($method)){$coll_bos='collapsed-box';}?>
               <div class="box box-success box-solid <?= $coll_bos?>">
                 <div class="box-header with-border">
                   <h3 class="box-title"><img src='images/phonebook.ico' width='25'> ข้อมูลสมาชิก</h3>
@@ -61,7 +61,7 @@
                                 $conn_DB2->para_read($read);
                                 $conn_DB2->conn_PDO();
                                 $conn_DB2->imp_sql($sql);
-                                $result=$conn_DB2->select();
+                                $result=$conn_DB2->select('');
                                 //$conn_DB2->close_mysqli();
 				 echo "<option value=''>--คำนำหน้า--</option>";
 				 for($i=0;$i<count($result);$i++){
@@ -109,7 +109,7 @@
 				<?php	$sql = "SELECT *  FROM mstatus order by mstatus_id";
                                 //$conn_DB2->conn_mysqli();
                                 $conn_DB2->imp_sql($sql);
-                                $result=$conn_DB2->select();
+                                $result=$conn_DB2->select('');
                                 //$conn_DB2->close_mysqli();
 				 echo "<option value=''>--สถานะภาพ--</option>";
 				 for($i=0;$i<count($result);$i++){
@@ -147,7 +147,7 @@
 				<?php	$sql = "SELECT *  FROM member_status order by mem_status_id";
                                 //$conn_DB2->conn_mysqli();
                                 $conn_DB2->imp_sql($sql);
-                                $result=$conn_DB2->select();
+                                $result=$conn_DB2->select('');
                                 ///$conn_DB2->close_mysqli();
 				 echo "<option value=''>--สถานะภาพ--</option>";
 				 for($i=0;$i<count($result);$i++){

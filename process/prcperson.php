@@ -40,27 +40,26 @@
                 $image);
             $table = "person";
             $add_person = $mydata->insert($table, $data);
-            //$mydata->close_mysqli();
 
             if ($add_person=false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='index.php?page=content/add_person' >กลับ</a>";
             } else {
-                $sql = "select person_id from person where cid='".$_POST['cid']."' order by person_id desc limit 1";
+                $sql = "select person_id from person where cid=:cid order by person_id desc limit 1";
                 $mydata->imp_sql($sql);
-                $person_id = $mydata->select();
-                //$mydata->close_mysqli();
-                $data = array($person_id['person_id'], $_POST['hourseno'], $_POST['village'],
+                $execute=array(':cid' => $_POST['cid']);
+                $person_id = $mydata->select($execute);
+               
+                $data = array($person_id[0]['person_id'], $_POST['hourseno'], $_POST['village'],
                     $_POST['moo'], $_POST['district'], $_POST['amphur'], $_POST['province'],
                     $_POST['post'], $_POST['tel'], $_POST['email'], $_SESSION['user'], $date->format('Y-m-d H:m:s'));
                 $table = "address";
-                //$mydata->conn_mysqli();
                 $address = $mydata->insert($table, $data);
                 
-                $data2 = array($person_id['person_id'], 0,1);
+                $data2 = array($person_id[0]['person_id'], 0,1);
                 $table2 = "saving_account";
                 $add_account = $mydata->insert($table2, $data2);
-                //$mydata->close_mysqli();
+
                 if ($address=false) {
                     echo "<span class='glyphicon glyphicon-remove'></span>";
                     echo "<a href='index.php?page=content/add_person' >กลับ</a>";
@@ -92,11 +91,11 @@
             }
             
             $table = "person";
-            $where="person_id='$person_id'";
-            $edit_person=$mydata->update($table, $data, $where, $field);
-            $mydata->close_mysqli();
+            $where="person_id=:person_id";
+            $execute=array(':person_id' => $person_id);
+            $edit_person=$mydata->update($table, $data, $where, $field, $execute);
 
-            if (!$edit_person) {
+            if ($edit_person=false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='index.php?page=content/add_person' >กลับ</a>";
             } else {
@@ -106,15 +105,15 @@
                     $_POST['post'], $_POST['tel'], $_POST['email'],$_SESSION['user'], $date->format('Y-m-d H:m:s'));
                 $table = "address";
                 $field=array("hourseno","village","moo","district","amphur","province","post","tel","email","updater","d_update");
-                $where="person_id='$person_id'";
-                $mydata->conn_mysqli();
-                $edit_address = $mydata->update($table, $data, $where, $field);
-                $mydata->close_mysqli();
-                if (!$edit_address) {
+                $where="person_id=:person_id";
+                $execute=array(':person_id' => $person_id);
+                $edit_address = $mydata->update($table, $data, $where, $field, $execute);
+                
+                if ($edit_address=false) {
                     echo "<span class='glyphicon glyphicon-remove'></span>";
                     echo "<a href='index.php?page=content/add_person' >กลับ</a>";
                 } else {
-                    echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_person'>";
+                   echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_person'>";
                 }
             }
         }
@@ -124,11 +123,14 @@
             $delete_id=filter_input(INPUT_GET, 'del_id');
             $table="person";
             $table2="address";
-            $where="person_id='$delete_id'";
-            $del=$mydata->delete($table, $where);
-            $del2=$mydata->delete($table2, $where);
+            $table3="saving_account";
+            $where="person_id=:delete_id";
+            $execute=  array(':delete_id' => $delete_id);
+            $del=$mydata->delete($table, $where , $execute);
+            $del2=$mydata->delete($table2, $where, $execute);
+            $del3=$mydata->delete($table3, $where, $execute);
         
-        if($del&$del2==false){
+        if($del&$del2&$del3==false){
         echo "<span class='glyphicon glyphicon-remove'></span>";
         echo "<a href='index.php?page=content/add_person&id=$delete_id' >กลับ</a>";
     } else {

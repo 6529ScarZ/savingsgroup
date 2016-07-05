@@ -39,11 +39,11 @@ setTimeout("self.close()",StayAlive * 1000);
 } 
 </script>
   </head>
-  <body class="hold-transition skin-green fixed sidebar-mini" onLoad="KillMe();self.focus();window.opener.location.reload();">
-<section class="content">
+<body class="hold-transition skin-green fixed sidebar-mini" onLoad="KillMe();self.focus();window.opener.location.reload();">
+ <section class="content">
 <?php
 //require '../connection/connect.php';
-          require '../class/connPDO_db.php';
+          require '../class/dbPDO_mng.php';
 $user_account = md5(trim(filter_input(INPUT_POST, 'user_account',FILTER_SANITIZE_ENCODED)));
 $user_pwd = md5(trim(filter_input(INPUT_POST, 'user_pwd',FILTER_SANITIZE_ENCODED)));
 //include 'connection/connect.php';
@@ -59,7 +59,7 @@ echo "<div class='alert alert-dismissable alert-success'>
 	  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
 	  <a class='alert-link' target='_blank' href='#'><center>กำลังดำเนินการ</center></a> 
 </div>";
-$dbh=new ConnPDO_DB();
+$dbh=new DbPDO_mng();
 $read="../connection/conn_DB.txt";
 $dbh->para_read($read);
 $dbh->conn_PDO();
@@ -68,22 +68,23 @@ $sql="select CONCAT(p.fname,' ',p.lname) as fullname, m.Name as id, m.Status as 
 from member m
 INNER JOIN person p on p.person_id=m.Name
 where m.Username= :user_account && m.Password= :user_pwd";
-$sth = $db->prepare($sql);
-$sth->execute(array(':user_account' => $user_account, ':user_pwd' => $user_pwd));
-$result = $sth->fetch(PDO::FETCH_ASSOC);
-
+$execute=array(':user_account' => $user_account, ':user_pwd' => $user_pwd);
+$dbh->imp_sql($sql);
+$result=$dbh->select($execute);
 if ($result) {
-    $_SESSION['user'] = $result['id'];
-    $_SESSION['fullname'] = $result['fullname'];
-    $_SESSION['Status'] = $result['Status'];
+    $_SESSION['user'] = $result[0]['id'];
+    $_SESSION['fullname'] = $result[0]['fullname'];
+    $_SESSION['Status'] = $result[0]['Status'];
 $date = new DateTime(null, new DateTimeZone('Asia/Bangkok'));//กำหนด Time zone
 $date_login=$date->format('Y-m-d');
 $time_login=$date->format('H:m:s');
 
-$sql="update member  set date_login=:date_login , time_login=:time_login
-where Username= :user_account && Password= :user_pwd";
-$sth = $db->prepare($sql);
-$sth->execute(array(':user_account' => $user_account, ':user_pwd' => $user_pwd,':date_login'=>$date_login,':time_login'=>$time_login));
+                $table = "member";
+                $data = array($date_login,$time_login);
+                $field=array("date_login","time_login");
+                $where="Username= :user_account && Password= :user_pwd";
+                $execute=array(':user_account' => $user_account, ':user_pwd' => $user_pwd);
+                $edit_address = $dbh->update($table, $data, $where, $field, $execute);
 }else{
 	echo "<script>alert('ชื่อหรือรหัสผ่านผิด กรุณาตรวจสอบอีกครั้ง!')</script>";
     echo "<meta http-equiv='refresh' content='0;url=../login_page.php'>";

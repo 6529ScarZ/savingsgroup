@@ -25,14 +25,15 @@ class DbPDO_mng extends ConnPDO_DB{
     }
 
 //    ฟังก์ชัน select ข้อมูลในฐานข้อมูลมาแสดง
-    function select() {
-        //$this->sql=$sql;
+    function select($execute) {
+        
+        $this->execute=$execute;
         $this->db=$this->conn_PDO();
         $result = array();
         try
 		{
         $data = $this->db->prepare($this->sql);
-        $data->execute(); 
+        if(!empty($execute)){ $data->execute($this->execute);}else{ $data->execute();}
                 } catch(PDOException $e)
 		{
 			echo $e->getMessage();	
@@ -55,7 +56,6 @@ class DbPDO_mng extends ConnPDO_DB{
         $fields = "";
         $values = "";
         $var = $this->listfield($this->table); //การใช้งาน function ใน class เดียวกัน
-        print_r($var);
         $i = 0;
         array_shift($var); //เอาค่าของ array ตัวแรกออก
         foreach ($this->data as $key => $val) {
@@ -80,16 +80,18 @@ class DbPDO_mng extends ConnPDO_DB{
     }
 
 //    ฟังก์ชันสำหรับการ update ข้อมูล
-    function update($table, $data, $where, $field) {
+    function update($table, $data, $where, $field, $execute) {
+        
+        $this->execute=$execute;
         $this->table = $table;
         $this->data = $data;
         $this->where = $where;
         if(!empty($field)){ $this->field = $field;}
-        $db=$this->conn_mysqli();
+        $this->db=$this->conn_PDO();
         $modifs = "";
         $i = 0;
         if(empty($this->field)){
-        $var = $this->listfield($this->table,''); //การใช้งาน function ใน class เดียวกัน
+        $var = $this->listfield($this->table); //การใช้งาน function ใน class เดียวกัน
         array_shift($var); //เอาค่าของ array ตัวแรกออก
         }else{
             $var=  $this->field;
@@ -98,40 +100,48 @@ class DbPDO_mng extends ConnPDO_DB{
             if ($i != 0) {
                 $modifs.=", ";
             }
-            if (is_numeric($val)) {
+            /*if (is_numeric($val)) {
                 $modifs.=$var[$key] . '=' . $val;
-            } else {
+            } else {*/
                 $modifs.=$var[$key] . ' = "' . $val . '"';
-            }
+            //}
             $i++;
         }
-        $sql = ("UPDATE $this->table SET $modifs WHERE $this->where");
-        if ($db->query($sql)) {
-            return true;
-        } else {
-            die("SQL Error: <br>" . $sql . "<br>" . $db->error);
-            return false;
-        }
+        $this->sql = ("UPDATE $this->table SET $modifs WHERE $this->where");
+        try
+		{
+        $data = $this->db->prepare($this->sql);
+        $data->execute($this->execute); 
+                } catch(PDOException $e)
+		{
+			echo $e->getMessage();	
+			return false;
+		}
     }
 
 //    ฟังก์ชันสำหรับการ delete ข้อมูล
-    function delete($table, $where) {
+    function delete($table, $where,$execute ) {
         $this->table = $table;
         $this->where = $where;
-        $db=$this->conn_mysqli();
-        $sql = "DELETE FROM $this->table WHERE $this->where";
-        if ($db->query($sql)) {
-            return true;
-        } else {
-            die("SQL Error: <br>" . $sql . "<br>" . $db->error);
-            return false;
-        }
+        $this->execute = $execute;
+        $this->db=$this->conn_PDO();
+        $this->sql = "DELETE FROM $this->table WHERE $this->where";
+        try
+		{
+        $data = $this->db->prepare($this->sql);
+        $data->execute($this->execute); 
+                } catch(PDOException $e)
+		{
+			echo $e->getMessage();	
+			return false;
+		}
     }
 
 //    ฟังก์ชันสำหรับแสดงรายการฟิลด์ในตาราง
     function listfield($table) {
         $this->db=$this->conn_PDO();
-        if(!empty($table)){$this->sql = "SELECT * FROM $table LIMIT 1 ";}
+        $this->table=$table;
+        if(!empty($this->table)){$this->sql = "SELECT * FROM $this->table LIMIT 1 ";}
  try{
         $data = $this->db->prepare($this->sql);
         $data->execute(); 

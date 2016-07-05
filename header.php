@@ -128,7 +128,7 @@ $db=$conn_DB->conn_PDO();
                                             from person p 
                                                         WHERE p.person_id='$user_id'";
                                         $conn_DB->imp_sql($sql);
-                                      $result=$conn_DB->select();
+                                      $result=$conn_DB->select('');
                                       //$conn_DB->close_PDO();
                                       
                                       $empno_photo=$result[0]['photo'];
@@ -186,7 +186,8 @@ $db=$conn_DB->conn_PDO();
     //if($db){
 //===ชื่อโรงพยาบาล
                     $sql = "select * from  community order by comm_id limit 1";
-                    $resultComm=$conn_DB->select($sql);
+                    $conn_DB->imp_sql($sql);
+                    $resultComm=$conn_DB->select('');
                     //$conn_DB->close_PDO();
      //}                     
                     if (!empty($resultComm[0]['logo'])) {
