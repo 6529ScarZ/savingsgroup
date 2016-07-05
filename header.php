@@ -1,9 +1,11 @@
 <?php session_start(); 
-require_once 'class/table_create.php';
-$conn_DB= new Db_mng();
-$read='connection/conn_DB.txt';
+require_once 'class/tablePDO_create.php';
+//require_once 'class/connPDO_db.php';
+$conn_DB= new DbPDO_mng();
+$read="connection/conn_DB.txt";
 $conn_DB->para_read($read);
-$db=$conn_DB->conn_mysqli();
+$db=$conn_DB->conn_PDO();
+//$db=$conn_DB->getDb();
 
 ?>
 <!DOCTYPE html>
@@ -113,13 +115,7 @@ $db=$conn_DB->conn_mysqli();
                   </a>
                    
                 </li>
-                <?php }else{
-                    if(!$db){
-     die ('Connect Failed! :'.mysqli_connect_error ());
-     exit;
-}
-                    
-
+                <?php }else{                                    
                                     $user_id = $_SESSION['user'];
                                     if (!empty($user_id)) {
                                         
@@ -131,9 +127,9 @@ $db=$conn_DB->conn_mysqli();
                                             END AS posname 
                                             from person p 
                                                         WHERE p.person_id='$user_id'";
-                                      $conn_DB->db_m($sql);
+                                        $conn_DB->imp_sql($sql);
                                       $result=$conn_DB->select();
-                                      //$myconn->close_mysqli();
+                                      //$conn_DB->close_PDO();
                                       
                                       $empno_photo=$result[0]['photo'];
                                       $posname=$result[0]['posname'];
@@ -187,13 +183,12 @@ $db=$conn_DB->conn_mysqli();
         </nav>
       </header>
         <?php                
-    if($db){
+    //if($db){
 //===ชื่อโรงพยาบาล
                     $sql = "select * from  community order by comm_id limit 1";
-                    $conn_DB->db_m($sql);
-                    $resultComm=$conn_DB->select();
-                    //$myconn->close_mysqli();
-     }                     
+                    $resultComm=$conn_DB->select($sql);
+                    //$conn_DB->close_PDO();
+     //}                     
                     if (!empty($resultComm[0]['logo'])) {
                                     $pic = $resultComm[0]['logo'];
                                     //$fol = $resultComm[0]['url']."/savingsgroup/logo/";

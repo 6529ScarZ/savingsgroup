@@ -39,10 +39,10 @@ function Check_txt(){
                                 //$conn_DB3=new Db_mng;
                                 //$conn_DB3->read="connection/conn_DB.txt";
                                 //conn_DB3->config();
-                                $conn_DB2->conn_mysqli();
-                                $conn_DB2->db_m($sql);
+                                //$conn_DB2->conn_mysqli();
+                                $conn_DB2->imp_sql($sql);
                                 $result=$conn_DB2->select();
-                                $conn_DB2->close_mysqli();
+                                //$conn_DB2->close_mysqli();
                                 for($i=0;$i<count($result);$i++){
                     if($result[$i]['PROVINCE_ID']==$edit_person[0]['province']){$selected='selected';}else{$selected='';}
 		echo "<option value='".$result[$i]['PROVINCE_ID']."' $selected>".$result[$i]['PROVINCE_NAME']."</option>";
@@ -54,10 +54,10 @@ function Check_txt(){
 	<select class="form-control" name='amphur' id='amphur'onchange="data_show(this.value,'district');">
             <?php if(isset($method)=='edit'){
                 $sql = "select * from amphur where AMPHUR_ID='".$edit_person[0]['amphur']."'";
-                                $conn_DB2->conn_mysqli();
-                                $conn_DB2->db_m($sql);
+                                //$conn_DB2->conn_mysqli();
+                                $conn_DB2->imp_sql($sql);
                                 $result=$conn_DB2->select();
-                                $conn_DB2->close_mysqli();
+                                //$conn_DB2->close_mysqli();
                                 for($i=0;$i<count($result);$i++){
                 if($result[$i]['AMPHUR_ID']==$edit_person[0]['amphur']){$selected='selected';}else{$selected='';}
                 echo "<option value='".$result[$i]['AMPHUR_ID']."' $selected>".$result[$i]['AMPHUR_NAME']."</option>";
@@ -72,10 +72,10 @@ function Check_txt(){
 	<select class="form-control" name='district' id='district'>
             <?php if(isset($method)=='edit'){
                 $sql = "select * from district where DISTRICT_ID='".$edit_person[0]['district']."'";
-                                $conn_DB2->conn_mysqli();
-                                $conn_DB2->db_m($sql);
+                                //$conn_DB2->conn_mysqli();
+                                $conn_DB2->imp_sql($sql);
                                 $result=$conn_DB2->select();
-                                $conn_DB2->close_mysqli();
+                                //$conn_DB2->close_mysqli();
                                 for($i=0;$i<count($result);$i++){
                 if($result[$i]['DISTRICT_ID']==$edit_person[0]['district']){$selected='selected';}else{$selected='';}
                 echo "<option value='".$result[$i]['DISTRICT_ID']."' $selected>".$result[$i]['DISTRICT_NAME']."</option>";

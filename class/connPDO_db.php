@@ -44,5 +44,8 @@ class ConnPDO_DB extends Read_DB{
             return $this->db;
        }
  }
+  public function close_PDO(){
+        $this->db=NULL;
+    }
 }
 ?>

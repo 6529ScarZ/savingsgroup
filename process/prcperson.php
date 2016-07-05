@@ -11,16 +11,16 @@
 	  <a class='alert-link' target='_blank' href='#'><center>กำลังดำเนินการ</center></a> 
 </div>";
     if (isset($_POST['check']) == 'plus') {
-        require '../class/db_mng.php';
-        $mydata = new Db_mng();
-        $read='../connection/conn_DB.txt';
+        require '../class/dbPDO_mng.php';
+        $mydata= new DbPDO_mng();
+        $read="../connection/conn_DB.txt";
         $mydata->para_read($read);
-        $mydata->conn_mysqli();
+        $db=$mydata->conn_PDO();
     } else {
-        $mydata = new Db_mng();
-        $read='connection/conn_DB.txt';
+        $mydata= new DbPDO_mng();
+        $read="connection/conn_DB.txt";
         $mydata->para_read($read);
-        $mydata->conn_mysqli();
+        $db=$mydata->conn_PDO();
     }
     $date = new DateTime(null, new DateTimeZone('Asia/Bangkok'));//กำหนด Time zone
     
@@ -40,29 +40,28 @@
                 $image);
             $table = "person";
             $add_person = $mydata->insert($table, $data);
-            $mydata->close_mysqli();
+            //$mydata->close_mysqli();
 
-            if (!$add_person) {
+            if ($add_person=false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='index.php?page=content/add_person' >กลับ</a>";
             } else {
                 $sql = "select person_id from person where cid='".$_POST['cid']."' order by person_id desc limit 1";
-                $mydata->conn_mysqli();
-                $mydata->db_m($sql);
+                $mydata->imp_sql($sql);
                 $person_id = $mydata->select();
-                $mydata->close_mysqli();
-                $data = array($person_id[0]['person_id'], $_POST['hourseno'], $_POST['village'],
+                //$mydata->close_mysqli();
+                $data = array($person_id['person_id'], $_POST['hourseno'], $_POST['village'],
                     $_POST['moo'], $_POST['district'], $_POST['amphur'], $_POST['province'],
                     $_POST['post'], $_POST['tel'], $_POST['email'], $_SESSION['user'], $date->format('Y-m-d H:m:s'));
                 $table = "address";
-                $mydata->conn_mysqli();
+                //$mydata->conn_mysqli();
                 $address = $mydata->insert($table, $data);
                 
-                $data2 = array($person_id[0]['person_id'], 0,1);
+                $data2 = array($person_id['person_id'], 0,1);
                 $table2 = "saving_account";
                 $add_account = $mydata->insert($table2, $data2);
-                $mydata->close_mysqli();
-                if (!$address) {
+                //$mydata->close_mysqli();
+                if ($address=false) {
                     echo "<span class='glyphicon glyphicon-remove'></span>";
                     echo "<a href='index.php?page=content/add_person' >กลับ</a>";
                 } else {
