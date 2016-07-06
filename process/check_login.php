@@ -81,9 +81,9 @@ $time_login=$date->format('H:m:s');
 
                 $table = "member";
                 $data = array($date_login,$time_login);
-                $field=array("date_login","time_login");
-                $where="Username= :user_account && Password= :user_pwd";
-                $execute=array(':user_account' => $user_account, ':user_pwd' => $user_pwd);
+                $field = array("date_login","time_login");
+                $where = "Username= :user_account && Password= :user_pwd";
+                $execute = array(':user_account' => $user_account, ':user_pwd' => $user_pwd);
                 $edit_address = $dbh->update($table, $data, $where, $field, $execute);
 }else{
 	echo "<script>alert('ชื่อหรือรหัสผ่านผิด กรุณาตรวจสอบอีกครั้ง!')</script>";

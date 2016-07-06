@@ -1,32 +1,40 @@
 <?php
     require 'dbPDO_mng.php';
+     include 'plugins/funcDateThai.php';
 class TablePDO extends DbPDO_mng {
     public $column;
     
     public function __construct($column) {
         $this->column=$column;
     }
+    function validateDate($date, $format = 'Y-m-d H:i:s')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
     public function createPDO_TB(){
         $query=  $this->select('');
         $field=  $this->listfield('');
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
         echo "</tr></thead><tbody>";
-        $c=0;
+        $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";
+            echo "<tr>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 echo "<td align='center'>".$query[$c][$field[$i]]."</td>";
             }
-            $c++;
+            $c++;$C++;
             echo "</tr>";
         }
         echo "</tbody>";
         echo "<tfoot><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
@@ -38,17 +46,21 @@ class TablePDO extends DbPDO_mng {
         $field=  $this->listfield('');
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
         echo "</tr></thead><tbody>";
-        $c=0;
+        $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";
+            echo "<tr>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 if($i<($num_field-3)){
-                echo "<td align='center'>".$query[$c][$field[$i]]."</td>";
+                 if($this->validateDate($query[$c][$field[$i]],'Y-m-d')){
+                    echo "<td align='center'>".DateThai1($query[$c][$field[$i]])."</td>";} else {
+                    echo "<td align='center'>".$query[$c][$field[$i]]."</td>";
+                            }  
                 }else{
                 if($i=($num_field-3)){
                  echo "<td align='center'>";?>
@@ -70,11 +82,12 @@ class TablePDO extends DbPDO_mng {
                 }
             }
             }
-            $c++;
+            $c++;$C++;
             echo "</tr>";
         }
         echo "</tbody>";
         echo "<tfoot><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
@@ -86,17 +99,20 @@ class TablePDO extends DbPDO_mng {
         $field=  $this->listfield('');
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
         echo "</tr></thead><tbody>";
-        $c=0;
+        $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";
+            echo "<tr>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 if($i<($num_field-2)){
-                echo "<td align='center'>".$query[$c][$field[$i]]."</td>";
+               if($this->validateDate($query[$c][$field[$i]],'Y-m-d')){
+                    echo "<td align='center'>".DateThai1($query[$c][$field[$i]])."</td>";} else {
+                    echo "<td align='center'>".$query[$c][$field[$i]]."</td>";}
                 }else{
                 if($i=($num_field-2)){
                  echo "<td align='center'>";?>
@@ -110,11 +126,12 @@ class TablePDO extends DbPDO_mng {
                 }
             }
             }
-            $c++;
+            $c++;$C++;
             echo "</tr>";
         }
         echo "</tbody>";
         echo "<tfoot><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
@@ -126,17 +143,20 @@ class TablePDO extends DbPDO_mng {
         $field=  $this->listfield('');
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
         echo "</tr></thead><tbody>";
-        $c=0;
+        $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";
+            echo "<tr>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 if($i<($num_field-1)){
-                echo "<td align='center'>".$query[$c][$field[$i]]."</td>";
+                if($this->validateDate($query[$c][$field[$i]],'Y-m-d')){
+                    echo "<td align='center'>".DateThai1($query[$c][$field[$i]])."</td>";} else {
+                    echo "<td align='center'>".$query[$c][$field[$i]]."</td>";}
                 }else{
                 if($i=($num_field-1)){
                  echo "<td align='center'>";?>
@@ -145,11 +165,61 @@ class TablePDO extends DbPDO_mng {
                 }    
             }
             }
-            $c++;
+            $c++;$C++;
             echo "</tr>";
         }
         echo "</tbody>";
         echo "<tfoot><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
+        foreach ($this->column as $key => $value) {
+            echo "<th align='center'>$value</th>";
+        }
+        echo "</tr></tfoot></table>";
+    }
+         public function createPDO_TB_edit($process){
+        $this->process=$process;
+        $query=  $this->select('');
+        $field=  $this->listfield('');
+        echo "<table id='example1' class='table table-bordered table-striped'>";
+        echo "<thead><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับ</th>";
+        foreach ($this->column as $key => $value) {
+            echo "<th align='center'>$value</th>";
+        }
+        echo "</tr></thead><tbody>";
+        $c=0;$C=1;
+        for ($I=0;$I<count($query);$I++){
+            $num_field=  $this->count_field();
+            echo "<tr>";echo "<td align='center'>".$C."</td>";
+            for ($i=0;$i<($num_field);$i++){
+                
+                if($i<($num_field-2)){
+                 if($this->validateDate($query[$c][$field[$i]],'Y-m-d')){
+                    echo "<td align='center'>".DateThai1($query[$c][$field[$i]])."</td>";} else {
+                    echo "<td align='center'>".$query[$c][$field[$i]]."</td>";
+                            }  
+                }else{
+                if($i=($num_field-2)){
+                 echo "<td align='center'>"
+                    . "<a href='index.php?page=content/add_".$this->process."&method=edit&id=".$query[$c][$field[$i]]."'>"
+                         . "<img src='images/icon_set1/document_edit.ico' width='25'></a></td>";
+                }
+                if($i=($num_field-1)){
+                 
+                 echo "<td align='center'>";
+                 ?>
+                 <a href="index.php?page=process/prc<?= $this->process?>&method=delete_<?= $this->process?>&del_id=<?= $query[$c][$field[$i]]?>" onClick="return confirm('กรุณายืนยันการลบอีกครั้ง !!!')">
+                 <?php
+                     echo "<img src='images/icon_set1/document_delete.ico' width='25'></a></td>";   
+                }
+            }
+            }
+            $c++;$C++;
+            echo "</tr>";
+        }
+        echo "</tbody>";
+        echo "<tfoot><tr align='center' bgcolor='#898888'>";
+        echo "<th align='center' width='5%'>ลำดับที่</th>";
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }

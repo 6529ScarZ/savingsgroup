@@ -11,16 +11,16 @@
 	  <a class='alert-link' target='_blank' href='#'><center>กำลังดำเนินการ</center></a> 
 </div>";
     if (isset($_POST['check']) == 'plus') {
-        require '../class/db_mng.php';
-        $mydata = new Db_mng();
-        $read='../connection/conn_DB.txt';
+        require '../class/dbPDO_mng.php';
+        $mydata= new DbPDO_mng();
+        $read="../connection/conn_DB.txt";
         $mydata->para_read($read);
-        $mydata->conn_mysqli();
+        $db=$mydata->conn_PDO();
     } else {
-        $mydata = new Db_mng();
-        $read='connection/conn_DB.txt';
+        $mydata= new DbPDO_mng();
+        $read="connection/conn_DB.txt";
         $mydata->para_read($read);
-        $mydata->conn_mysqli();
+        $db=$mydata->conn_PDO();
     }
     $date = new DateTime(null, new DateTimeZone('Asia/Bangkok'));//กำหนด Time zone
     if (null !== (filter_input(INPUT_POST, 'method'))) {
@@ -31,8 +31,7 @@
         $data=array($username,$pass_word,$_POST['user_account'],$_POST['name'],$_POST['admin']);
         $table="member";
         $check_user=$mydata->insert($table, $data);
-        $mydata->close_mysqli();
-        if(!$check_user){
+        if($check_user=false){
         echo "<span class='glyphicon glyphicon-remove'></span>";
         echo "<a href='index.php?page=content/add_User' >กลับ</a>";
     } else {
@@ -44,18 +43,19 @@
             $pass_word=  trim(md5($_POST['user_pwd']));
         $data=array($username,$pass_word,$_POST['user_account'],$_POST['name'],$_POST['admin']);
         $table="member";
-        $where="UserID='".$_POST['ID']."'";
-        $check_user=$mydata->update($table, $data, $where, '');
+        $where="UserID=:UserID";
+        $execute=array(':UserID' => $_POST['id']);
+        $check_user=$mydata->update($table, $data, $where, '', $execute);
         }else{
             $username=  trim(md5($_POST['user_account']));
         $data=array($username,$_POST['user_account'],$_POST['name'],$_POST['admin']);
         $table="member";
-        $where="UserID='".$_POST['ID']."'";
+        $where="UserID=:UserID";
+        $execute=array(':UserID' => $_POST['id']);
         $field=array("Username","user_name","Name","Status","user_type");
-        $check_user=$mydata->update($table, $data, $where, $field);  
+        $check_user=$mydata->update($table, $data, $where, $field, $execute);  
         }
-        $mydata->close_mysqli();
-        if(!$check_user){
+        if($check_user=false){
         echo "<span class='glyphicon glyphicon-remove'></span>";
         echo "<a href='index.php?page=content/add_User' >กลับ</a>";
     } else {
@@ -67,9 +67,10 @@
         $method = filter_input(INPUT_GET, 'method');
         if($method=='delete_user') {
         $table="member";
-        $where="UserID='".$_GET['ID']."'";
-        $del=$mydata->delete($table, $where);
-        if($del==false){
+        $where="UserID=:UserID";
+        $execute=  array(':UserID' => $_GET['ID']);
+        $del=$mydata->delete($table, $where, $execute);
+        if($del=false){
         echo "<span class='glyphicon glyphicon-remove'></span>";
         echo "<a href='index.php?page=content/add_User&id=".$_GET['id']."' >กลับ</a>";
     } else {

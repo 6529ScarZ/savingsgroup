@@ -20,22 +20,21 @@ function fncSubmit()
             </ol>
 </section>
 			<?php 
-                $mydata=new Db_mng();
+                $mydata=new DbPDO_mng();
                 $read='connection/conn_DB.txt';
                 $mydata->para_read($read);
                 
 			 if(null !==(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT))){ 
 			 $user_idGet=filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-                          if(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_STRING)=='update_user'){
+                          /*if(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_STRING)=='update_user'){
                              $status= filter_input(INPUT_GET, 'status', FILTER_SANITIZE_STRING);
-                         }else{
-                         $status=$_SESSION['Status'];}
+                         }elseif(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_STRING)=='edit'){
+                         $status=$_SESSION['Status'];}*/
 			 $sql="select m.*,concat(p.fname,' ',p.lname) as fullname from  member m
-                             inner join person p on p.person_id=m.Name where m.Name='$user_idGet' and m.Status='$status'";
-			 $mydata->conn_mysqli();
-                         $mydata->db_m($sql);
-                         $resultGet=$mydata->select();
-                         $mydata->close_mysqli();
+                             inner join person p on p.person_id=m.Name where m.UserID='$user_idGet'";
+			 $mydata->conn_PDO();
+                         $mydata->imp_sql($sql);
+                         $resultGet=$mydata->select('');
 			 }
 			   ?> 
 <section class="content">
@@ -58,10 +57,9 @@ function fncSubmit()
                          	<select name="name" id="name" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
 				<?php	$sql = "SELECT person_id,concat(fname,' ',lname) as fullname  FROM person order by fname";
 				 echo "<option value=''>เลือกบุคลากร</option>";
-                $mydata->conn_mysqli();
-                $mydata->db_m($sql);
-                $result=$mydata->select();//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
-                $mydata->close_mysqli();
+                $mydata->conn_PDO();
+                $mydata->imp_sql($sql);
+                $result=$mydata->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
         for($i=0;$i<count($result);$i++){
                                 if($result[$i]['person_id']==$resultGet[0]['Name']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['person_id']."' $selected>".$result[$i]['fullname']." </option>";
@@ -118,11 +116,6 @@ function fncSubmit()
  <br>
  <?PHP 
 	if(!empty($user_idGet)){
-            if(!empty($_GET['ID'])){
-            $Get_id=$_GET['ID'];}  else {
-                $Get_id=$resultGet[0]['UserID'];
-}
-                echo "<input type='hidden' name='ID' value='$Get_id'>";
 		echo "<input type='hidden' name='id' value='$user_idGet'>";
 		echo "<input type='hidden' name='method' value='update_user'>";
                 ?>

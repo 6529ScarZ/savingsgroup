@@ -44,11 +44,11 @@ if (empty($_SESSION['user'])) {
 
     <?php
     $person_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-require '../class/db_mng.php';
-$myconn=new Db_mng();
+require '../class/dbPDO_mng.php';
+$myconn=new DbPDO_mng();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
-$db=$myconn->conn_mysqli();
+$db=$myconn->conn_PDO();
     $sql = "SELECT p1.*,a1.*,p2.pname,m1.mstatus,m2.mem_status,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
 IF (p1.sex=1,'ชาย','หญิง')AS sex_name,IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,
 CONCAT(TIMESTAMPDIFF(year,p1.birth,NOW()),' ปี ',
@@ -65,9 +65,8 @@ INNER JOIN district d1 ON d1.DISTRICT_ID=a1.district
 INNER JOIN amphur a2 ON a2.AMPHUR_ID=a1.amphur
 INNER JOIN province p3 ON p3.PROVINCE_ID=a1.province
 WHERE p1.person_id='$person_id'";
-    $myconn->db_m($sql);
-    $detial_person=$myconn->select();
-    $myconn->close_mysqli();
+    $myconn->imp_sql($sql);
+    $detial_person=$myconn->select('');
    include_once ('../plugins/funcDateThai.php');
     ?>
     <!--<div class="row">
@@ -104,7 +103,7 @@ WHERE p1.person_id='$person_id'";
                                     <tr>
                                         <td colspan="4">หมายเลขสมาชิก :&nbsp;<b><?= $detial_person[0]['member_no']?></b>
                                         &nbsp;&nbsp;&nbsp; ประเภทสมาชิก :&nbsp;<b><?= $detial_person[0]['user_type_name']?></b></td>
-                                        <td rowspan="6" align="right" valign="top"><img src="<?= $photo_person?>" width="150"></td>
+                                        <td rowspan="6" align="right" valign="top"><img src="<?= $photo_person?>" height="150"></td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">สถานะการเป็นสมาชิก :&nbsp;<b><?= $detial_person[0]['mem_status']?></b>

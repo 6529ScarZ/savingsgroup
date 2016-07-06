@@ -23,7 +23,6 @@
         $db=$mydata->conn_PDO();
     }
     $date = new DateTime(null, new DateTimeZone('Asia/Bangkok'));//กำหนด Time zone
-    
     if (null !== (filter_input(INPUT_POST, 'method'))) {
         $method = filter_input(INPUT_POST, 'method');
         if ($method == 'add_person') {
