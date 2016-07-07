@@ -41,21 +41,22 @@ public function create_Detial_photo($title,$fol) {
         $field = $this->listfield('');
         $photo_person=  $this->fol.$query[0][$field[0]]; 
         echo "<table width='100%' border='0' cellspacing='0' cellpadding='0'>";
-        echo "<td colspan='3' align='center' valign='middle'><img src='$photo_person' height='150'></td>";
+        echo "<tr><td colspan='3' align='center' valign='middle'><img src='$photo_person' height='150'></td></tr>";
+        echo "<tr><td colspan='3' align='center' valign='middle'>&nbsp;</td></tr>";
         $i = 0;
         array_shift($query[0]);
         array_shift($field);
         foreach ($this->title as $key => $val) {
             $title_detial = $val;
             echo "<tr>";
-            echo "<td align='right' valign='middle'>" . $title_detial . "</td>";
-            echo "<td align='center' valign='middle'>&nbsp;:&nbsp;</td>";
+            echo "<td align='right' valign='middle' width='49%'>" . $title_detial . "</td>";
+            echo "<td align='center' valign='middle' width='2%'>&nbsp;:&nbsp;</td>";
             if($this->validateDate($query[0][$field[$i]],'Y-m-d')){
                 $detial=DateThai1($query[0][$field[$i]]);
             }  else {
             $detial=$query[0][$field[$i]];
              }
-            echo "<td align='left' valign='middle'><b>" . $detial . "</b></td>";
+            echo "<td align='left' valign='middle' width='49%'><b>" . $detial . "</b></td>";
             echo "</tr>";
             $i++;
         }
