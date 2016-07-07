@@ -1,5 +1,5 @@
 <?php
-    require 'dbPDO_mng.php';
+    require 'DbPDO_mng.php';
      include 'plugins/funcDateThai.php';
 class TablePDO extends DbPDO_mng {
     public $column;

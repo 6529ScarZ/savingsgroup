@@ -1,6 +1,9 @@
 <?php session_start(); 
-require_once 'class/tablePDO_create.php';
-//require_once 'class/connPDO_db.php';
+require_once 'class/tablePDO.php';
+//function __autoload($class_name) {
+    //include 'class/'.$class_name.'.php';
+//}
+set_time_limit(0);
 $conn_DB= new DbPDO_mng();
 $read="connection/conn_DB.txt";
 $conn_DB->para_read($read);

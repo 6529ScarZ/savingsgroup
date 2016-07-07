@@ -12,6 +12,7 @@ order by fullname ";
                 $mydata->imp_sql($sql);
         $result=$mydata->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
         $mydata->createPDO_TB_edit('user');//ใส่ process ที่ต้องการสร้าง
+        $mydata->close_PDO();
      ?>
 
 <!--<table id="example1" class="table table-bordered table-striped">

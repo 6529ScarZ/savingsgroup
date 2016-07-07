@@ -28,7 +28,7 @@
                                 //$db=$conn_DB1->getDb();
                                 $conn_DB1->imp_sql($sql);
                                 $edit_person=$conn_DB1->select('');
-                                //$conn_DB1->close_mysqli();
+                                $conn_DB1->close_PDO();
     }
 ?>
 <section class="content">
@@ -198,7 +198,8 @@
    <?php }else{?> 
    <input type="hidden" name="method" id="method" value="add_person">
    <input class="btn btn-success" type="submit" name="Submit" id="Submit" value="บันทึก">
-   <?php }?>
+   <?php }
+   $conn_DB2->close_PDO();?>
 </form>
                     <br><br>
     <?php include 'content/list_person.php';?>

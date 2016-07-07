@@ -22,6 +22,7 @@ $column=array("รหัสสมาชิก","ชื่อ-นามสกุ�
                 $db=$mydata->conn_PDO();
                 $mydata->imp_sql($sql);
                 $mydata->createPDO_TB_mng('person');//ใส่ process ที่ต้องการสร้าง
+                $mydata->close_PDO();
     ?>
                 </div>
               </div>

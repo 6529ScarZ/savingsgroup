@@ -126,7 +126,9 @@ function fncSubmit()
               <?php } ?>
 		</form>
                         </div>
-      </div> <?php if($_SESSION['Status']=='ADMIN'){?>
+      </div> <?php
+      $mydata->close_PDO();
+      if($_SESSION['Status']=='ADMIN'){?>
                     <div class="col-lg-9 col-xs-12">
                         <div class="well well-sm">
                       <?php include 'list_user.php';?>   
