@@ -1,5 +1,5 @@
 <?php session_start(); 
-require_once 'class/tablePDO.php';
+require_once 'class/TablePDO.php';
 //function __autoload($class_name) {
     //include 'class/'.$class_name.'.php';
 //}

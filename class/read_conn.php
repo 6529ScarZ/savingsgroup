@@ -1,5 +1,5 @@
 <?php
-class Read_DB{
+class read_conn{
     private $read;
     public function para_read($read) {
         $this->read=$read;

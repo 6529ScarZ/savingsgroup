@@ -1,17 +1,13 @@
 <?php
-    require 'DbPDO_mng.php';
+    require 'dbPDO_mng.php';
      include 'plugins/funcDateThai.php';
-class TablePDO extends DbPDO_mng {
+class TablePDO extends dbPDO_mng {
     public $column;
     
     public function __construct($column) {
         $this->column=$column;
     }
-    function validateDate($date, $format = 'Y-m-d H:i:s')
-{
-    $d = DateTime::createFromFormat($format, $date);
-    return $d && $d->format($format) == $date;
-}
+    
     public function createPDO_TB(){
         $query=  $this->select('');
         $field=  $this->listfield('');

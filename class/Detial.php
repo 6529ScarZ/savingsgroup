@@ -1,14 +1,9 @@
 <?php
 
-require 'DbPDO_mng.php';
+require 'dbPDO_mng.php';
 
-class Detial extends DbPDO_mng {
+class Detial extends dbPDO_mng {
     
-function validateDate($date, $format = 'Y-m-d H:i:s')
-{
-    $d = DateTime::createFromFormat($format, $date);
-    return $d && $d->format($format) == $date;
-}
     public function create_Detial($title) {
         $this->title = $title;
 

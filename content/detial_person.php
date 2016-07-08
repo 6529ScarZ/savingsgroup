@@ -44,7 +44,7 @@ if (empty($_SESSION['user'])) {
 
     <?php
     $person_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-/*require '../class/dbPDO_mng.php';
+require '../class/dbPDO_mng.php';
 $myconn=new DbPDO_mng();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
@@ -66,8 +66,8 @@ INNER JOIN amphur a2 ON a2.AMPHUR_ID=a1.amphur
 INNER JOIN province p3 ON p3.PROVINCE_ID=a1.province
 WHERE p1.person_id='$person_id'";
     $myconn->imp_sql($sql);
-    $detial_person=$myconn->select('');*/
-    require '../class/detial.php';
+    $detial_person=$myconn->select('');
+    /*require '../class/Detial.php';
 $myconn=new Detial();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
@@ -81,7 +81,7 @@ FLOOR(TIMESTAMPDIFF(DAY,p1.birth,NOW())%30.4375),' วัน')AS age
         INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
         WHERE p1.person_id='$person_id'";
 $myconn->imp_sql($sql);
-
+*/
    include_once ('../plugins/funcDateThai.php');
     ?>
     <!--<div class="row">
@@ -112,12 +112,12 @@ $myconn->imp_sql($sql);
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                        //$photo_person="../photo/".$detial_person[0]['photo']; 
-                        $title=  array("หมายเลขสมาชิก","ชื่อ-สกุล","เลขบัตรประชาชน","เพศ","ประเภทสมาชิก","วันเกิด","อายุ");
+                        $photo_person="../photo/".$detial_person[0]['photo']; 
+                        /*$title=  array("หมายเลขสมาชิก","ชื่อ-สกุล","เลขบัตรประชาชน","เพศ","ประเภทสมาชิก","วันเกิด","อายุ");
                         $myconn->create_Detial_photo($title,"../photo/");
-                        $myconn->close_PDO();
+                        $myconn->close_PDO();*/
                     ?>
-                                <!--<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                         <td colspan="4">หมายเลขสมาชิก :&nbsp;<b><?= $detial_person[0]['member_no']?></b>
                                         &nbsp;&nbsp;&nbsp; ประเภทสมาชิก :&nbsp;<b><?= $detial_person[0]['user_type_name']?></b></td>
@@ -164,7 +164,7 @@ $myconn->imp_sql($sql);
                                             &nbsp;&nbsp;&nbsp; เวลา :&nbsp;<b><?= substr($detial_person[0]['d_update'], 11)?></b> น.
                                         </td>
                                     </tr>
-                                </table>-->
+                                </table>
                             </div>
                         </div>
 

@@ -1,6 +1,6 @@
 <?php
 require 'read_conn.php';
-class ConnPDO_DB extends Read_DB{
+class connPDO_db extends read_conn{
     public $dbconfig=array(
         "hostname"=>NULL,
         "username"=>NULL,

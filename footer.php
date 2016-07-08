@@ -22,20 +22,20 @@
             <h3 class="control-sidebar-heading">Recent Activity</h3>
             <ul class="control-sidebar-menu">
               <li>
-                <a href="javascript::;">
-                  <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+                <a href="index.php">
+                  <i class="menu-icon fa fa-home bg-red"></i>
                   <div class="menu-info">
-                    <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-                    <p>Will be 23 on April 24th</p>
+                    <h4 class="control-sidebar-subheading">Home</h4>
+                    <p>หน้าหลัก</p>
                   </div>
                 </a>
               </li>
               <li>
-                <a href="javascript::;">
+                <a href="index.php?page=content/add_person">
                   <i class="menu-icon fa fa-user bg-yellow"></i>
                   <div class="menu-info">
-                    <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-                    <p>New phone +1(800)555-1234</p>
+                    <h4 class="control-sidebar-subheading">Manage</h4>
+                    <p>จัดการสมาชิก</p>
                   </div>
                 </a>
               </li>

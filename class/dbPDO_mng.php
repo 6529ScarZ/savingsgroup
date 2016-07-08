@@ -1,6 +1,6 @@
 <?php
 require 'connPDO_db.php';
-class DbPDO_mng extends ConnPDO_DB{
+class dbPDO_mng extends ConnPDO_db{
 
     private $sql;
     
@@ -170,6 +170,12 @@ class DbPDO_mng extends ConnPDO_DB{
         $num_fields = $data->columnCount();
         return $num_fields;
     }
+    
+    function validateDate($date, $format = 'Y-m-d H:i:s')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
 
 }
 
