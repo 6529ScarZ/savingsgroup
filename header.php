@@ -50,6 +50,7 @@ $db=$conn_DB->conn_PDO();
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <script src="plugins/excellentexport.js"></script>
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -236,7 +237,8 @@ $db=$conn_DB->conn_PDO();
                   <li>
                   <a href="#"><i class="fa fa-circle-o text-orange"></i> จัดการสมาชิก <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                <li><a href="index.php?page=content/add_person"><i class="fa fa-circle-o text-red"></i> สมัคร/แก้ไขสมาชิก</a></li>
+                      <li><a href="index.php?page=content/add_person"><i class="fa fa-circle-o text-red"></i> สมัคร/แก้ไขสมาชิก</a></li>
+                <!--<li><a href="JavaScript:doCallAjax('index.php?page=content/add_person')"><i class="fa fa-circle-o text-red"></i> สมัคร/แก้ไขสมาชิก</a></li>-->
                 <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
                 <li><a href="index.php?page=content/add_pay_order"><i class="fa fa-circle-o text-red"></i> จ่ายวัสดุ</a></li>
                 </ul>
