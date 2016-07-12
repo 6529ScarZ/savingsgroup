@@ -9,15 +9,25 @@ $read="connection/conn_DB.txt";
 $conn_DB->para_read($read);
 $db=$conn_DB->conn_PDO();
 //$db=$conn_DB->getDb();
-
-?>
+//===ชื่อโรงพยาบาล
+                    $sql = "select * from  community order by comm_id limit 1";
+                    $conn_DB->imp_sql($sql);
+                    $resultComm=$conn_DB->select('');
+                    if (!empty($resultComm[0]['logo'])) {
+                                    $pic = $resultComm[0]['logo'];
+                                    $fol = "logo/";
+                                } else {
+                                    $pic = 'agency.ico';
+                                    $fol = "images/";
+                                }
+                    ?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>ระบบบริหารจัดการกลุ่มออมทรัพย์ </title>
-    <LINK REL="SHORTCUT ICON" HREF="images/logo.png">
+    <LINK REL="SHORTCUT ICON" HREF="<?= $fol.$pic?>">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -186,26 +196,7 @@ $db=$conn_DB->conn_PDO();
           </div>
         </nav>
       </header>
-        <?php                
-    //if($db){
-//===ชื่อโรงพยาบาล
-                    $sql = "select * from  community order by comm_id limit 1";
-                    $conn_DB->imp_sql($sql);
-                    $resultComm=$conn_DB->select('');
-                    //$conn_DB->close_PDO();
-     //}                     
-                    if (!empty($resultComm[0]['logo'])) {
-                                    $pic = $resultComm[0]['logo'];
-                                    //$fol = $resultComm[0]['url']."/savingsgroup/logo/";
-                                    $fol = "logo/";
-                                } else {
-                                    $pic = 'agency.ico';
-                                    //$fol = $resultComm[0]['url']."/savingsgroup/images/";
-                                    $fol = "images/";
-                                }
-                    
-                                //$db->close();
-                    ?>
+        
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->

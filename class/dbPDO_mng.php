@@ -141,8 +141,12 @@ class dbPDO_mng extends ConnPDO_db{
     function listfield($table) {
         $this->db=$this->conn_PDO();
         $this->table=$table;
-        if(!empty($this->table)){$this->sql = "SELECT * FROM $this->table LIMIT 1 ";}
- try{
+        if(!empty($this->table)){
+            $this->sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '".$this->dbconfig["database"]."' AND TABLE_NAME = '$this->table'";
+            
+        }
+///////////////////////////select เฉพาะชื่อ field////////////////////////////////////
+            try{
         $data = $this->db->prepare($this->sql);
         $data->execute(); 
                 } catch(PDOException $e)
@@ -152,7 +156,11 @@ class dbPDO_mng extends ConnPDO_db{
 		}
                 if($data->rowCount()>0){
         while ($data_out =  $data->fetch(PDO::FETCH_ASSOC)) {
-            $var = array_keys($data_out);
+            if(!empty($this->table)){
+            $var[] = $data_out['COLUMN_NAME'];
+            }  else {
+             $var = array_keys($data_out);   
+            }
                 }}
         return $var;
     }
