@@ -11,8 +11,9 @@ class TablePDO extends dbPDO_mng {
     public function createPDO_TB(){
         $query=  $this->select('');
         $field=  $this->listfield('');
+        $code_color=array("0"=>"default","1"=>"success","2"=>"warning","3"=>"danger","4"=>"info");
         echo "<div class='table-responsive'>";
-        echo "<table id='example1' class='table table-bordered table-striped'>";
+        echo "<table id='example1' class='table table-bordered table-hover'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
@@ -22,7 +23,7 @@ class TablePDO extends dbPDO_mng {
         $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";echo "<td align='center'>".$C."</td>";
+            echo "<tr class='".$code_color[$I]."'>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 echo "<td align='center'>".$query[$c][$field[$i]]."</td>";
             }
@@ -41,8 +42,9 @@ class TablePDO extends dbPDO_mng {
         $this->process=$process;
         $query=  $this->select('');
         $field=  $this->listfield('');
+        $code_color=array("0"=>"default","1"=>"success","2"=>"warning","3"=>"danger","4"=>"info");
         echo "<div class='table-responsive'>";
-        echo "<table id='example1' class='table table-bordered table-striped'>";
+        echo "<table id='example1' class='table table-bordered table-hover'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
@@ -52,7 +54,7 @@ class TablePDO extends dbPDO_mng {
         $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";echo "<td align='center'>".$C."</td>";
+            echo "<tr class='".$code_color[$I]."'>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 if($i<($num_field-3)){
                  if($this->validateDate($query[$c][$field[$i]],'Y-m-d')){
@@ -95,8 +97,9 @@ class TablePDO extends dbPDO_mng {
          $this->process=$process;
         $query=  $this->select('');
         $field=  $this->listfield('');
+        $code_color=array("0"=>"default","1"=>"success","2"=>"warning","3"=>"danger","4"=>"info");
         echo "<div class='table-responsive'>";
-        echo "<table id='example1' class='table table-bordered table-striped'>";
+        echo "<table id='example1' class='table table-bordered table-hover'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
@@ -106,7 +109,7 @@ class TablePDO extends dbPDO_mng {
         $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";echo "<td align='center'>".$C."</td>";
+            echo "<tr class='".$code_color[$I]."'>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 if($i<($num_field-2)){
                if($this->validateDate($query[$c][$field[$i]],'Y-m-d')){
@@ -140,8 +143,9 @@ class TablePDO extends dbPDO_mng {
          $this->process=$process;
         $query=  $this->select('');
         $field=  $this->listfield('');
+        $code_color=array("0"=>"default","1"=>"success","2"=>"warning","3"=>"danger","4"=>"info");
         echo "<div class='table-responsive'>";
-        echo "<table id='example1' class='table table-bordered table-striped'>";
+        echo "<table id='example1' class='table table-bordered table-hover'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
@@ -151,7 +155,7 @@ class TablePDO extends dbPDO_mng {
         $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";echo "<td align='center'>".$C."</td>";
+            echo "<tr class='".$code_color[$I]."'>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 if($i<($num_field-1)){
                 if($this->validateDate($query[$c][$field[$i]],'Y-m-d')){
@@ -180,8 +184,9 @@ class TablePDO extends dbPDO_mng {
         $this->process=$process;
         $query=  $this->select('');
         $field=  $this->listfield('');
+        $code_color=array("0"=>"default","1"=>"success","2"=>"warning","3"=>"danger","4"=>"info");
         echo "<div class='table-responsive'>";
-        echo "<table id='example1' class='table table-bordered table-striped'>";
+        echo "<table id='example1' class='table table-bordered table-hover'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
         foreach ($this->column as $key => $value) {
@@ -191,7 +196,7 @@ class TablePDO extends dbPDO_mng {
         $c=0;$C=1;
         for ($I=0;$I<count($query);$I++){
             $num_field=  $this->count_field();
-            echo "<tr>";echo "<td align='center'>".$C."</td>";
+            echo "<tr class='".$code_color[$I]."'>";echo "<td align='center'>".$C."</td>";
             for ($i=0;$i<($num_field);$i++){
                 
                 if($i<($num_field-2)){
