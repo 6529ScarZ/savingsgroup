@@ -11,6 +11,7 @@ class TablePDO extends dbPDO_mng {
     public function createPDO_TB(){
         $query=  $this->select('');
         $field=  $this->listfield('');
+        echo "<div class='table-responsive'>";
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
@@ -34,12 +35,13 @@ class TablePDO extends dbPDO_mng {
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
-        echo "</tr></tfoot></table>";
+        echo "</tr></tfoot></table></div>";
     }
      public function createPDO_TB_mng($process){
         $this->process=$process;
         $query=  $this->select('');
         $field=  $this->listfield('');
+        echo "<div class='table-responsive'>";
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
@@ -87,12 +89,13 @@ class TablePDO extends dbPDO_mng {
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
-        echo "</tr></tfoot></table>";
+        echo "</tr></tfoot></table></div>";
     }
     public function createPDO_TB_PDF($process){
          $this->process=$process;
         $query=  $this->select('');
         $field=  $this->listfield('');
+        echo "<div class='table-responsive'>";
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
@@ -131,12 +134,13 @@ class TablePDO extends dbPDO_mng {
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
-        echo "</tr></tfoot></table>";
+        echo "</tr></tfoot></table></div>";
     }
     public function createPDO_TB_Detial($process){
          $this->process=$process;
         $query=  $this->select('');
         $field=  $this->listfield('');
+        echo "<div class='table-responsive'>";
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
@@ -170,12 +174,13 @@ class TablePDO extends dbPDO_mng {
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
-        echo "</tr></tfoot></table>";
+        echo "</tr></tfoot></table></div>";
     }
          public function createPDO_TB_edit($process){
         $this->process=$process;
         $query=  $this->select('');
         $field=  $this->listfield('');
+        echo "<div class='table-responsive'>";
         echo "<table id='example1' class='table table-bordered table-striped'>";
         echo "<thead><tr align='center' bgcolor='#898888'>";
         echo "<th align='center' width='5%'>ลำดับ</th>";
@@ -219,6 +224,6 @@ class TablePDO extends dbPDO_mng {
         foreach ($this->column as $key => $value) {
             echo "<th align='center'>$value</th>";
         }
-        echo "</tr></tfoot></table>";
+        echo "</tr></tfoot></table></div>";
     }
 }
