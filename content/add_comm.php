@@ -23,8 +23,8 @@
                                 $conn_DB2->conn_PDO();
     if(isset($method)=='edit'){
         $edit_id=filter_input(INPUT_GET,'id');
-        $sql= "select * from person p left outer join address a on p.person_id=a.person_id
-                where p.person_id='$edit_id'";
+        $sql= "select * from community comm left outer join budget bu on bu.comm_id=comm.comm_id
+                where comm.comm_id='$edit_id'";
                                 $conn_DB2->imp_sql($sql);
                                 $edit_person=$conn_DB2->select('');
                                 $conn_DB2->close_PDO();
@@ -75,7 +75,7 @@
                 $conn_DB2->imp_sql($sql);
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
         for($i=0;$i<count($result);$i++){
-                                if($result[$i]['person_id']==$resultGet[0]['Name']){$selected='selected';}else{$selected='';}
+                                if($result[$i]['person_id']==$edit_person[0]['authorized_person']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['person_id']."' $selected>".$result[$i]['fullname']." </option>";
 				 } ?>
 			 </select> 

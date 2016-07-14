@@ -43,23 +43,31 @@ if (empty($_SESSION['user'])) {
   </head>
 
     <?php
-    $person_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $comm_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     require '../class/Detial.php';
 $myconn=new Detial();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $db=$myconn->conn_PDO();
-$sql ="SELECT   p1.photo, p1.member_no, CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname, p1.cid,
-    IF (p1.sex=1,'ชาย','หญิง')AS sex_name,IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name,p1.birth,
-    CONCAT(TIMESTAMPDIFF(year,p1.birth,NOW()),' ปี ',
-timestampdiff(month,p1.birth,NOW())-(timestampdiff(year,p1.birth,NOW())*12),' เดือน ',
-FLOOR(TIMESTAMPDIFF(DAY,p1.birth,NOW())%30.4375),' วัน')AS age
-        FROM person p1
-        INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
-        WHERE p1.person_id='$person_id'";
+$sql ="SELECT comm.logo,comm.group_name,comm.reggov_code,comm.regist_date,comm.reg_gov_name,
+CONCAT(p2.pname,p1.fname,' ',p1.lname) AS fullname,
+concat(bu.budget,' บาท'),
+concat(((bu.budget+bu.receipt)-bu.charge),' บาท') AS total,
+concat('บ้านเลขที่ ',comm.hourseno,' บ้าน ',comm.village,' หมู่ ',comm.moo) as address,
+concat('ต. ',d1.DISTRICT_NAME,' อ. ',a2.AMPHUR_NAME,' จ. ',p3.PROVINCE_NAME,' ',comm.post) as address2,
+concat('โทร. ',comm.tel,' ',' E-mail - ',comm.email)connect,
+(SELECT CONCAT(p1.fname,'  ',p1.lname) FROM person p1 WHERE p1.person_id=comm.updater) up_man,
+concat(LEFT(comm.d_update,11),' ',RIGHT(comm.d_update,8))as update_date
+FROM community comm
+INNER JOIN budget bu ON bu.comm_id=comm.comm_id
+INNER JOIN person p1 ON p1.person_id=comm.authorized_person
+INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
+INNER JOIN district d1 ON d1.DISTRICT_ID=comm.district
+INNER JOIN amphur a2 ON a2.AMPHUR_ID=comm.amphur
+INNER JOIN province p3 ON p3.PROVINCE_ID=comm.province
+        WHERE comm.comm_id='$comm_id'";
 $myconn->imp_sql($sql);
-
    include_once ('../plugins/funcDateThai.php');
     ?>
     <body class="hold-transition skin-green fixed sidebar-mini">
@@ -80,8 +88,9 @@ $myconn->imp_sql($sql);
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                        $title=  array("หมายเลขสมาชิก","ชื่อ-สกุล","เลขบัตรประชาชน","เพศ","ประเภทสมาชิก","วันเกิด","อายุ");
-                        $myconn->create_Detial_photoLeft($title,"../photo/");
+                        $title=  array("ชื่อกลุ่มออมทรัพย์","เลขทะเบียน","วันจดทะเบียน","หน่วยงานผู้รับจดทะเบียน","ผู้รับมอบอำนาจทำการแทน",
+                            "เงินทุนตั้งต้น","เงินทุนทั้งหมดของกลุ่ม","ที่ตั้ง","","ติดต่อที่","ผู้ปรับปรุงข้อมูลล่าสุด","เวลาที่ปรับปรุง");
+                        $myconn->create_Detial_photoLeft($title,"../logo/");
                         $myconn->close_PDO();
                     ?>
                             </div>

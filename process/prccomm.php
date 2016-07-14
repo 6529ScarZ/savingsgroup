@@ -59,74 +59,71 @@
                     echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_comm'>";
                 }
             }
-        }elseif ($method == 'edit_person') {
-            $person_id=filter_input(INPUT_POST, 'edit_id',FILTER_SANITIZE_NUMBER_INT);
+        }elseif ($method == 'edit_comm') {
+            $comm_id=filter_input(INPUT_POST, 'edit_id',FILTER_SANITIZE_NUMBER_INT);
             if (trim($_FILES["image"]["name"] != "")) {
                 include 'class/file_upload.php';
                 $upload = new File_Upload("image", "logo");
                 $image = $upload->upload();
                 
-                $data = array($_POST['member_no'], $_POST['cid'], $_POST['pname'],
-                $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],$_POST['user_type'],
-                $_POST['mstatus'], $_POST['member_status'],  $_POST['regist_date'],
-                $image);
-                $field=array("member_no","cid","pname_id","fname","lname", "sex", "birth","user_type", "mstatus_id", "mem_status_id",
-                "regist_date", "photo");
+                $data = array($_POST['group_name'], $_POST['hourseno'], $_POST['village'],
+                $_POST['moo'], $_POST['district'], $_POST['amphur'], $_POST['province'],$_POST['post'],
+                $_POST['tel'], $_POST['email'], $_POST['reggov_code'],$_POST['regist_date'],$_POST['reg_gov_name'],
+                $_POST['authorized_person'],$image,$_POST['url'],$date->format('Y-m-d H:m:s'),$_SESSION['user']);
+                $field=array("group_name","hourseno","village","moo","district", "amphur", "province","post", "tel", 
+                    "email","reggov_code","regist_date","reg_gov_name","authorized_person", "logo","url","d_update","updater");
             } else {
                 $image = '';
                 
-                $data = array($_POST['member_no'], $_POST['cid'], $_POST['pname'],
-                $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],$_POST['user_type'],
-                $_POST['mstatus'], $_POST['member_status'],  $_POST['regist_date']);
-                $field=array("member_no","cid","pname_id","fname","lname","sex","birth","user_type","mstatus_id","mem_status_id",
-                "regist_date");
+                $data = array($_POST['group_name'], $_POST['hourseno'], $_POST['village'],
+                $_POST['moo'], $_POST['district'], $_POST['amphur'], $_POST['province'],$_POST['post'],
+                $_POST['tel'], $_POST['email'], $_POST['reggov_code'],$_POST['regist_date'],$_POST['reg_gov_name'],
+                $_POST['authorized_person'],$_POST['url'],$date->format('Y-m-d H:m:s'),$_SESSION['user']);
+                $field=array("group_name","hourseno","village","moo","district", "amphur", "province","post", "tel", 
+                    "email","reggov_code","regist_date","reg_gov_name","authorized_person","url","d_update","updater");
             }
             
-            $table = "person";
-            $where="person_id=:person_id";
-            $execute=array(':person_id' => $person_id);
-            $edit_person=$mydata->update($table, $data, $where, $field, $execute);
+            $table = "community";
+            $where="comm_id=:comm_id";
+            $execute=array(':comm_id' => $comm_id);
+            $edit_comm=$mydata->update($table, $data, $where, $field, $execute);
 
-            if ($edit_person=false) {
+            if ($edit_comm=false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
-                echo "<a href='index.php?page=content/add_person' >กลับ</a>";
+                echo "<a href='index.php?page=content/add_comm' >กลับ</a>";
             } else {
                               
-                     $data = array($_POST['hourseno'], $_POST['village'],
-                    $_POST['moo'], $_POST['district'], $_POST['amphur'], $_POST['province'],
-                    $_POST['post'], $_POST['tel'], $_POST['email'],$_SESSION['user'], $date->format('Y-m-d H:m:s'));
-                $table = "address";
-                $field=array("hourseno","village","moo","district","amphur","province","post","tel","email","updater","d_update");
-                $where="person_id=:person_id";
-                $execute=array(':person_id' => $person_id);
-                $edit_address = $mydata->update($table, $data, $where, $field, $execute);
+                     $data = array($comm_id, $_POST['budget']);
+                $table = "budget";
+                $field=array("comm_id","budget");
+                $where="comm_id=:comm_id";
+                $execute=array(':comm_id' => $comm_id);
+                $edit_budget = $mydata->update($table, $data, $where, $field, $execute);
                 
-                if ($edit_address=false) {
+                if ($edit_budget=false) {
                     echo "<span class='glyphicon glyphicon-remove'></span>";
-                    echo "<a href='index.php?page=content/add_person' >กลับ</a>";
+                    echo "<a href='index.php?page=content/add_comm' >กลับ</a>";
                 } else {
-                   echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_person'>";
+                   echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_comm'>";
                 }
             }
         }
     } elseif (null !== (filter_input(INPUT_GET, 'method'))) {
         $method = filter_input(INPUT_GET, 'method');
-        if($method=='delete_person') {
+        if($method=='delete_comm') {
             $delete_id=filter_input(INPUT_GET, 'del_id');
-            $table="person";
-            $table2="address";
-            $table3="saving_account";
-            $where="person_id=:delete_id";
-            $execute=  array(':delete_id' => $delete_id);
+            $table="community";
+            $table2="budget";
+            $where="comm_id=:comm_id";
+            $execute=  array(':comm_id' => $delete_id);
             $del=$mydata->delete($table, $where , $execute);
             $del2=$mydata->delete($table2, $where, $execute);
-            $del3=$mydata->delete($table3, $where, $execute);
         
-        if($del&$del2&$del3==false){
+        if($del&$del2==false){
         echo "<span class='glyphicon glyphicon-remove'></span>";
-        echo "<a href='index.php?page=content/add_person&id=$delete_id' >กลับ</a>";
+        echo "<a href='index.php?page=content/add_comm&id=$delete_id' >กลับ</a>";
     } else {
-        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_person'>";
+        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_comm'>";
         }
         }
     }
