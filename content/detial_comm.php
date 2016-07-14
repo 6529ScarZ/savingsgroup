@@ -58,7 +58,7 @@ concat('บ้านเลขที่ ',comm.hourseno,' บ้าน ',comm.vil
 concat('ต. ',d1.DISTRICT_NAME,' อ. ',a2.AMPHUR_NAME,' จ. ',p3.PROVINCE_NAME,' ',comm.post) as address2,
 concat('โทร. ',comm.tel,' ',' E-mail - ',comm.email)connect,
 (SELECT CONCAT(p1.fname,'  ',p1.lname) FROM person p1 WHERE p1.person_id=comm.updater) up_man,
-concat(LEFT(comm.d_update,11),' ',RIGHT(comm.d_update,8))as update_date
+concat('วันที่ ',DATE_FORMAT(LEFT(comm.d_update,11),'%d-%m-%Y'),' ',' เวลา ',RIGHT(comm.d_update,8))as update_date
 FROM community comm
 INNER JOIN budget bu ON bu.comm_id=comm.comm_id
 INNER JOIN person p1 ON p1.person_id=comm.authorized_person
