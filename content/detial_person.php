@@ -117,7 +117,7 @@ $myconn->imp_sql($sql);
                         $myconn->create_Detial_photo($title,"../photo/");
                         $myconn->close_PDO();*/
                     ?>
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <table class="table" width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                         <td colspan="4">หมายเลขสมาชิก :&nbsp;<b><?= $detial_person[0]['member_no']?></b>
                                         &nbsp;&nbsp;&nbsp; ประเภทสมาชิก :&nbsp;<b><?= $detial_person[0]['user_type_name']?></b></td>

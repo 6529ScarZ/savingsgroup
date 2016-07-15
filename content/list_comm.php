@@ -16,7 +16,7 @@ $column=array("ชื่อกลุ่ม","เลขทะเบียน","�
                             "column2"=>array(0=>"sub_column2_1", 1=>"sub_column2_2", 2=>"sub_column2_3"),
                             "column3"=>array(0=>"sub_column3_1", 1=>"sub_column3_2", 2=>"sub_column3_3")  
                 );  */              
-$mydata=new TablePDO($column);
+                $mydata=new TablePDO($column);
                 $read="connection/conn_DB.txt";
                 $mydata->para_read($read);
                 $db=$mydata->conn_PDO();
