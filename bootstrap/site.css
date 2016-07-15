@@ -1,0 +1,231 @@
+html,
+body {
+    height: 100%;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/ "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/ "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: "\e151";
+}
+
+a.desc:after {
+    content: "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view td {
+    white-space: nowrap;
+}
+
+.grid-view .filters input,
+.grid-view .filters select {
+    min-width: 50px;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+
+/* align the logout "link" (button in form) of the navbar */
+.nav > li > form {
+    padding: 8px;
+}
+
+.nav > li > form > button:hover {
+    text-decoration: none;
+}
+
+//เลือก style
+.tssb {font-family: 'Conv_ThaiSansNeue-SemiBold'!important;}
+.tsub {font-family: 'Conv_ThaiSansNeue-UltraBold'!important;}
+.tsb {font-family: 'Conv_ThaiSansNeue-Bold'!important;}
+.ths {font-family: 'Conv_THSarabunPSK'!important;}
+.thsb {font-family: 'Conv_THSarabunPSK-Bold'!important;}
+
+.bol {font-weight:bold;}
+
+.f10p {font-size:10px;}
+.f11p {font-size:11px;}
+.f12p {font-size:12px;}
+.f13p {font-size:13px;}
+.f14p {font-size:14px;}
+.f15p {font-size:15px;}
+.f16p {font-size:16px;}
+.f17p {font-size:17px;}
+.f18p {font-size:18px;}
+.f19p {font-size:19px;}
+.f20p {font-size:20px;}
+.f22p {font-size:22px;}
+.f24p {font-size:24px;}
+.f26p {font-size:26px;}
+.f28p {font-size:28px;}
+.f30p {font-size:30px;}
+.f32p {font-size:32px;}
+.f34p {font-size:34px;}
+.f36p {font-size:36px;}
+.f60p {font-size:60px;}
+
+@font-face {
+    font-family: 'Conv_ThaiSansNeue-UltraBold';
+    src: url('fonts/font-text/thaisanultrabold/ThaiSansNeue-UltraBold.eot');
+    src: local('☺'), url('fonts/font-text/thaisanultrabold/ThaiSansNeue-UltraBold.woff') format('woff'), url('fonts/font-text/thaisanultrabold/ThaiSansNeue-UltraBold.ttf') format('truetype'), url('fonts/font-text/thaisanultrabold/ThaiSansNeue-UltraBold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Conv_ThaiSansNeue-Bold';
+    src: url('fonts/font-text/ThaiSansNeue-Bold/ThaiSansNeue-Bold.eot');
+    src: local('☺'), url('fonts/font-text/ThaiSansNeue-Bold/ThaiSansNeue-Bold.woff') format('woff'), url('fonts/font-text/ThaiSansNeue-Bold/ThaiSansNeue-Bold.ttf') format('truetype'), url('fonts/font-text/ThaiSansNeue-Bold/ThaiSansNeue-Bold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'Conv_ThaiSansNeue-SemiBold';
+    src: url('fonts/font-text/ThaiSansNeue-SemiBold/thaisansneue-semibold.eot');
+    src: local('☺'), url('fonts/font-text/ThaiSansNeue-SemiBold/thaisansneue-semibold.woff') format('woff'), url('fonts/font-text/ThaiSansNeue-SemiBold/thaisansneue-semibold.ttf') format('truetype'), url('fonts/font-text/ThaiSansNeue-SemiBold/thaisansneue-semibold.svg') format('svg');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Conv_THSarabunPSK';
+    src: url('fonts/font-text/THSarabunPSK/THSarabunPSK.eot');
+    src: local('☺'), url('fonts/font-text/THSarabunPSK/THSarabunPSK.woff') format('woff'), url('fonts/font-text/THSarabunPSK/THSarabunPSK.ttf') format('truetype'), url('fonts/font-text/THSarabunPSK/THSarabunPSK.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Conv_THSarabunPSK-Bold';
+    src: url('fonts/font-text/THSarabunPSK-Bold/THSarabunPSK-Bold.eot');
+    src: local('☺'), url('fonts/font-text/THSarabunPSK-Bold/THSarabunPSK-Bold.woff') format('woff'), url('fonts/font-text/THSarabunPSK-Bold/THSarabunPSK-Bold.ttf') format('truetype'), url('fonts/font-text/THSarabunPSK-Bold/THSarabunPSK-Bold.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
