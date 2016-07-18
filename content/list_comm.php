@@ -6,7 +6,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                             <?php
-$sql="SELECT comm.group_name,comm.reggov_code,comm.regist_date,comm.reg_gov_name,comm.comm_id as id1,comm.comm_id as id2,comm.comm_id as id3
+$sql="SELECT comm.group_name,comm.reggov_code,comm.regist_date,comm.reg_gov_name,comm.comm_id as id,comm.comm_id as id2,comm.comm_id as id3
 FROM community comm";
 //หากเป็น TB_mng ต้องเพิ่ม id ต่อทาย 3 id เข้าไปด้วย 
 $column=array("ชื่อกลุ่ม","เลขทะเบียน","วันจดทะเบียน","หน่วยงานผู้รับจดทะเบียน","รายละเอียด","แก้ไข","ลบ");//หากเป็น TB_mng ต้องเพิ่ม แก้ไข,ลบเข้าไปด้วย 

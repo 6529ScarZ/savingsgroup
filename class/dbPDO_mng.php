@@ -161,8 +161,13 @@ class dbPDO_mng extends ConnPDO_db{
             }  else {
              $var = array_keys($data_out);   
             }
-                }}
-        return $var;
+                }
+              return $var;  
+            }  else {
+                echo 'DO NOT HAVE DATA.';
+              return false;  
+            }
+        
     }
     
     function count_field(){

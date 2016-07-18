@@ -39,7 +39,6 @@
                 $_POST['authorized_person'],$image,$_POST['url'],$date->format('Y-m-d H:m:s'),$_SESSION['user']);
             $table = "community";
             $add_comm = $mydata->insert($table, $data);
-            print_r($add_comm);
             if ($add_comm = false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='index.php?page=content/add_comm' >กลับ</a>";
