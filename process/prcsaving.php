@@ -71,7 +71,7 @@
                     echo "<a href='index.php?page=content/add_saving' >กลับ</a>";
                 } else {
                     ?>
-                    <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_saving&popup=true&popname=saving'>
+                    <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_saving&popup=true&popname=saving&id=<?= $preson_id?>'>
                 <?php
                 }
             }

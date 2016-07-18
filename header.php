@@ -103,11 +103,12 @@ $db=$conn_DB->conn_PDO();
                      if (null !==(filter_input(INPUT_GET, 'popup'))){
                       $popup=  filter_input(INPUT_GET, 'popup');
                       $popup_name=  filter_input(INPUT_GET, 'saving');
-                      $cod_popup="onload='window.open('content/pop_saving.php','','width=820,height=1000'); return false;'";
+                      $person_id= filter_input(INPUT_GET, 'id');
+                      $cod_popup="window.open('content/pop_saving.php?id=$person_id','','width=470,height=450'); return false;";
                      }
   
                       ?>
-  <body class="hold-transition skin-blue-light fixed sidebar-collapse sidebar-mini <?= $cod_popup?>">
+  <body class="hold-transition skin-blue-light fixed sidebar-collapse sidebar-mini" onload="<?= $cod_popup?>">
     <div class="wrapper">
 
       <header class="main-header">
@@ -239,19 +240,9 @@ $db=$conn_DB->conn_PDO();
                   <ul class="treeview-menu">
                       <li><a href="index.php?page=content/add_person"><i class="fa fa-circle-o text-red"></i> สมัคร/แก้ไขสมาชิก</a></li>
                 <!--<li><a href="JavaScript:doCallAjax('index.php?page=content/add_person')"><i class="fa fa-circle-o text-red"></i> สมัคร/แก้ไขสมาชิก</a></li>-->
-                <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
-                <li><a href="index.php?page=content/add_pay_order"><i class="fa fa-circle-o text-red"></i> จ่ายวัสดุ</a></li>
                 </ul>
                 </li>
-                <?php }?>
-                <li>
-                  <a href="#"><i class="fa fa-circle-o text-orange"></i> ระบบการส่งเงิน <i class="fa fa-angle-left pull-right"></i></a>
-                  <ul class="treeview-menu">
-                    <li><a href="index.php?page=content/add_borrow_order"><i class="fa fa-circle-o text-yellow"></i> การออม</a></li>
-                    <li><a href="index.php?page=content/add_pay_borrow"><i class="fa fa-circle-o text-yellow"></i> จ่ายคืนเงินกู้</a></li>
-                    </ul>
-                </li>
-                <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
+                         <?php if($_SESSION['Status']=='ADMIN' or ($_SESSION['Status']=='SUSER')){?>
                 <li>
                   <a href="#"><i class="fa fa-circle-o text-orange"></i> รายงาน <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
