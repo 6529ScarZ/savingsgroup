@@ -22,8 +22,8 @@
                                 $conn_DB2->para_read($read);
     if(isset($method)=='edit'){
         $edit_id=filter_input(INPUT_GET,'id');
-        $sql= "select * from person p left outer join address a on p.person_id=a.person_id
-                where p.person_id='$edit_id'";
+        $sql= "select * from loan_card 
+                where loan_id='$edit_id'";
                                 $conn_DB2->conn_PDO();
                                 //$db=$conn_DB1->getDb();
                                 $conn_DB2->imp_sql($sql);
@@ -43,7 +43,7 @@
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body">
-<form class="navbar-form" role="form" action='index.php?page=process/prcloan' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
+<form class="navbar-form" role="form" action='index.php?page=process/prcloanAgreement' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
                     <div class="form-group"> 
                 <label> สมาชิกที่ยื่นกู้ &nbsp;</label>
                         <select name="person_id" id="person_id" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
@@ -54,13 +54,13 @@
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
                 $conn_DB2->close_PDO();
         for($i=0;$i<count($result);$i++){
-                                if($result[$i]['person_id']==$resultGet[0]['Name']){$selected='selected';}else{$selected='';}
+                                if($result[$i]['person_id']==$edit_person[0]['person_id']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['person_id']."' $selected>".$result[$i]['fullname']." </option>";
 				 } ?>
 			 </select>             	</div>
                     <div class="form-group"> 
                     <label>&nbsp; สัญญาเงินกู้เลขที่ &nbsp;</label>
-                    <input value='<?php if(isset($method)=='edit'){ echo $edit_person[0]['cid'];}?>' type="text" class="form-control" name="loan_number" id="loan_number" placeholder="เลขที่สัญญาเงินกู้"  required>
+                    <input value='<?php if(isset($method)=='edit'){ echo $edit_person[0]['loan_number'];}?>' type="text" class="form-control" name="loan_number" id="loan_number" placeholder="เลขที่สัญญาเงินกู้"  required>
                     </div>
                     <div class="form-group">
          			<label>&nbsp; ประเภทเงินกู้ &nbsp;</label>
@@ -87,7 +87,7 @@
              	</div>
                 <div class="form-group">
                     <label>&nbsp; การนำไปใช้ประโยชน์ &nbsp;</label>
-                    <textarea class="form-control" name="note" id="note" cols="50" placeholder="รายละเอียดการนำเงินไปใช้ประโยชน์"><?php if(isset($method)=='edit'){ echo $edit_person[0]['loan_character'];}?></textarea>
+                    <textarea class="form-control" name="note" id="note" cols="50" placeholder="รายละเอียดการนำเงินไปใช้ประโยชน์"><?php if(isset($method)=='edit'){ echo $edit_person[0]['note'];}?></textarea>
                 </div><br><br>
                 <div class="form-group"> 
                 <label> วันที่เริ่มสัญญาเงินกู้ &nbsp;</label>
@@ -107,7 +107,7 @@
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
                 $conn_DB2->close_PDO();
         for($i=0;$i<count($result);$i++){
-                                if($result[$i]['person_id']==$resultGet[0]['bondsman_1']){$selected='selected';}else{$selected='';}
+                                if($result[$i]['person_id']==$edit_person[0]['bondsman_1']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['person_id']."' $selected>".$result[$i]['fullname']." </option>";
 				 } ?>
 			 </select>
@@ -122,7 +122,7 @@
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
                 $conn_DB2->close_PDO();
         for($i=0;$i<count($result);$i++){
-                                if($result[$i]['person_id']==$resultGet[0]['bondsman_2']){$selected='selected';}else{$selected='';}
+                                if($result[$i]['person_id']==$edit_person[0]['bondsman_2']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['person_id']."' $selected>".$result[$i]['fullname']." </option>";
 				 } ?>
 			 </select>
@@ -137,7 +137,7 @@
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
                 $conn_DB2->close_PDO();
         for($i=0;$i<count($result);$i++){
-                                if($result[$i]['person_id']==$resultGet[0]['bondsman_3']){$selected='selected';}else{$selected='';}
+                                if($result[$i]['person_id']==$edit_person[0]['bondsman_3']){$selected='selected';}else{$selected='';}
 				echo "<option value='".$result[$i]['person_id']."' $selected>".$result[$i]['fullname']." </option>";
 				 } ?>
 			 </select>
@@ -149,11 +149,11 @@
           </div>
 </div>
     <?php if(isset($method)=='edit'){?>
-    <input type="hidden" name="method" id="method" value="edit_person">
-    <input type="hidden" name="edit_id" id="edit_id" value="<?=$edit_person[0]['person_id'];?>">
+    <input type="hidden" name="method" id="method" value="edit_loanAgree">
+    <input type="hidden" name="edit_id" id="edit_id" value="<?=$edit_person[0]['loan_id'];?>">
    <input class="btn btn-warning" type="submit" name="Submit" id="Submit" value="แก้ไข">
    <?php }else{?> 
-   <input type="hidden" name="method" id="method" value="add_person">
+   <input type="hidden" name="method" id="method" value="add_loanAgree">
    <input class="btn btn-success" type="submit" name="Submit" id="Submit" value="บันทึก">
    <?php }
    $conn_DB2->close_PDO();?>
