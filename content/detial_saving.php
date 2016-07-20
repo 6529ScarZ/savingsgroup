@@ -79,7 +79,7 @@ WHERE p1.person_id='$person_id'";
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                        $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","เพศ","ประเภทสมาชิก","สถานะ","จำนวนเงินออมในบัญชี");
+                        $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","เพศ","ประเภทสมาชิก","สถานะ","เงินออมทั้งหมด");
                         $myconn->create_Detial_photoLeft($title,"../photo/");
                         $myconn->close_PDO();
                         ?>
@@ -105,7 +105,7 @@ WHERE p1.person_id='$person_id'";
                         $sql="SELECT receive_date,receive_money,CONCAT(p.fname,' ',p.lname) as updater ,saving_repay_id as id
                             FROM saving_repayment sr
 INNER JOIN person p ON p.person_id=sr.updater
-WHERE LEFT(sr.receive_date,4)=$year AND sr.person_id=$person_id ORDER BY sr.saving_repay_id ASC";
+WHERE LEFT(sr.receive_date,4)=$year AND sr.person_id=$person_id AND sr.saving_code=1 ORDER BY sr.saving_repay_id ASC";
                         $myconn->imp_sql($sql);
                         $myconn->select("");
                         $title= array("วันที่ฝาก","จำนวนเงิน","ผู้บันทึก","ใบฝาก");

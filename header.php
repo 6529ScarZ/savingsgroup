@@ -276,11 +276,11 @@ $db=$conn_DB->conn_PDO();
             <li class="treeview">
               <a href="#">
                   <img src="images/icon_set1/disc.ico" width="20">
-                <span>ข้อมูลต่างๆ</span>
+                <span>ระบบจ่ายเงิน</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                  <li><a href="index.php?page=content/add_company"><i class="fa fa-circle-o text-maroon"></i> ข้อมูลร้านค้า</a></li>
+                  <li><a href="index.php?page=content/add_loanAgreement"><i class="fa fa-circle-o text-maroon"></i> ทำสัญญากู้</a></li>
                 <li><a href="index.php?page=content/add_mate_type"><i class="fa fa-circle-o text-maroon"></i> ข้อมูลประเภทวัสดุ</a></li>
                 <li><a href="index.php?page=content/add_material"><i class="fa fa-circle-o text-maroon"></i> ข้อมูลวัสดุ</a></li>
                 <li>
