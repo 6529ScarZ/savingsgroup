@@ -100,7 +100,7 @@ $myconn2->close_PDO();
                 </div><!-- /.box-header -->
                 <div class="box-body" align='center'>
                     <form class="navbar-form" role="form" action='../process/prcloanAgreement.php' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
-                    <?php if($approve=='W'){?>
+                    <?php if($approve[0]['approve']=='W'){?>
                         <div class="well well-sm">
                 <b>ยืนยันการอนมัติเงินกู้</b>
                 <div class="form-group">
@@ -114,7 +114,7 @@ $myconn2->close_PDO();
                             "สมาชิกผู้ค้ำประกันคนที่ 1","สมาชิกผู้ค้ำประกันคนที่ 2","สมาชิกผู้ค้ำประกันคนที่ 3");
                         $myconn->create_Detial($title);
                         $myconn->close_PDO();
-                         if($approve=='W'){
+                         if($approve[0]['approve']=='W'){
                     ?>
                         <input type="hidden" name="check" value="plus">
                         <input type="hidden" name="method" value="comfirm_loanAgreement">
