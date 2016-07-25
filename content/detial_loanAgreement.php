@@ -99,16 +99,7 @@ $myconn2->close_PDO();
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body" align='center'>
-                    <form class="navbar-form" role="form" action='../process/prcloanAgreement.php' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
-                    <?php if($approve[0]['approve']=='W'){?>
-                        <div class="well well-sm">
-                <b>ยืนยันการอนมัติเงินกู้</b>
-                <div class="form-group">
-                    <input type="radio" name="confirm" id="confirm" value="Y" required>&nbsp;&nbsp; อนุมัติ<br> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="confirm" id="confirm" value="N" required>&nbsp;&nbsp; ไม่อนุมัติ
-                </div>
-                </div>
-                    <?php }
+                     <?php 
                         $title=  array("สัญญาเงินกู้เลขที่","หมายเลขสมาชิก","ชื่อ-นามสกุล","เลขบัตรประชาชน","ประเภทเงินกู้",
                             "ดอกเบี้ย (ร้อยละ/ปี)","วันที่เริ่มสัญญาเงินกู้","วันที่ครบกำหนดสัญญา","การนำไปใช้ประโยชน์",
                             "สมาชิกผู้ค้ำประกันคนที่ 1","สมาชิกผู้ค้ำประกันคนที่ 2","สมาชิกผู้ค้ำประกันคนที่ 3");
@@ -116,12 +107,27 @@ $myconn2->close_PDO();
                         $myconn->close_PDO();
                          if($approve[0]['approve']=='W'){
                     ?>
+                 <form class="navbar-form" role="form" action='../process/prcloanAgreement.php' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
+                        <div class="well well-sm">
+                <b>ยืนยันการอนมัติเงินกู้</b>
+                <div class="form-group">
+                    <input type="radio" name="confirm" id="confirm" value="Y" required>&nbsp;&nbsp; อนุมัติ<br> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="confirm" id="confirm" value="N" required>&nbsp;&nbsp; ไม่อนุมัติ
+                </div>
+                </div>
+                        <div class="well well-sm">
+                           <b>ระยะเวลา / จำนวนเงินที่ต้องชำระ</b>
+                <div class="form-group">
+                    <input type="text" name="month" id="month" placeholder="ระยะเวลาในการชำระคืน">&nbsp;&nbsp; ระยะเวลา (เดือน)<br><br> 
+                    <input type="text" name="period" id="period" placeholder="จำนวนเงินในแต่ละงวด">&nbsp;&nbsp; จำนวนเงิน (บาท)
+                </div> 
+                        </div>
                         <input type="hidden" name="check" value="plus">
                         <input type="hidden" name="method" value="comfirm_loanAgreement">
                         <input type="hidden" name="loan_id" value="<?= $loan_id?>">
                         <input type="submit" name="submit" class="btn btn-success" value="ยืนยันอนุมัติเงินกู้">
+                        </form>
                          <?php }?>
-                    </form>
                             </div>
                         </div>
 

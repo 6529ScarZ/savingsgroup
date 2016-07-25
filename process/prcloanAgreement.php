@@ -71,11 +71,13 @@ if($_POST['confirm']=='Y'){
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='../content/detial_loanAgreement.php?id=$loan_id' >กลับ</a>";
             } else {
+                $month= filter_input(INPUT_POST, 'month');
+                $period=  filter_input(INPUT_POST, 'period');
                   $sql="select * from loan_card where loan_id=$loan_id"; 
                   $mydata->imp_sql($sql);
                   $loan_card=$mydata->select('');
                   $data=array($loan_card[0]['person_id'],$loan_card[0]['loan_id'],$loan_card[0]['loan_total'],
-                      "",1);
+                      $month,$period,1);
                   $table="loan_account";
                   $add_loanAcc=$mydata->insert($table, $data);
                   $data2=array($loan_card[0]['loan_id'],$loan_card[0]['person_id'],0,1);
@@ -86,9 +88,9 @@ if($_POST['confirm']=='Y'){
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='../content/detial_loanAgreement.php?id=$loan_id' >กลับ</a>";
             } else {
-                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&?id=$loan_id'>";
+                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=$loan_id'>";
 }}  else {
-    echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&?id=$loan_id'>";
+                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=$loan_id'>";
 }
             }
     } elseif (null !== (filter_input(INPUT_GET, 'method'))) {
