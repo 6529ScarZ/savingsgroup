@@ -62,24 +62,26 @@ if (empty($_SESSION['user'])) {
 $myconn=new Detial();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
-$db=$myconn->conn_PDO();
+$myconn->conn_PDO();
 $sql ="SELECT lc.loan_number,p.member_no,CONCAT(p.fname,' ',p.lname) AS fullname,p.cid,
 concat(lc.loan_total,' ','บาท')as total,c.contract_name,c.witdawal,
 lc.loan_startdate,lc.loan_enddate,lc.note,
 (SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_1)bondsman_1,
 (SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_2)bondsman_2,
-(SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_3)bondsman_3
+(SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_3)bondsman_3,
+concat(la.month,' ','เดือน')as month,concat(la.period,' ','บาท')as period
 FROM loan_card lc 
 INNER JOIN person p ON p.person_id=lc.person_id
 INNER JOIN contract c ON c.contract_id=lc.contract_id
+INNER JOIN loan_account la ON la.loan_id=lc.loan_id
 WHERE lc.loan_id=$loan_id";
 $myconn->imp_sql($sql);
 $myconn2=new Detial();
 $myconn2->para_read($read);
-$db=$myconn2->conn_PDO();
-$sql2="select approve from loan_card WHERE loan_id=$loan_id";
+$myconn2->conn_PDO();
+$sql2="select check_pay from loan_account WHERE loan_id=$loan_id";
 $myconn2->imp_sql($sql2);
-$approve=$myconn2->select('');
+$check_pay=$myconn2->select('');
 $myconn2->close_PDO();
    include_once ('../plugins/funcDateThai.php');
     ?>
@@ -88,13 +90,13 @@ $myconn2->close_PDO();
             <div class="col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">ข้อมูลวัสดุ</h3>
+                        <h3 class="panel-title">จ่ายเงินกู้</h3>
                     </div>
                     <div class="panel-body">
                         <div class="col-lg-12">
-              <div class="box box-success box-solid">
+              <div class="box box-warning box-solid">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><img src='../images/icon_set2/dolly.ico' width='25'> ข้อมูลสมาชิก</h3>
+                  <h3 class="box-title"><img src='../images/icon_set2/dolly.ico' width='25'> ข้อมูลสัญญากู้</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                   </div><!-- /.box-tools -->
@@ -103,30 +105,16 @@ $myconn2->close_PDO();
                      <?php 
                         $title=  array("สัญญาเงินกู้เลขที่","หมายเลขสมาชิก","ชื่อ-นามสกุล","เลขบัตรประชาชน","จำนวนเงินกู้","ประเภทเงินกู้",
                             "ดอกเบี้ย (ร้อยละ/ปี)","วันที่เริ่มสัญญาเงินกู้","วันที่ครบกำหนดสัญญา","การนำไปใช้ประโยชน์",
-                            "สมาชิกผู้ค้ำประกันคนที่ 1","สมาชิกผู้ค้ำประกันคนที่ 2","สมาชิกผู้ค้ำประกันคนที่ 3");
+                            "สมาชิกผู้ค้ำประกันคนที่ 1","สมาชิกผู้ค้ำประกันคนที่ 2","สมาชิกผู้ค้ำประกันคนที่ 3","ระยะเวลาที่ต้องใช้คืน","จำนวนเงินงวดที่ต้องใช้คืน");
                         $myconn->create_Detial($title);
                         $myconn->close_PDO();
-                         if($approve[0]['approve']=='W'){
+                         if($check_pay[0]['check_pay']=='N'){
                     ?>
-                 <form class="navbar-form" role="form" action='../process/prcloanAgreement.php' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
-                        <div class="well well-sm">
-                <b>ยืนยันการอนมัติเงินกู้</b>
-                <div class="form-group">
-                    <input type="radio" name="confirm" id="confirm" value="Y" required>&nbsp;&nbsp; อนุมัติ<br> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="confirm" id="confirm" value="N" required>&nbsp;&nbsp; ไม่อนุมัติ
-                </div>
-                </div>
-                        <div class="well well-sm">
-                           <b>ระยะเวลา / จำนวนเงินที่ต้องชำระ</b>
-                <div class="form-group">
-                    <input type="text" name="month" id="month" placeholder="ระยะเวลาในการชำระคืน">&nbsp;&nbsp; ระยะเวลา (เดือน)<br><br> 
-                    <input type="text" name="period" id="period" placeholder="จำนวนเงินในแต่ละงวด">&nbsp;&nbsp; จำนวนเงิน (บาท)
-                </div> 
-                        </div>
+                    <form class="navbar-form" role="form" action='../process/prcloanAgreement.php' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
                         <input type="hidden" name="check" value="plus">
-                        <input type="hidden" name="method" value="comfirm_loanAgreement">
+                        <input type="hidden" name="method" value="pay_loan">
                         <input type="hidden" name="loan_id" value="<?= $loan_id?>">
-                        <input type="submit" name="submit" class="btn btn-success" value="ยืนยันอนุมัติเงินกู้">
+                        <input type="submit" name="submit" class="btn btn-success" value="จ่ายเงินกู้">
                         </form>
                          <?php }?>
                             </div>

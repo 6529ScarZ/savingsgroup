@@ -77,7 +77,7 @@ if($_POST['confirm']=='Y'){
                   $mydata->imp_sql($sql);
                   $loan_card=$mydata->select('');
                   $data=array($loan_card[0]['person_id'],$loan_card[0]['loan_id'],$loan_card[0]['loan_total'],
-                      $month,$period,1);
+                      $month,$period,'N',1);
                   $table="loan_account";
                   $add_loanAcc=$mydata->insert($table, $data);
                   $data2=array($loan_card[0]['loan_id'],$loan_card[0]['person_id'],0,1);
@@ -91,6 +91,35 @@ if($_POST['confirm']=='Y'){
                 echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=$loan_id'>";
 }}  else {
                 echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=$loan_id'>";
+}
+            }if ($method == 'pay_loan'){
+                $loan_id=filter_input(INPUT_POST, 'loan_id',FILTER_SANITIZE_NUMBER_INT);
+                $sql="select loan_total from loan_card where loan_id=$loan_id";
+                $mydata->imp_sql($sql);
+                $loan_total=$mydata->select('');
+                $sql2="select charge from budget";
+                $mydata->imp_sql($sql2);
+                $charge=$mydata->select('');
+                $total_charge=$charge[0]['charge']+$loan_total[0]['loan_total'];
+                $comm_id=1;
+                $data=array($total_charge);
+                $table="budget";
+                $where="comm_id=:comm_id";
+                $field=array("charge");
+                $execute=array(':comm_id' => $comm_id);
+                $up_budget=$mydata->update($table, $data, $where, $field, $execute);
+                
+                $data2=array("Y",$date->format('Y-m-d H:m:s'),$_SESSION['user']);
+                $table2="loan_account";
+                $field2=array("check_pay","pay_date","payer");
+                $where2="loan_id=:loan_id";
+                $execute2=array(':loan_id' => $loan_id);
+                $up_la=$mydata->update($table2, $data2, $where2, $field2, $execute2);
+                if ($up_budget and $up_la =false) {
+                echo "<span class='glyphicon glyphicon-remove'></span>";
+                echo "<a href='../content/detial_loan.php?id=$loan_id' >กลับ</a>";
+            } else {
+                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loan.php?kill=kill&id=$loan_id'>";
 }
             }
     } elseif (null !== (filter_input(INPUT_GET, 'method'))) {

@@ -246,8 +246,8 @@ $db=$conn_DB->conn_PDO();
                 <li>
                   <a href="#"><i class="fa fa-circle-o text-orange"></i> รายงาน <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                    <li><a href="index.php?page=content/add_pay_order&method=report"><i class="fa fa-circle-o text-yellow"></i> รายการขอเบิก-จ่าย</a></li>
-                    <li><a href="index.php?page=content/add_pay_borrow&method=report"><i class="fa fa-circle-o text-yellow"></i> รายการขอยืม-จ่าย</a></li>
+                    <li><a href="index.php?page=content/#"><i class="fa fa-circle-o text-yellow"></i> #</a></li>
+                    <li><a href="index.php?page=content/#"><i class="fa fa-circle-o text-yellow"></i> #</a></li>
                   </ul>
                 </li>
                 <?php }?>
@@ -281,13 +281,14 @@ $db=$conn_DB->conn_PDO();
               </a>
               <ul class="treeview-menu">
                   <li><a href="index.php?page=content/add_loanAgreement"><i class="fa fa-circle-o text-maroon"></i> ทำสัญญากู้</a></li>
-                <li><a href="index.php?page=content/add_mate_type"><i class="fa fa-circle-o text-maroon"></i> ข้อมูลประเภทวัสดุ</a></li>
-                <li><a href="index.php?page=content/add_material"><i class="fa fa-circle-o text-maroon"></i> ข้อมูลวัสดุ</a></li>
+                <li><a href="index.php?page=content/pay_loan"><i class="fa fa-circle-o text-maroon"></i> จ่ายเงินกู้</a></li>
                 <li>
                   <a href="#"><i class="fa fa-circle-o text-fuchsia"></i> รายงาน <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o text-fuchsia"></i> #</a></li>
-                    </ul>
+                    <li><a href="index.php?page=content/report_loanAgreement&method=approve"><i class="fa fa-circle-o text-fuchsia"></i> ผู้ทีได้รับอนุมัติกู้</a></li>
+                    <li><a href="index.php?page=content/report_loanAgreement&method=fail"><i class="fa fa-circle-o text-fuchsia"></i> ผู้ทีไม่ผ่านอนุมัติกู้</a></li>
+                  <li><a href="index.php?page=content/report_loanAgreement&method=pay"><i class="fa fa-circle-o text-fuchsia"></i> ผู้ทีได้รับเงินกู้แล้ว</a></li>  
+                  </ul>
                 </li>
               </ul>
             </li>
