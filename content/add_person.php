@@ -83,13 +83,18 @@
  				<select name="sex" id="sex" required  class="form-control"  onkeydown="return nextbox(event, 'birth');">
                                     <?php if(!empty($edit_person[0]['sex'])){
                                           if($edit_person[0]['sex']==1){?>
-                                 <option value='<?=$edit_person['sex'];?>'>ชาย</option>
-                                          <?php }else{?>
-                                 <option value='<?=$edit_person[0]['sex'];?>'>หญิง</option>
-                                    <?php }}?>
-				<option value=''> เพศ </option>
-                                <option value='1'> ชาย </option>
+                                <option value=''> เพศ </option>
+                                <option value='1' selected=""> ชาย </option>
                                 <option value='2'> หญิง </option>
+                                          <?php }elseif($edit_person[0]['sex']==2){?>
+                                <option value=''> เพศ </option>
+                                <option value='1'> ชาย </option>
+                                <option value='2' selected=""> หญิง </option>
+                                    <?php }}  else {?>
+                                <option value=''> เพศ </option>
+                                <option value='1'> ชาย </option>
+                                <option value='2'> หญิง </option>        
+<?php }?>
 				 </select>
 			 </div>
                 <div class="form-group"> 
