@@ -18,13 +18,16 @@
 </section>
 <?php
     if(isset($method)=='edit'){
-        $edit_id=filter_input(INPUT_GET,'id');
-        $sql= "select * from person p left outer join address a on p.person_id=a.person_id
-                where p.person_id='$edit_id'";
-                                $conn_DB1= new DbPDO_mng();
+        
+                                $conn_DB1= new EnDeCode();
                                 $read="connection/conn_DB.txt";
                                 $conn_DB1->para_read($read);
                                 $conn_DB1->conn_PDO();
+        $eid=filter_input(INPUT_GET,'id');
+        $edit_id=$conn_DB1->sslDec($eid);
+        $sql= "select * from person p left outer join address a on p.person_id=a.person_id
+                where p.person_id='$edit_id'";
+                               
                                 //$db=$conn_DB1->getDb();
                                 $conn_DB1->imp_sql($sql);
                                 $edit_person=$conn_DB1->select('');

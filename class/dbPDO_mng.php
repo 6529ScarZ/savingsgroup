@@ -184,7 +184,7 @@ class dbPDO_mng extends ConnPDO_db{
         return $num_fields;
     }
     
-    function validateDate($date, $format = 'Y-m-d H:i:s')
+    function validateDate($date, $format = 'Y-m-d H:i:s')//หาค่าว่าเป็นชนิด date หรือไม่
 {
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;

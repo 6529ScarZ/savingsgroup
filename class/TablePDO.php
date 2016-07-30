@@ -1,8 +1,8 @@
 <?php
-require 'dbPDO_mng.php';
+require 'EnDeCode.php';
 include 'plugins/funcDateThai.php';
 
-class TablePDO extends dbPDO_mng {
+class TablePDO extends EnDeCode {
 
     public $column;
 
@@ -89,7 +89,7 @@ class TablePDO extends dbPDO_mng {
                             }
                             if ($i = ($num_field - 2)) {
                                 echo "<td align='center'>"
-                                . "<a href='index.php?page=content/add_" . $this->process . "&method=edit&id=" . $query[$c][$field[$i]] . "'>"
+                                . "<a href='index.php?page=content/add_" . $this->process . "&method=edit&id=" . $this->sslEnc($query[$c][$field[$i]]) . "'>"
                                 . "<img src='images/icon_set1/document_edit.ico' width='25'></a></td>";
                             }
                             if ($i = ($num_field - 1)) {
