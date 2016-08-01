@@ -12,12 +12,12 @@
 </div>";
     if (isset($_POST['check']) == 'plus') {
         require '../class/dbPDO_mng.php';
-        $mydata= new DbPDO_mng();
+        $mydata= new EnDeCode();
         $read="../connection/conn_DB.txt";
         $mydata->para_read($read);
         $db=$mydata->conn_PDO();
     } else {
-        $mydata= new DbPDO_mng();
+        $mydata= new EnDeCode();
         $read="connection/conn_DB.txt";
         $mydata->para_read($read);
         $db=$mydata->conn_PDO();
@@ -72,7 +72,6 @@
                 include 'class/file_upload.php';
                 $upload = new File_Upload("image", "photo");
                 $image = $upload->upload();
-                
                 $data = array($_POST['member_no'], $_POST['cid'], $_POST['pname'],
                 $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],$_POST['user_type'],
                 $_POST['mstatus'], $_POST['member_status'],  $_POST['regist_date'],
@@ -81,7 +80,6 @@
                 "regist_date", "photo");
             } else {
                 $image = '';
-                
                 $data = array($_POST['member_no'], $_POST['cid'], $_POST['pname'],
                 $_POST['fname'], $_POST['lname'], $_POST['sex'], $_POST['birth'],$_POST['user_type'],
                 $_POST['mstatus'], $_POST['member_status'],  $_POST['regist_date']);
@@ -119,7 +117,8 @@
     } elseif (null !== (filter_input(INPUT_GET, 'method'))) {
         $method = filter_input(INPUT_GET, 'method');
         if($method=='delete_person') {
-            $delete_id=filter_input(INPUT_GET, 'del_id');
+            $del_id=filter_input(INPUT_GET, 'del_id');
+            $delete_id=$mydata->sslDec($del_id);
             $table="person";
             $table2="address";
             $table3="saving_account";

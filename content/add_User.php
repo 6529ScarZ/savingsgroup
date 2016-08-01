@@ -20,12 +20,13 @@ function fncSubmit()
             </ol>
 </section>
 			<?php 
-                $mydata=new DbPDO_mng();
+                $mydata=new EnDeCode();
                 $read='connection/conn_DB.txt';
                 $mydata->para_read($read);
                 
-			 if(null !==(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT))){ 
-			 $user_idGet=filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+			 if(null !==(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED))){ 
+			 $user_id=filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
+                         $user_idGet=$mydata->sslDec($user_id);
                           /*if(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_STRING)=='update_user'){
                              $status= filter_input(INPUT_GET, 'status', FILTER_SANITIZE_STRING);
                          }elseif(filter_input(INPUT_GET, 'method', FILTER_SANITIZE_STRING)=='edit'){

@@ -5,7 +5,7 @@ class File_Upload {
     public $folder;
     public $file;
 
-    public function __construct($file = '', $folder = '') {
+    public function __construct($file = null, $folder = null) {
         $this->file = $file;
         $this->folder = $folder;
     }

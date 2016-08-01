@@ -1,8 +1,8 @@
 <?php
 
-require 'dbPDO_mng.php';
+require 'EnDeCode.php';
 
-class Detial extends dbPDO_mng {
+class Detial extends EnDeCode {
     
     public function create_Detial($title) {
         $this->title = $title;

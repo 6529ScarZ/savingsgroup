@@ -96,7 +96,7 @@ class TablePDO extends EnDeCode {
 
                                 echo "<td align='center'>";
                                 ?>
-                            <a href="index.php?page=process/prc<?= $this->process ?>&method=delete_<?= $this->process ?>&del_id=<?= $query[$c][$field[$i]] ?>" onClick="return confirm('กรุณายืนยันการลบอีกครั้ง !!!')">
+                            <a href="index.php?page=process/prc<?= $this->process ?>&method=delete_<?= $this->process ?>&del_id=<?php echo $this->sslEnc($query[$c][$field[$i]]); ?>" onClick="return confirm('กรุณายืนยันการลบอีกครั้ง !!!')">
                                 <?php
                                 echo "<img src='images/icon_set1/document_delete.ico' width='25'></a></td>";
                             }
@@ -253,14 +253,14 @@ class TablePDO extends EnDeCode {
                                     } else {
                                         if ($i = ($num_field - 2)) {
                                             echo "<td align='center'>"
-                                            . "<a href='index.php?page=content/add_" . $this->process . "&method=edit&id=" . $query[$c][$field[$i]] . "'>"
+                                            . "<a href='index.php?page=content/add_" . $this->process . "&method=edit&id=" . $this->sslEnc($query[$c][$field[$i]]) . "'>"
                                             . "<img src='images/icon_set1/document_edit.ico' width='25'></a></td>";
                                         }
                                         if ($i = ($num_field - 1)) {
 
                                             echo "<td align='center'>";
                                             ?>
-                                            <a href="index.php?page=process/prc<?= $this->process ?>&method=delete_<?= $this->process ?>&del_id=<?= $query[$c][$field[$i]] ?>" onClick="return confirm('กรุณายืนยันการลบอีกครั้ง !!!')">
+                                            <a href="index.php?page=process/prc<?= $this->process ?>&method=delete_<?= $this->process ?>&del_id=<?php echo $this->sslEnc($query[$c][$field[$i]]); ?>" onClick="return confirm('กรุณายืนยันการลบอีกครั้ง !!!')">
                                                 <?php
                                                 echo "<img src='images/icon_set1/document_delete.ico' width='25'></a></td>";
                                             }
@@ -363,7 +363,7 @@ class TablePDO extends EnDeCode {
                             }
                             if ($i = ($num_field - 1)) {
                                 echo "<td align='center'>"
-                                . "<a href='index.php?page=content/add_" . $this->process . "&method=edit&id=" . $query[$c][$field[$i]] . "'>"
+                                . "<a href='index.php?page=content/add_" . $this->process . "&method=edit&id=" . $this->sslEnc($query[$c][$field[$i]]) . "'>"
                                 . "<img src='images/icon_set1/document_edit.ico' width='25'></a></td>";
                             }
                         }

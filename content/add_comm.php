@@ -17,20 +17,25 @@
             </ol>
 </section>
 <?php
-                                $conn_DB2= new DbPDO_mng();
+                                $conn_DB2= new EnDeCode();
                                 $read="connection/conn_DB.txt";
                                 $conn_DB2->para_read($read);
                                 $conn_DB2->conn_PDO();
     if(isset($method)=='edit'){
-        $edit_id=filter_input(INPUT_GET,'id');
+        $edit=filter_input(INPUT_GET,'id',FILTER_SANITIZE_ENCODED);
+        $edit_id=$conn_DB2->sslDec($edit);
         $sql= "select * from community comm left outer join budget bu on bu.comm_id=comm.comm_id
                 where comm.comm_id='$edit_id'";
                                 $conn_DB2->imp_sql($sql);
                                 $edit_person=$conn_DB2->select('');
                                 $conn_DB2->close_PDO();
     }
+    $sql= "select * from community comm ";
+                                $conn_DB2->imp_sql($sql);
+                                $num_comm=$conn_DB2->select('');
 ?>
 <section class="content">
+    <?php if(count($num_comm) == 0 or isset($method)=='edit'){?>
 <div class="row">
           <div class="col-lg-12">
               <?php if(empty($method)){$coll_bos='collapsed-box';}?>
@@ -132,9 +137,9 @@
    <input type="hidden" name="method" id="method" value="add_comm">
    <input class="btn btn-success" type="submit" name="Submit" id="Submit" value="บันทึก">
    <?php }
-   $conn_DB2->close_PDO();?>
+    $conn_DB2->close_PDO(); ?>
 </form>
                     <br><br>
-    <?php include 'content/list_comm.php';?>
+    <?php } include 'content/list_comm.php';?>
     </section>
          

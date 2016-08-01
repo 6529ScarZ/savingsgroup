@@ -11,13 +11,13 @@
 	  <a class='alert-link' target='_blank' href='#'><center>กำลังดำเนินการ</center></a> 
 </div>";
     if (isset($_POST['check']) == 'plus') {
-        require '../class/dbPDO_mng.php';
-        $mydata= new dbPDO_mng();
+        require '../class/EnDeCode.php';
+        $mydata= new EnDeCode();
         $read="../connection/conn_DB.txt";
         $mydata->para_read($read);
         $db=$mydata->conn_PDO();
     } else {
-        $mydata= new dbPDO_mng();
+        $mydata= new EnDeCode();
         $read="connection/conn_DB.txt";
         $mydata->para_read($read);
         $db=$mydata->conn_PDO();
@@ -110,7 +110,8 @@
     } elseif (null !== (filter_input(INPUT_GET, 'method'))) {
         $method = filter_input(INPUT_GET, 'method');
         if($method=='delete_comm') {
-            $delete_id=filter_input(INPUT_GET, 'del_id');
+            $del_id=filter_input(INPUT_GET, 'del_id');
+            $delete_id=$mydata->sslDec($del_id);
             $table="community";
             $table2="budget";
             $where="comm_id=:comm_id";

@@ -4,7 +4,7 @@ require_once 'class/TablePDO.php';
     //include 'class/'.$class_name.'.php';
 //}
 set_time_limit(0);
-$conn_DB= new DbPDO_mng();
+$conn_DB= new EnDeCode();
 $read="connection/conn_DB.txt";
 $conn_DB->para_read($read);
 $db=$conn_DB->conn_PDO();
@@ -103,7 +103,7 @@ $db=$conn_DB->conn_PDO();
                      if (null !==(filter_input(INPUT_GET, 'popup'))){
                       $popup=  filter_input(INPUT_GET, 'popup');
                       $popup_name=  filter_input(INPUT_GET, 'saving');
-                      $person_id= filter_input(INPUT_GET, 'id');
+                      $person_id= filter_input(INPUT_GET, 'id',FILTER_SANITIZE_ENCODED);
                       $cod_popup="window.open('content/pop_saving.php?id=$person_id','','width=470,height=450'); return false;";
                      }
   

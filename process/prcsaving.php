@@ -12,12 +12,12 @@
 </div>";
     if (isset($_POST['check']) == 'plus') {
         require '../class/dbPDO_mng.php';
-        $mydata = new dbPDO_mng();
+        $mydata = new EnDeCode();
         $read = "../connection/conn_DB.txt";
         $mydata->para_read($read);
         $db = $mydata->conn_PDO();
     } else {
-        $mydata = new dbPDO_mng();
+        $mydata = new EnDeCode();
         $read = "connection/conn_DB.txt";
         $mydata->para_read($read);
         $db = $mydata->conn_PDO();
@@ -71,7 +71,7 @@
                     echo "<a href='index.php?page=content/add_saving' >กลับ</a>";
                 } else {
                     ?>
-                    <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_saving&popup=true&popname=saving&id=<?= $preson_id?>'>
+    <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_saving&popup=true&popname=saving&id=<?php echo $mydata->sslEnc($preson_id);?>'>
                 <?php
                 }
             }

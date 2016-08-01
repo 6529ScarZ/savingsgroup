@@ -11,13 +11,13 @@
 	  <a class='alert-link' target='_blank' href='#'><center>กำลังดำเนินการ</center></a> 
 </div>";
     if (isset($_POST['check']) == 'plus') {
-        require '../class/dbPDO_mng.php';
-        $mydata= new DbPDO_mng();
+        require '../class/EnDeCode.php';
+        $mydata= new EnDeCode();
         $read="../connection/conn_DB.txt";
         $mydata->para_read($read);
         $db=$mydata->conn_PDO();
     } else {
-        $mydata= new DbPDO_mng();
+        $mydata= new EnDeCode();
         $read="connection/conn_DB.txt";
         $mydata->para_read($read);
         $db=$mydata->conn_PDO();
@@ -33,9 +33,9 @@
         $check_user=$mydata->insert($table, $data);
         if($check_user=false){
         echo "<span class='glyphicon glyphicon-remove'></span>";
-        echo "<a href='index.php?page=content/add_User' >กลับ</a>";
+        echo "<a href='?page=content/add_User&ss_id=".$_POST['name']."' >กลับ</a>";
     } else {
-        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_User'>";
+        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=?page=content/add_User'>";
         }
         }elseif ($method == 'update_user'){
         if(!empty($_POST['user_pwd'])){
@@ -57,24 +57,26 @@
         }
         if($check_user=false){
         echo "<span class='glyphicon glyphicon-remove'></span>";
-        echo "<a href='index.php?page=content/add_User' >กลับ</a>";
+        echo "<a href='?page=content/add_User&ss_id=".$_POST['name']."' >กลับ</a>";
     } else {
-        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_User&ss_id=".$_POST['name']."'>";
+        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=?page=content/add_User'>";
         }
     }
         
     } elseif (null !== (filter_input(INPUT_GET, 'method'))) {
         $method = filter_input(INPUT_GET, 'method');
+        $del_id=  filter_input(INPUT_GET, 'del_id');
+        $delete_id=$mydata->sslDec($del_id);
         if($method=='delete_user') {
         $table="member";
         $where="UserID=:UserID";
-        $execute=  array(':UserID' => $_GET['ID']);
+        $execute=  array(':UserID' => $delete_id);
         $del=$mydata->delete($table, $where, $execute);
         if($del=false){
         echo "<span class='glyphicon glyphicon-remove'></span>";
-        echo "<a href='index.php?page=content/add_User&id=".$_GET['id']."' >กลับ</a>";
+        echo "<a href='?page=content/add_User&id=".$delete_id."' >กลับ</a>";
     } else {
-        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_User'>";
+        echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=?page=content/add_User'>";
         }
     }
     }
