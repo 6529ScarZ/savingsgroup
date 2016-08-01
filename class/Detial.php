@@ -104,9 +104,13 @@ public function create_Detial_photo($title,$fol) {
                 echo "</tr></thead><tbody>";
                 $c = 0;
                 $C = 1;
+                $ii=0;
                 for ($I = 0; $I < count($query); $I++) {
                     $num_field = $this->count_field();
-                    echo "<tr class='" . $code_color[$I] . "'>";
+                    if($ii>=5){
+                        $ii=0;
+                    }
+                    echo "<tr class='" . $code_color[$ii] . "'>";
                     echo "<td align='center'>" . $C . "</td>";
                     for ($i = 0; $i < ($num_field); $i++) {
                         if ($i < ($num_field - 1)) {
@@ -128,6 +132,7 @@ public function create_Detial_photo($title,$fol) {
                             }
                             $c++;
                             $C++;
+                            $ii++;
                             echo "</tr>";
                         }
                         echo "</tbody></table></div>";

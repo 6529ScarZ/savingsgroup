@@ -102,9 +102,14 @@ $db=$conn_DB->conn_PDO();
   <?php
                      if (null !==(filter_input(INPUT_GET, 'popup'))){
                       $popup=  filter_input(INPUT_GET, 'popup');
+                      if(null !==(filter_input(INPUT_GET, 'saving'))){
                       $popup_name=  filter_input(INPUT_GET, 'saving');
-                      $person_id= filter_input(INPUT_GET, 'id',FILTER_SANITIZE_ENCODED);
-                      $cod_popup="window.open('content/pop_saving.php?id=$person_id','','width=470,height=450'); return false;";
+                      $id= filter_input(INPUT_GET, 'id',FILTER_SANITIZE_ENCODED);
+                      }elseif (null !==(filter_input(INPUT_GET, 'repay'))) {
+                      $popup_name=  filter_input(INPUT_GET, 'repay');
+                      $id= filter_input(INPUT_GET, 'id',FILTER_SANITIZE_ENCODED);    
+    }
+                      $cod_popup="window.open('content/pop_$popup_name.php?id=$id','','width=470,height=450'); return false;";
                      }
   
                       ?>
@@ -262,7 +267,7 @@ $db=$conn_DB->conn_PDO();
               </a>
               <ul class="treeview-menu">
                     <li><a href="?page=content/add_saving"><i class="fa fa-circle-o text-yellow"></i> การออม</a></li>
-                    <li><a href="?page=content/add_pay_borrow"><i class="fa fa-circle-o text-yellow"></i> จ่ายคืนเงินกู้</a></li>
+                    <li><a href="?page=content/add_repay"><i class="fa fa-circle-o text-yellow"></i> จ่ายคืนเงินกู้</a></li>
                 <!--<li>
                   <a href="#"><i class="fa fa-circle-o text-blue"></i> รายงาน <i class="fa fa-angle-left pull-right"></i></a>
                   <ul class="treeview-menu">
