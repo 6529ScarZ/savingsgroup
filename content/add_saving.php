@@ -85,6 +85,18 @@ from person p left outer join address a on p.person_id=a.person_id
          			<label> จำนวนเงินที่ต้องการออม &nbsp;</label>
                                 <input type="text" name="money" id="money" placeholder="จำนวนเงิน" required="">
                 </div>&nbsp;
+                <a class="" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample">
+  ค่าปรับ
+</a>
+</button>
+<div class="collapse" id="collapse">
+  <div class="well">
+    <div class="form-group">
+         			<label> ค่าปรับ &nbsp;</label>
+                                <input type="text" name="fine" id="fine" placeholder="จำนวนเงินค่าปรับ">
+                </div>
+  </div>
+</div>&nbsp;
                 <?php if(isset($method)=='edit'){?>
     <input type="hidden" name="method" id="method" value="saving">
     <input type="hidden" name="saving_id" id="saving_id" value="<?=$edit_person[0]['person_id'];?>">

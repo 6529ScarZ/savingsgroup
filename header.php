@@ -102,13 +102,8 @@ $db=$conn_DB->conn_PDO();
   <?php
                      if (null !==(filter_input(INPUT_GET, 'popup'))){
                       $popup=  filter_input(INPUT_GET, 'popup');
-                      if(null !==(filter_input(INPUT_GET, 'saving'))){
-                      $popup_name=  filter_input(INPUT_GET, 'saving');
-                      $id= filter_input(INPUT_GET, 'id',FILTER_SANITIZE_ENCODED);
-                      }elseif (null !==(filter_input(INPUT_GET, 'repay'))) {
-                      $popup_name=  filter_input(INPUT_GET, 'repay');
+                      $popup_name=  filter_input(INPUT_GET, 'popname');
                       $id= filter_input(INPUT_GET, 'id',FILTER_SANITIZE_ENCODED);    
-    }
                       $cod_popup="window.open('content/pop_$popup_name.php?id=$id','','width=470,height=450'); return false;";
                      }
   

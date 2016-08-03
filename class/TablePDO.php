@@ -73,7 +73,7 @@ class TablePDO extends EnDeCode {
                         echo "<td align='center'>" . DateThai1($query[$c][$field[$i]]) . "</td>";
                     } else { 
                         if($i==0){?>
-                        <td align='center'><a href="#" onClick="window.open('content/detial_<?= $this->process ?>.php?id=<?= $query[$c]['id'] ?>', '', 'width=650,height=400');
+<td align='center'><a href="#" onClick="window.open('content/detial_<?= $this->process ?>.php?id=<?php echo $this->sslEnc($query[$c]['id']);?>', '', 'width=650,height=400');
                                 return false;" title="รายละเอียด">  <?= $query[$c][$field[$i]]?></td>
                         <?php }  else {
                             echo "<td align='center'>" . $query[$c][$field[$i]] . "</td>";
@@ -82,7 +82,7 @@ class TablePDO extends EnDeCode {
                     if ($i = ($num_field - 3)) {
                         echo "<td align='center'>";
                         ?>
-                        <a href="#" onClick="window.open('content/detial_<?= $this->process ?>.php?id=<?= $query[$c][$field[$i]] ?>', '', 'width=650,height=400');
+<a href="#" onClick="window.open('content/detial_<?= $this->process ?>.php?id=<?php echo $this->sslEnc($query[$c][$field[$i]]);?>', '', 'width=650,height=400');
                                 return false;" title="รายละเอียด">     
                                 <?php
                                 echo "<img src='images/icon_set1/document.ico' width='25'></a></td>";
@@ -347,7 +347,7 @@ class TablePDO extends EnDeCode {
                         echo "<td align='center'>" . DateThai1($query[$c][$field[$i]]) . "</td>";
                     } else { 
                         if($i==0){?>
-                        <td align='center'><a href="#" onClick="window.open('content/detial_<?= $this->process ?>.php?id=<?= $query[$c]['id'] ?>', '', 'width=650,height=400');
+                        <td align='center'><a href="#" onClick="window.open('content/detial_<?= $this->process ?>.php?id=<?php echo $this->sslEnc($query[$c]['id']); ?>', '', 'width=650,height=400');
                                 return false;" title="รายละเอียด">  <?= $query[$c][$field[$i]]?></td>
                         <?php }  else {
                             echo "<td align='center'>" . $query[$c][$field[$i]] . "</td>";
@@ -356,7 +356,7 @@ class TablePDO extends EnDeCode {
                     if ($i = ($num_field - 2)) {
                         echo "<td align='center'>";
                         ?>
-                        <a href="#" onClick="window.open('content/detial_<?= $this->process ?>.php?id=<?= $query[$c][$field[$i]] ?>', '', 'width=650,height=400');
+                        <a href="#" onClick="window.open('content/detial_<?= $this->process ?>.php?id=<?php echo $this->sslEnc($query[$c][$field[$i]]); ?>', '', 'width=650,height=400');
                                 return false;" title="รายละเอียด">     
                                 <?php
                                 echo "<img src='images/icon_set1/document.ico' width='25'></a></td>";

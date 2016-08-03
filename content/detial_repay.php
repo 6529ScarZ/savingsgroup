@@ -43,20 +43,25 @@ if (empty($_SESSION['user'])) {
   </head>
 
     <?php
-    $person_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+    
 require '../class/Detial.php';
 $myconn=new Detial();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $db=$myconn->conn_PDO();
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
+$loan_id=$myconn->sslDec($id);
     $sql = "SELECT p1.photo, p1.member_no,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
 IF (p1.sex=1,'ชาย','หญิง')AS sex_name,IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,
-concat(s.saving_total,' ',' บาท') as total
+lc.loan_number,con.contract_name,CONCAT(con.witdawal,' ','ปี') AS witdawal,concat(lc.loan_total,' ',' บาท') as total,
+CONCAT(la.period,' ','บาท')AS period,CONCAT(la.month,' ','เดือน')AS month,CONCAT(la.loan_total,' ','บาท')AS loan_total
 FROM person p1
 INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
 INNER JOIN member_status m2 ON m2.mem_status_id=p1.mem_status_id
-INNER JOIN saving_account s on s.person_id=p1.person_id
-WHERE p1.person_id='$person_id'";
+INNER JOIN loan_card lc ON lc.person_id=p1.person_id
+INNER JOIN loan_account la ON la.loan_id=lc.loan_id
+INNER JOIN contract con ON con.contract_id=lc.contract_id
+WHERE lc.loan_id='$loan_id'";
     $myconn->imp_sql($sql);
     $myconn->select('');
    include_once ('../plugins/funcDateThai.php');
@@ -79,43 +84,76 @@ WHERE p1.person_id='$person_id'";
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                        $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","เพศ","ประเภทสมาชิก","สถานะ","เงินออมทั้งหมด");
+                        $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","เพศ","ประเภทสมาชิก","สถานะ","เลขที่เงินกู้","ประเภทเงินกู้","ดอกเบี้ยร้อยละ","ยอดเงินกู้ทั้งหมด",
+                            "ส่งงวดละ","ระยะเวลาที่ส่ง","ยอดเงินกู้ที่เหลือ");
                         $myconn->create_Detial_photoLeft($title,"../photo/");
                         $myconn->close_PDO();
                         ?>
-                    <div align="right">
-                    <li class="dropdown btn btn-success">
-                        <a href="#" class="dropdown-toggle" style="color: white" data-toggle="dropdown"> เลือกปี <b class="caret"></b></a>
-                            <ul class="dropdown-menu btn btn-success">
-                                   <li><a href="detial_saving.php?id=<?= $person_id?>&year=2016" style="color: white"> 2559</a></li>
-                                   <li><a href="detial_saving.php?id=<?= $person_id?>&year=2017" style="color: white"> 2560</a></li>
-                                   <li><a href="detial_saving.php?id=<?= $person_id?>&year=2018" style="color: white"> 2561</a></li>
-                                   <li><a href="detial_saving.php?id=<?= $person_id?>&year=2019" style="color: white"> 2562</a></li>
-                                   <li><a href="detial_saving.php?id=<?= $person_id?>&year=2020" style="color: white"> 2563</a></li>
-                                   <li><a href="detial_saving.php?id=<?= $person_id?>&year=2021" style="color: white"> 2564</a></li>
-                            </ul> 
-                    </li></div><br>
+                     <br>
                     <?php
                         $myconn->conn_PDO();
-                        if(!null==filter_input(INPUT_GET, 'year')){
-                        $year=  filter_input(INPUT_GET, 'year');
-                        }  else {
-                        $year=  date('Y');    
-                            }
-                        $sql="SELECT receive_date,receive_money,CONCAT(p.fname,' ',p.lname) as updater ,saving_repay_id as id
-                            FROM saving_repayment sr
-INNER JOIN person p ON p.person_id=sr.updater
-WHERE LEFT(sr.receive_date,4)=$year AND sr.person_id=$person_id AND sr.saving_code=1 ORDER BY sr.saving_repay_id ASC";
+                        $sql="SELECT sr.receive_date FROM saving_repayment sr WHERE sr.loan_id=$loan_id GROUP BY sr.receive_date ORDER BY sr.saving_repay_id ASC";
                         $myconn->imp_sql($sql);
-                        $myconn->select("");
-                        $title= array("วันที่ฝาก","จำนวนเงิน","ผู้บันทึก","ใบฝาก");
-                        $process="saving";
-                        $myconn->create_DetialList_PDF($title,$process);
+                        $date=$myconn->select("");
+                        $title=  array("วันที่จ่าย","จำนวนเงินต้น","ดอกเบี้ย","ค่าปรับ","ผู้บันทึก","ใบเสร็จ");
+                        $code_color = array("0" => "default", "1" => "success", "2" => "warning", "3" => "danger", "4" => "info");
+                echo "<div align='center' class='table-responsive'>";
+                echo "<table class='table table-hover'>";
+                echo "<thead><tr align='center'>";
+                echo "<th align='center' width='5%'>ลำดับ</th>";
+                foreach ($title as $key => $value) {
+                    echo "<th align='center'>$value</th>";
+                }
+                echo "</tr></thead><tbody>";
+                $ii=0;
+                $C = 1;
+                        for($c=0;$c<count($date);$c++){
+                        $loan_date[$c]=$date[$c]['receive_date'];
+                        $sql="SELECT receive_date,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=2 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))loan_budget,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=3 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))witdawal,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=4 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))fine,
+CONCAT(p.fname,' ',p.lname) as updater ,loan_id as id
+FROM saving_repayment sr
+INNER JOIN person p ON p.person_id=sr.updater
+WHERE sr.loan_id=$loan_id AND sr.saving_code!=1 AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]') 
+GROUP BY receive_date
+ORDER BY sr.saving_repay_id ASC";
+                        
+                        $myconn->imp_sql($sql);
+                        $loan_data=$myconn->select("");
+                        $field = array_keys($loan_data[0]);
+                 
+                    if($ii>=5){
+                        $ii=0;
+                    }
+                    echo "<tr class='" . $code_color[$ii] . "'>";
+                    echo "<td align='center'>" . $C . "</td>";
+                    for ($i = 0; $i < count($field); $i++) {
+                        if ($i < (count($field)-1)) {
+                            if ($myconn->validateDate($loan_data[0][$field[$i]], 'Y-m-d')) {
+                                echo "<td align='center'>" . DateThai1($loan_data[0][$field[$i]]) . "</td>";
+                            } else {
+                                echo "<td align='center'>" . $loan_data[0][$field[$i]] . "</td>";
+                            }
+                        } else{
+                            if ($i = (count($field))-1) {?>
+                                        <td align='center'>
+                                    <a href="#" onClick="window.open('content/repay_PDF.php?id=<?= $loan_data[0][$field[$i]] ?>', '', 'width=550,height=700');
+                                            return false;" title="รายละเอียด">     
+                                        <img src='../images/printer.ico' width='25'></a></td>
+                                 <?php  }
+                                }
+                    }
+                            
+                            $C++;
+                            $ii++;
+                            echo "</tr>";
+                        }
+                        echo "</tbody></table></div>";
                     ?>
                             </div>
                         </div>
-
-              
                         </div>
                     </div>
                 </div>

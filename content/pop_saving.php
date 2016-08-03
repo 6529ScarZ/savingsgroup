@@ -49,7 +49,7 @@ $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $db=$myconn->conn_PDO();
     $person = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
-    echo $person_id=$myconn->sslDec($person);
+    $person_id=$myconn->sslDec($person);
 
     $sql = "SELECT p1.member_no,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
 IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,
@@ -73,7 +73,7 @@ WHERE p1.person_id='$person_id' order by sr.saving_repay_id desc limit 1";
                   <h3 class="box-title">การฝากเงินออมเสร็จสมบูรณ์</h3>
                     </div>
                     <div class="box-body">
-                    <?php echo $person_id.'4545';
+                    <?php 
                         $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","ประเภทสมาชิก","สถานะ","จำนวนเงินออมในบัญชี",
                             "วันที่ฝาก","จำนวนเงินที่ออม","ผู้บันทึกการออม");
                         $myconn->create_Detial($title);

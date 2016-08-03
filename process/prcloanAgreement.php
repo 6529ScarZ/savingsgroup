@@ -1,13 +1,13 @@
 <?php 
 if (isset($_POST['check']) == 'plus') {
     session_start(); 
-        require '../class/dbPDO_mng.php';
-        $mydata= new DbPDO_mng();
+        require '../class/EnDeCode.php';
+        $mydata= new EnDeCode();
         $read="../connection/conn_DB.txt";
         $mydata->para_read($read);
         $db=$mydata->conn_PDO();
     } else {
-        $mydata= new DbPDO_mng();
+        $mydata= new EnDeCode();
         $read="connection/conn_DB.txt";
         $mydata->para_read($read);
         $db=$mydata->conn_PDO();
@@ -28,6 +28,13 @@ if (isset($_POST['check']) == 'plus') {
     if (null !== (filter_input(INPUT_POST, 'method'))) {
         $method = filter_input(INPUT_POST, 'method');
         if ($method == 'add_loanAgree') {
+            $sql = "select status from loan_account where person_id=".$_POST['person_id']." and status=1";
+            $mydata->imp_sql($sql);
+             $check_status = $mydata->select('');
+             if(count($check_status)!=0){
+                echo "<span class='glyphicon glyphicon-remove'></span>";
+                echo "<a href='index.php?page=content/add_loanAgreement' >*** มีรายการกู้ที่ยังชำระไม่หมด กรุณาชำระให้หมดก่อนครับ ***</a>"; 
+             }  else {
             $data = array($_POST['person_id'], $_POST['contract_id'], $_POST['loan_number'],
                 $_POST['loan_startdate'], $_POST['loan_enddate'], $_POST['loan_total'], $_POST['loan_character'],$_POST['note'],
                 $_POST['bondsman_1'], $_POST['bondsman_2'], $_POST['bondsman_3'],'W',$date->format('Y-m-d H:m:s'),$_SESSION['user']);
@@ -39,7 +46,7 @@ if (isset($_POST['check']) == 'plus') {
                 echo "<a href='index.php?page=content/add_loanAgreement' >กลับ</a>";
             } else {
                     echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_loanAgreement'>";
-                }
+             }}
         }elseif ($method == 'edit_loanAgree') {
             $loan_id=filter_input(INPUT_POST, 'edit_id',FILTER_SANITIZE_NUMBER_INT);
                 
@@ -58,7 +65,16 @@ if (isset($_POST['check']) == 'plus') {
                    echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_loanAgreement'>";
                 }
             }elseif ($method == 'comfirm_loanAgreement') {
-            $loan_id=filter_input(INPUT_POST, 'loan_id',FILTER_SANITIZE_NUMBER_INT);
+                $loan_id=filter_input(INPUT_POST, 'loan_id',FILTER_SANITIZE_NUMBER_INT);
+                $sql = "select status from loan_account where person_id=
+(SELECT person_id FROM loan_card WHERE loan_id=$loan_id) and status=1";
+            $mydata->imp_sql($sql);
+             $check_status = $mydata->select('');
+             if(count($check_status)!=0){
+                echo "<span class='glyphicon glyphicon-remove'></span>";?>
+<center><a href="#" class="btn btn-danger" onclick="javascript:window.parent.opener.document.location.href='../?page=content/add_loanAgreement'; window.close();">*** มีรายการกู้ที่ยังชำระไม่หมด กรุณาชำระให้หมดก่อนครับ ***</a></center> 
+            <?php }  else {
+            
                 
             $data = array($_POST['confirm'],$date->format('Y-m-d H:m:s'),$_SESSION['user']);
             $table = "loan_card";
@@ -92,7 +108,7 @@ if($_POST['confirm']=='Y'){
 }}  else {
                 echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=$loan_id'>";
 }
-            }if ($method == 'pay_loan'){
+             } }elseif ($method == 'pay_loan'){
                 $loan_id=filter_input(INPUT_POST, 'loan_id',FILTER_SANITIZE_NUMBER_INT);
                 $sql="select loan_total from loan_card where loan_id=$loan_id";
                 $mydata->imp_sql($sql);
@@ -125,7 +141,8 @@ if($_POST['confirm']=='Y'){
     } elseif (null !== (filter_input(INPUT_GET, 'method'))) {
         $method = filter_input(INPUT_GET, 'method');
         if($method=='delete_loanAgreement') {
-            $delete_id=filter_input(INPUT_GET, 'del_id');
+            $del_id=filter_input(INPUT_GET, 'del_id');
+            $delete_id=$mydata->sslDec($del_id);
             $table="loan_card";
             $where="loan_id=:loan_id";
             $execute=  array(':loan_id' => $delete_id);

@@ -9,7 +9,7 @@
 $sql="SELECT p.member_no,CONCAT(p2.pname,p.fname,' ',p.lname) AS fullname,
 if(p.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type    
 ,m.mem_status,
-p.person_id as id,la.loan_id as id2
+la.loan_id as id,la.loan_id as id2
 FROM person p
 INNER JOIN preface p2 ON p.pname_id=p2.pname_id
 INNER JOIN member_status m ON m.mem_status_id=p.mem_status_id

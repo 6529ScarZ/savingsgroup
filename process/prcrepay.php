@@ -49,10 +49,10 @@
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='index.php?page=content/add_repay' >กลับ</a>";
             } else{
-                if(NULL !== filter_input(INPUT_POST, 'fine')){
+                if(filter_input(INPUT_POST, 'fine') !== ''){
                ////////////////add statement ค่าปรับ//////////////////  
                 
-               $fine=  filter_input(INPUT_POST, 'fine');
+                $fine = filter_input(INPUT_POST, 'fine');
                 $data = array($preson_id, null, 4, $loan_id, $fine, $date->format('Y-m-d')
                     , $date->format('Y-m-d H:m:s'), $_SESSION['user']);
             $table = "saving_repayment";
@@ -102,7 +102,7 @@
                 $mydata->imp_sql($sql);
                 $interest_total = $mydata->select('');
                 $interest_total_money = $interest_total[0]['interest_total'] + $witdawal;
-                if($interest_total_money<=0){
+                if($loan_total_money<=0){
                 $data = array($interest_total_money,0);
                 $field = array("interest_total","status");    
                 }else{

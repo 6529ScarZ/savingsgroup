@@ -43,13 +43,15 @@ if (empty($_SESSION['user'])) {
   </head>
 
     <?php
-    $comm_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+    
 
     require '../class/Detial.php';
 $myconn=new Detial();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $db=$myconn->conn_PDO();
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
+$comm_id=$myconn->sslDec($id);
 $sql ="SELECT comm.logo,comm.group_name,comm.reggov_code,comm.regist_date,comm.reg_gov_name,
 CONCAT(p2.pname,p1.fname,' ',p1.lname) AS fullname,
 concat(bu.budget,' บาท'),
