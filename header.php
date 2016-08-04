@@ -8,11 +8,14 @@ $conn_DB= new EnDeCode();
 $read="connection/conn_DB.txt";
 $conn_DB->para_read($read);
 $db=$conn_DB->conn_PDO();
+if($db != FALSE){
 //$db=$conn_DB->getDb();
 //===ชื่อโรงพยาบาล
                     $sql = "select * from  community order by comm_id limit 1";
                     $conn_DB->imp_sql($sql);
                     $resultComm=$conn_DB->select('');
+                    
+}
                     if (!empty($resultComm[0]['logo'])) {
                                     $pic = $resultComm[0]['logo'];
                                     $fol = "logo/";
@@ -20,6 +23,7 @@ $db=$conn_DB->conn_PDO();
                                     $pic = 'agency.ico';
                                     $fol = "images/";
                                 }
+
                     ?>
 <!DOCTYPE html>
 <html>

@@ -26,11 +26,12 @@ if (isset($_SESSION['user'])) {
             $read = "connection/conn_DB.txt";
             $conn_DB1->para_read($read);
             $conn_DB1->conn_PDO();
+            $db=$conn_DB1->getDb();
             $conn_DB1->imp_sql($sql);
             $comm = $conn_DB1->select('');
             $conn_DB1->close_PDO();
             ?>
-            <a href="#" class="btn btn-success" onclick="window.open('content/detial_comm.php?id=<?= $comm[0]['comm_id'] ?>', '', 'width=800,height=650');
+            <a href="#" class="btn btn-success" onclick="window.open('content/detial_comm.php?id=<?php echo $conn_DB1->sslEnc($comm[0]['comm_id']);?>', '', 'width=800,height=650');
                     return false;">
                 รายละเอียดกลุ่มออมทรัพย์</a> 
         </section>

@@ -37,6 +37,7 @@ class connPDO_db extends read_conn{
     catch(PDOException $e) {  
 
      echo 'ERROR: ' . $e->getMessage();
+     return $this->db=FALSE;
     }   
     }
     public function getDb() {
