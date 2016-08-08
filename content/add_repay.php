@@ -113,7 +113,6 @@ WHERE la.loan_id='$edit_id' and la.check_pay='Y' AND la.`status`=1";
                 <a class="" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample">
   ค่าปรับ
 </a>
-</button>
 <div class="collapse" id="collapse">
   <div class="well">
     <div class="form-group">

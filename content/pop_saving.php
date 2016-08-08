@@ -60,7 +60,7 @@ INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
 INNER JOIN member_status m2 ON m2.mem_status_id=p1.mem_status_id
 INNER JOIN saving_account s on s.person_id=p1.person_id
 INNER JOIN saving_repayment sr on sr.person_id=s.person_id
-WHERE p1.person_id='$person_id' order by sr.saving_repay_id desc limit 1";
+WHERE p1.person_id='$person_id' and sr.saving_code=1 order by sr.saving_repay_id desc limit 1";
     $myconn->imp_sql($sql);
     $myconn->select('');
    include_once ('../plugins/funcDateThai.php');

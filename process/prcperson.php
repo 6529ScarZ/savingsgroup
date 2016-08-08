@@ -92,6 +92,25 @@
             $execute=array(':person_id' => $person_id);
             $edit_person=$mydata->update($table, $data, $where, $field, $execute);
 
+            if(filter_input(INPUT_POST, 'saving_money') !== ''){
+               ////////////////add ยอดเงินฝาก//////////////////  
+            $sql="select saving_total from saving_account where person_id=:person_id";
+            $execute=array(':person_id' => $person_id);
+            $mydata->imp_sql($sql);
+            $saving_total=$mydata->select($execute);
+            $saving_money = filter_input(INPUT_POST, 'saving_money');
+            $total_saving_money=$saving_money+$saving_total[0]['saving_total'];
+            $data = array($total_saving_money);
+            $field=array("saving_total");
+            $table = "saving_account";
+            $where="person_id=:person_id";
+            $execute=array(':person_id' => $person_id);
+            $edit_saving_money = $mydata->update($table, $data, $where, $field, $execute);
+            if ($edit_saving_money = false) {
+                echo "<span class='glyphicon glyphicon-remove'></span>";
+                echo "<a href='index.php?page=content/add_person' >กลับ</a>";
+            }
+            }
             if ($edit_person=false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='index.php?page=content/add_person' >กลับ</a>";

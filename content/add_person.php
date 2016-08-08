@@ -193,6 +193,22 @@
                 <label> รูปถ่าย &nbsp;</label>
                 <input type="file" name="image"  id="image" class="form-control" onkeydown="return nextbox(event, 'Submit')"/>
                     </div>
+ <?php if(isset($method)=='edit'){?>  
+                <br><br>
+                <div class="col-lg-3">
+                <a class="btn btn-success btn-sm" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample">
+  เพิ่มเงินฝาก
+</a>
+                
+<div class="collapse" id="collapse">
+  <div class="well well-sm">
+    <div class="form-group">
+         			<label> เงินฝาก &nbsp;</label>
+                                <input type="text" name="saving_money" id="saving_money" placeholder="จำนวนเงินฝาก">
+                </div>
+  </div></div>
+</div>&nbsp;
+ <?php }?>    
                 </div>
                 </div>
 

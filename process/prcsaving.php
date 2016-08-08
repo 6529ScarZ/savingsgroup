@@ -36,6 +36,23 @@
                     , $date->format('Y-m-d H:m:s'), $_SESSION['user']);
             $table = "saving_repayment";
             $add_saving = $mydata->insert($table, $data);
+            if(filter_input(INPUT_POST, 'fine') !== ''){
+               ////////////////add statement ค่าปรับ//////////////////  
+                
+                $fine = filter_input(INPUT_POST, 'fine');
+                $data = array($preson_id, $account[0]['account_id'], 4, NULL, $fine, $date->format('Y-m-d')
+                    , $date->format('Y-m-d H:m:s'), $_SESSION['user']);
+            $table = "saving_repayment";
+            $add_fine = $mydata->insert($table, $data);
+            if ($add_fine = false) {
+                echo "<span class='glyphicon glyphicon-remove'></span>";
+                echo "<a href='index.php?page=content/add_repay' >กลับ</a>";
+            }else{
+                $total_money=$money+$fine;
+            }
+            } else {
+                $total_money=$money;
+            }
             if ($add_saving = false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
                 echo "<a href='index.php?page=content/add_saving' >กลับ</a>";
@@ -47,7 +64,7 @@
                 $sql = "select receipt from budget where comm_id=$Comm";
                 $mydata->imp_sql($sql);
                 $receipt = $mydata->select('');
-                $receipt_money = $receipt[0]['receipt'] + $money;
+                $receipt_money = $receipt[0]['receipt'] + $total_money;
                 $data = array($receipt_money);
                 $table = "budget";
                 $field = array("receipt");
