@@ -14,7 +14,9 @@
                             }elseif ($method=='pay') {
                              $code="INNER JOIN loan_account la on la.loan_id=lc.loan_id
                                     where la.check_pay='Y'";
-                            } 
+                            }elseif ($method=='edit') { 
+                              $code="where lc.approve='W'";  
+                            }
                             $sql="SELECT lc.loan_number,CONCAT(p.fname,' ',p.lname) AS fullname,lc.loan_startdate,lc.loan_enddate,
 lc.loan_id AS id
 FROM loan_card lc 

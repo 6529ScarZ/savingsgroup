@@ -41,51 +41,32 @@ if (empty($_SESSION['user'])) {
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
   </head>
-<script language="JavaScript" type="text/javascript">
-            var StayAlive = 1; // เวลาเป็นวินาทีที่ต้องการให้ WIndows เปิดออก 
-            function KillMe()
-            {
-                setTimeout("self.close()", StayAlive * 1000);
-            }
-        </script>
-    <?php
-    if(!null==  filter_input(INPUT_GET, 'kill')){
-        $body="KillMe();
-            self.focus();
-            window.opener.location.reload();";
-    }  else {
-        $body="";
-}
-    
 
-    require '../class/Detial.php';
+    <?php
+    
+require '../class/Detial.php';
 $myconn=new Detial();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $db=$myconn->conn_PDO();
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
 $loan_id=$myconn->sslDec($id);
-$sql ="SELECT lc.loan_number,p.member_no,CONCAT(p.fname,' ',p.lname) AS fullname,p.cid,
-concat(lc.loan_total,' ','บาท')as total,c.contract_name,c.witdawal,
-lc.loan_startdate,lc.loan_enddate,lc.note,
-(SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_1)bondsman_1,
-(SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_2)bondsman_2,
-(SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_3)bondsman_3
-FROM loan_card lc 
-INNER JOIN person p ON p.person_id=lc.person_id
-INNER JOIN contract c ON c.contract_id=lc.contract_id
-WHERE lc.loan_id=$loan_id";
-$myconn->imp_sql($sql);
-$myconn2=new Detial();
-$myconn2->para_read($read);
-$db=$myconn2->conn_PDO();
-$sql2="select approve from loan_card WHERE loan_id=$loan_id";
-$myconn2->imp_sql($sql2);
-$approve=$myconn2->select('');
-$myconn2->close_PDO();
+    $sql = "SELECT p1.photo, p1.member_no,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
+IF (p1.sex=1,'ชาย','หญิง')AS sex_name,IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,
+lc.loan_number,con.contract_name,CONCAT(con.witdawal,' ','ปี') AS witdawal,concat(lc.loan_total,' ',' บาท') as total,
+CONCAT(la.period,' ','บาท')AS period,CONCAT(la.month,' ','เดือน')AS month,CONCAT(la.loan_total,' ','บาท')AS loan_total
+FROM person p1
+INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
+INNER JOIN member_status m2 ON m2.mem_status_id=p1.mem_status_id
+INNER JOIN loan_card lc ON lc.person_id=p1.person_id
+INNER JOIN loan_account la ON la.loan_id=lc.loan_id
+INNER JOIN contract con ON con.contract_id=lc.contract_id
+WHERE lc.loan_id='$loan_id'";
+    $myconn->imp_sql($sql);
+    $myconn->select('');
    include_once ('../plugins/funcDateThai.php');
     ?>
-        <body class="hold-transition skin-green fixed sidebar-mini" onload="<?= $body?>">
+    <body class="hold-transition skin-green fixed sidebar-mini">
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-primary">
@@ -101,40 +82,78 @@ $myconn2->close_PDO();
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
-                <div class="box-body" align='center'>
-                     <?php 
-                        $title=  array("สัญญาเงินกู้เลขที่","หมายเลขสมาชิก","ชื่อ-นามสกุล","เลขบัตรประชาชน","จำนวนเงินกู้","ประเภทเงินกู้",
-                            "ดอกเบี้ย (ร้อยละ/ปี)","วันที่เริ่มสัญญาเงินกู้","วันที่ครบกำหนดสัญญา","การนำไปใช้ประโยชน์",
-                            "สมาชิกผู้ค้ำประกันคนที่ 1","สมาชิกผู้ค้ำประกันคนที่ 2","สมาชิกผู้ค้ำประกันคนที่ 3");
-                        $myconn->create_Detial($title);
+                <div class="box-body">
+                    <?php
+                        $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","เพศ","ประเภทสมาชิก","สถานะ","เลขที่เงินกู้","ประเภทเงินกู้","ดอกเบี้ยร้อยละ","ยอดเงินกู้ทั้งหมด",
+                            "ส่งงวดละ","ระยะเวลาที่ส่ง","ยอดเงินกู้ที่เหลือ");
+                        $myconn->create_Detial_photoLeft($title,"../photo/");
                         $myconn->close_PDO();
-                         if($approve[0]['approve']=='W'){
+                        ?>
+                     <br>
+                    <?php
+                        $myconn->conn_PDO();
+                        $sql="SELECT sr.receive_date FROM saving_repayment sr WHERE sr.loan_id=$loan_id GROUP BY sr.receive_date ORDER BY sr.saving_repay_id ASC";
+                        $myconn->imp_sql($sql);
+                        $date=$myconn->select("");
+                        $title=  array("วันที่จ่าย","จำนวนเงินต้น","ดอกเบี้ย","ค่าปรับ","ผู้บันทึก","ใบเสร็จ");
+                        $code_color = array("0" => "default", "1" => "success", "2" => "warning", "3" => "danger", "4" => "info");
+                echo "<div align='center' class='table-responsive'>";
+                echo "<table class='table table-hover'>";
+                echo "<thead><tr align='center'>";
+                echo "<th align='center' width='5%'>ลำดับ</th>";
+                foreach ($title as $key => $value) {
+                    echo "<th align='center'>$value</th>";
+                }
+                echo "</tr></thead><tbody>";
+                $ii=0;
+                $C = 1;
+                        for($c=0;$c<count($date);$c++){
+                        $loan_date[$c]=$date[$c]['receive_date'];
+                        $sql="SELECT receive_date,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=2 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))loan_budget,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=3 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))witdawal,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=4 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))fine,
+CONCAT(p.fname,' ',p.lname) as updater ,loan_id as id
+FROM saving_repayment sr
+INNER JOIN person p ON p.person_id=sr.updater
+WHERE sr.loan_id=$loan_id AND sr.saving_code!=1 AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]') 
+GROUP BY receive_date
+ORDER BY sr.saving_repay_id ASC";
+                        
+                        $myconn->imp_sql($sql);
+                        $loan_data=$myconn->select("");
+                        $field = array_keys($loan_data[0]);
+                 
+                    if($ii>=5){
+                        $ii=0;
+                    }
+                    echo "<tr class='" . $code_color[$ii] . "'>";
+                    echo "<td align='center'>" . $C . "</td>";
+                    for ($i = 0; $i < count($field); $i++) {
+                        if ($i < (count($field)-1)) {
+                            if ($myconn->validateDate($loan_data[0][$field[$i]], 'Y-m-d')) {
+                                echo "<td align='center'>" . DateThai1($loan_data[0][$field[$i]]) . "</td>";
+                            } else {
+                                echo "<td align='center'>" . $loan_data[0][$field[$i]] . "</td>";
+                            }
+                        } else{
+                            if ($i = (count($field))-1) {?>
+                                        <td align='center'>
+                                    <a href="#" onClick="window.open('content/repay_PDF.php?id=<?= $loan_data[0][$field[$i]] ?>', '', 'width=550,height=700');
+                                            return false;" title="รายละเอียด">     
+                                        <img src='../images/printer.ico' width='25'></a></td>
+                                 <?php  }
+                                }
+                    }
+                            
+                            $C++;
+                            $ii++;
+                            echo "</tr>";
+                        }
+                        echo "</tbody></table></div>";
                     ?>
-                 <form class="navbar-form" role="form" action='../process/prcloanAgreement.php' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
-                        <div class="well well-sm">
-                <b>ยืนยันการอนมัติเงินกู้</b>
-                <div class="form-group">
-                    <input type="radio" name="confirm" id="confirm" value="Y" required>&nbsp;&nbsp; อนุมัติ<br> 
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="confirm" id="confirm" value="N" required>&nbsp;&nbsp; ไม่อนุมัติ
-                </div>
-                </div>
-                        <div class="well well-sm">
-                           <b>ระยะเวลา / จำนวนเงินที่ต้องชำระ</b>
-                <div class="form-group">
-                    <input type="text" name="month" id="month" placeholder="ระยะเวลาในการชำระคืน">&nbsp;&nbsp; ระยะเวลา (เดือน)<br><br> 
-                    <input type="text" name="period" id="period" placeholder="จำนวนเงินในแต่ละงวด">&nbsp;&nbsp; จำนวนเงิน (บาท)
-                </div> 
-                        </div>
-                        <input type="hidden" name="check" value="plus">
-                        <input type="hidden" name="method" value="comfirm_loanAgreement">
-                        <input type="hidden" name="loan_id" value="<?= $loan_id?>">
-                        <input type="submit" name="submit" class="btn btn-success" value="ยืนยันอนุมัติเงินกู้">
-                        </form>
-                         <?php }?>
                             </div>
                         </div>
-
-              
                         </div>
                     </div>
                 </div>

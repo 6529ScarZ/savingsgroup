@@ -17,11 +17,12 @@
             </ol>
 </section>
 <?php
-                                $conn_DB2= new DbPDO_mng();
+                                $conn_DB2= new EnDeCode();
                                 $read="connection/conn_DB.txt";
                                 $conn_DB2->para_read($read);
     if(isset($method)=='edit'){
-        $edit_id=filter_input(INPUT_GET,'id');
+        $id=filter_input(INPUT_GET,'id',FILTER_SANITIZE_ENCODED);
+        $edit_id=$conn_DB2->sslDec($id);
         $sql= "select * from loan_card 
                 where loan_id='$edit_id'";
                                 $conn_DB2->conn_PDO();

@@ -196,10 +196,11 @@
  <?php if(isset($method)=='edit'){?>  
                 <br><br>
                 <div class="col-lg-3">
-                <a class="btn btn-success btn-sm" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample">
-  เพิ่มเงินฝาก
+                    <span class="btn btn-success">
+                        <a class="" style="color:white" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample">
+  <i class="fa fa-plus"></i>&nbsp;เพิ่มเงินฝาก
 </a>
-                
+                    </span>              
 <div class="collapse" id="collapse">
   <div class="well well-sm">
     <div class="form-group">
