@@ -27,11 +27,12 @@
         
         $sql= "select p.*,concat(p2.pname,p.fname,'  ',p.lname) as fullname,
             IF (p.sex=1,'ชาย',IF (p.sex=2,'หญิง','UNKNOW')) as sex_name,
-            IF (p.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name,m.mem_status,
+            IF (p.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name,m.mem_status,sa.saving_limit,
             (select lc.loan_id from loan_card lc where lc.person_id='$edit_id' and la.check_pay='Y' AND la.`status`=1)as loan_id
             from person p 
             left outer join loan_card lc on p.person_id=lc.person_id
             left outer join loan_account la on la.loan_id=lc.loan_id
+            inner join saving_account sa on sa.person_id=p.person_id
             inner join preface p2 on p2.pname_id=p.pname_id
             INNER JOIN member_status m ON m.mem_status_id=p.mem_status_id
                 where lc.person_id='$edit_id'";
@@ -95,7 +96,7 @@
                 </div><br>
                 <div class="form-group">
          			<label> จำนวนเงินที่ต้องการออม &nbsp;</label>
-                                <input type="text" name="money" id="money" placeholder="จำนวนเงิน" required="">
+                                <input type="text" name="money" id="money" placeholder="จำนวนเงิน" required="" value="<?php if(isset($method)=='edit'){ echo $edit_person[0]['saving_limit'];}?>">
                 </div>&nbsp;<br><br>
                 <?php if(!empty($edit_person[0]['loan_id'])){?>
                 <div class="form-group">
@@ -144,14 +145,14 @@
                                 <input type="text" name="fine" id="fine" placeholder="จำนวนเงินค่าปรับ">
                 </div>
   </div>
-</div>&nbsp;
+</div>&nbsp;<br>
    
                 <?php }
                 if(isset($method)=='edit'){?>
     <input type="hidden" name="method" id="method" value="repay">
     <input type="hidden" name="person_id" id="person_id" value="<?=$edit_person[0]['person_id'];?>">
     <input type="hidden" name="repay_id" id="repay_id" value="<?= $edit_id?>">
-   <input class="btn-success" type="submit" name="Submit" id="Submit" value="บันทึกการส่งคืน">
+   <input class="btn-primary" type="submit" name="Submit" id="Submit" value="บันทึกการรับเงิน">
    <?php }
    $conn_DB2->close_PDO(); ?>
     </div>

@@ -55,7 +55,7 @@
                 $table = "address";
                 $address = $mydata->insert($table, $data);
                 
-                $data2 = array($person_id[0]['person_id'], 0,1);
+                $data2 = array($person_id[0]['person_id'],0,0,1);
                 $table2 = "saving_account";
                 $add_account = $mydata->insert($table2, $data2);
 
@@ -92,6 +92,20 @@
             $execute=array(':person_id' => $person_id);
             $edit_person=$mydata->update($table, $data, $where, $field, $execute);
 
+            if(filter_input(INPUT_POST, 'saving_limit') !== ''){
+               ////////////////add ยอดเงินฝากที่จะฝากในแต่ละเดือน//////////////////  
+            $saving_limit= filter_input(INPUT_POST, 'saving_limit');   
+            $data = array($saving_limit);
+            $field=array("saving_limit");
+            $table = "saving_account";
+            $where="person_id=:person_id";
+            $execute=array(':person_id' => $person_id);
+            $edit_saving_limit = $mydata->update($table, $data, $where, $field, $execute);
+            if ($edit_saving_limit = false) {
+                echo "<span class='glyphicon glyphicon-remove'></span>";
+                echo "<a href='index.php?page=content/add_person' >กลับ</a>";
+            }
+            }
             if(filter_input(INPUT_POST, 'saving_money') !== ''){
                ////////////////add ยอดเงินฝาก//////////////////  
             $sql="select saving_total from saving_account where person_id=:person_id";

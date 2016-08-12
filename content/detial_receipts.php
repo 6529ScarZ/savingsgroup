@@ -50,7 +50,7 @@ $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $db=$myconn->conn_PDO();
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
-$loan_id=$myconn->sslDec($id);
+$person_id=$myconn->sslDec($id);
     $sql = "SELECT p1.photo, p1.member_no,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
 IF (p1.sex=1,'ชาย','หญิง')AS sex_name,IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,
 lc.loan_number,con.contract_name,CONCAT(con.witdawal,' ','ปี') AS witdawal,concat(lc.loan_total,' ',' บาท') as total,
@@ -61,7 +61,7 @@ INNER JOIN member_status m2 ON m2.mem_status_id=p1.mem_status_id
 INNER JOIN loan_card lc ON lc.person_id=p1.person_id
 INNER JOIN loan_account la ON la.loan_id=lc.loan_id
 INNER JOIN contract con ON con.contract_id=lc.contract_id
-WHERE lc.loan_id='$loan_id'";
+WHERE lc.person_id='$person_id'";
     $myconn->imp_sql($sql);
     $myconn->select('');
    include_once ('../plugins/funcDateThai.php');
@@ -92,10 +92,12 @@ WHERE lc.loan_id='$loan_id'";
                      <br>
                     <?php
                         $myconn->conn_PDO();
-                        $sql="SELECT sr.receive_date FROM saving_repayment sr WHERE sr.loan_id=$loan_id GROUP BY sr.receive_date ORDER BY sr.saving_repay_id ASC";
+                        $sql="SELECT sr.receive_date FROM saving_repayment sr 
+                            
+                                WHERE sr.person_id=$person_id GROUP BY sr.receive_date ORDER BY sr.saving_repay_id ASC";
                         $myconn->imp_sql($sql);
                         $date=$myconn->select("");
-                        $title=  array("วันที่จ่าย","จำนวนเงินต้น","ดอกเบี้ย","ค่าปรับ","ผู้บันทึก","ใบเสร็จ");
+                        $title=  array("วันที่จ่าย","จำนวนเงินออม","จำนวนเงินต้น","ดอกเบี้ย","ค่าปรับ","ผู้บันทึก","ใบเสร็จ");
                         $code_color = array("0" => "default", "1" => "success", "2" => "warning", "3" => "danger", "4" => "info");
                 echo "<div align='center' class='table-responsive'>";
                 echo "<table class='table table-hover'>";
@@ -110,13 +112,14 @@ WHERE lc.loan_id='$loan_id'";
                         for($c=0;$c<count($date);$c++){
                         $loan_date[$c]=$date[$c]['receive_date'];
                         $sql="SELECT receive_date,
-(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=2 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))loan_budget,
-(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=3 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))witdawal,
-(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=4 AND sr.loan_id=$loan_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))fine,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=1 AND sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))saving,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=2 AND sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))loan_budget,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=3 AND sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))witdawal,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=4 AND sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))fine,
 CONCAT(p.fname,' ',p.lname) as updater ,loan_id as id
 FROM saving_repayment sr
 INNER JOIN person p ON p.person_id=sr.updater
-WHERE sr.loan_id=$loan_id AND sr.saving_code!=1 AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]') 
+WHERE sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]') 
 GROUP BY receive_date
 ORDER BY sr.saving_repay_id ASC";
                         

@@ -195,7 +195,21 @@
                     </div>
  <?php if(isset($method)=='edit'){?>  
                 <br><br>
-                <div class="col-lg-3">
+                <div class="col-lg-2">
+                    <span class="btn btn-primary">
+                        <a class="" style="color:white" role="button" data-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapseExample">
+  <i class="fa fa-plus"></i>&nbsp;เพิ่มเงินฝากแต่ละเดือน
+</a>
+                    </span>              
+<div class="collapse" id="collapse1">
+  <div class="well well-sm">
+    <div class="form-group">
+         			<label> เงินฝากแต่ละเดือน &nbsp;</label>
+                                <input type="text" name="saving_limit" id="saving_limit" placeholder="เงินฝากแต่ละเดือน">
+                </div>
+  </div></div>
+                </div>&nbsp;
+                <div class="col-lg-2">
                     <span class="btn btn-success">
                         <a class="" style="color:white" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample">
   <i class="fa fa-plus"></i>&nbsp;เพิ่มเงินฝาก
