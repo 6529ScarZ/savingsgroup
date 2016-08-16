@@ -25,7 +25,7 @@
         $edit=filter_input(INPUT_GET,'id',FILTER_SANITIZE_ENCODED);
         $edit_id=$conn_DB2->sslDec($edit);
         
-        $sql= "select p.*,concat(p2.pname,p.fname,'  ',p.lname) as fullname,
+        $sql= "select p.*,concat(p2.pname,p.fname,'  ',p.lname) as fullname,sa.saving_total,
             IF (p.sex=1,'ชาย',IF (p.sex=2,'หญิง','UNKNOW')) as sex_name,
             IF (p.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name,m.mem_status,sa.saving_limit,
             (select lc.loan_id from loan_card lc where lc.person_id='$edit_id' and la.check_pay='Y' AND la.`status`=1)as loan_id
@@ -69,11 +69,12 @@
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body">
-<form class="navbar-form" role="form" action='index.php?page=process/prcrepay' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
+                    <form class="navbar-form" name="form" role="form" action='index.php?page=process/prcrepay' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
     <div class="col-lg-2">
         <img src="<?= $photo_person?>" height="100">
     </div>    
     <div class="col-lg-10">
+        <h4>เงินออม</h4>
     <div class="form-group"> 
                 <label> รหัสสมาชิก &nbsp;</label>
                 <?php if(isset($method)=='edit'){ echo $edit_person[0]['member_no'];}?>
@@ -83,7 +84,7 @@
                     <?php if(isset($method)=='edit'){ echo $edit_person[0]['cid'];}?>
                     </div><br>
                     <div class="form-group">
-         			<label>&nbsp; ชื่อ - นามสกุล &nbsp;</label>
+         			<label>ชื่อ - นามสกุล &nbsp;</label>
  				<?php if(isset($method)=='edit'){ echo $edit_person[0]['fullname'];}?>
                     </div>
                 <div class="form-group"> 
@@ -95,10 +96,15 @@
                                 <?php if(isset($method)=='edit'){ echo $edit_person[0]['mem_status'];}?>
                 </div><br>
                 <div class="form-group">
+         			<label> ยอดเงินออมทั้งหมด &nbsp;</label>
+                                <?php if(isset($method)=='edit'){ echo $edit_person[0]['saving_total'];}?> &nbsp;บาท
+                </div><br>
+                <div class="form-group">
          			<label> จำนวนเงินที่ต้องการออม &nbsp;</label>
                                 <input type="text" name="money" id="money" placeholder="จำนวนเงิน" required="" value="<?php if(isset($method)=='edit'){ echo $edit_person[0]['saving_limit'];}?>">
-                </div>&nbsp;<br><br>
+                </div>&nbsp;<br>
                 <?php if(!empty($edit_person[0]['loan_id'])){?>
+                <h4>เงินกู้</h4>
                 <div class="form-group">
          			<label> เลขที่เงินกู้ &nbsp;</label>
                                 <?php if(isset($method)=='edit'){ echo $edit_loan[0]['loan_number'];}?> &nbsp; 
@@ -129,12 +135,50 @@
                 </div><br>
                 <div class="form-group">
          			<label> จำนวนเงินที่ส่งคืน &nbsp;</label>
-                                <input type="text" name="money" id="money" placeholder="จำนวนเงิน" required="" value="<?php if(isset($method)=='edit'){ echo $edit_loan[0]['period'];}?>">
+                                <input type="text" name="repay" id="repay" placeholder="จำนวนเงิน" required="" value="<?php if(isset($method)=='edit'){ echo $edit_loan[0]['period'];}?>">
                 </div>&nbsp;
                 <div class="form-group">
          			<label> ดอกเบี่ย &nbsp;</label>
                                 <input type="text" name="witdawal" id="witdawal" placeholder="จำนวนเงิน" required="" value="<?php if(isset($method)=='edit'){ echo $edit_loan[0]['witd'];}?>">
                 </div>&nbsp;
+                <script language=JavaScript>
+function calculate()
+{
+	var req; 
+	if (window.XMLHttpRequest) { 
+		// For Netscape, FireFox and not IE
+          		req = new XMLHttpRequest();
+	}
+	else if(window.ActiveXObject){ 
+		// For IE
+          		req = new ActiveXObject("Microsoft.XMLHTTP"); 
+	}
+	else {
+		alert("Browser error");
+		return false;
+	}
+	req.onreadystatechange = function()
+	{
+		if(req.readyState == 4)	
+			document.form.sum.value = req.responseText;
+                }
+                var num1, num2,num3,num4, query;
+	num1 = document.form.money.value;
+	num2 = document.form.repay.value;
+        num3 = document.form.witdawal.value;
+        num4 = document.form.fine.value;
+	query = "?";
+	query+="money="+num1;
+	query+="&";
+	query+="repay="+num2;
+        query+="&";
+	query+="witdawal="+num3;
+        query+="&";
+	query+="fine="+num4;
+                req.open("GET", "content/js/calculate.php"+query, true);
+	req.send(null); 
+            }
+        </script>
                 <a class="" role="button" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample">
   ค่าปรับ
 </a>
@@ -144,15 +188,25 @@
          			<label> ค่าปรับ &nbsp;</label>
                                 <input type="text" name="fine" id="fine" placeholder="จำนวนเงินค่าปรับ">
                 </div>
+      <div class="form-group">
+            <input class="btn btn-success" type="button" name="button" id="button" value="คำนวณเงิน" onClick="calculate();">
+            </div>
   </div>
-</div>&nbsp;<br>
+</div>
+        
+        <p>
+<div class="form-group">
+         			<label> รวม &nbsp;</label>
+                                <input type="text" name="sum" id="sum" placeholder="" value="<?php if(isset($method)=='edit'){ echo $edit_person[0]['saving_limit']+$edit_loan[0]['period']+$edit_loan[0]['witd'];}?>">
+                                &nbsp;บาท
+</div><br><br>
    
                 <?php }
                 if(isset($method)=='edit'){?>
     <input type="hidden" name="method" id="method" value="repay">
     <input type="hidden" name="person_id" id="person_id" value="<?=$edit_person[0]['person_id'];?>">
     <input type="hidden" name="repay_id" id="repay_id" value="<?= $edit_id?>">
-   <input class="btn-primary" type="submit" name="Submit" id="Submit" value="บันทึกการรับเงิน">
+   <input class="btn btn-primary" type="submit" name="Submit" id="Submit" value="บันทึกการรับเงิน">
    <?php }
    $conn_DB2->close_PDO(); ?>
     </div>
