@@ -71,7 +71,7 @@
                 <div class="box-body">
                     <form class="navbar-form" name="form" role="form" action='index.php?page=process/prcrepay' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
     <div class="col-lg-2">
-        <img src="<?= $photo_person?>" height="100">
+        <img src="<?= $photo_person?>" height="200">
     </div>    
     <div class="col-lg-10">
         <h4>เงินออม</h4>
@@ -188,12 +188,11 @@ function calculate()
          			<label> ค่าปรับ &nbsp;</label>
                                 <input type="text" name="fine" id="fine" placeholder="จำนวนเงินค่าปรับ">
                 </div>
+  </div>
+</div><p>
       <div class="form-group">
             <input class="btn btn-success" type="button" name="button" id="button" value="คำนวณเงิน" onClick="calculate();">
             </div>
-  </div>
-</div>
-        
         <p>
 <div class="form-group">
          			<label> รวม &nbsp;</label>
