@@ -35,7 +35,7 @@
             inner join saving_account sa on sa.person_id=p.person_id
             inner join preface p2 on p2.pname_id=p.pname_id
             INNER JOIN member_status m ON m.mem_status_id=p.mem_status_id
-                where lc.person_id='$edit_id'";
+                where p.person_id='$edit_id'";
         $conn_DB2->imp_sql($sql);
         $edit_person=$conn_DB2->select('');
         $conn_DB2->close_PDO();
