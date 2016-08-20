@@ -126,6 +126,18 @@
                         <img src="images/icon_set2/gear.ico" width="25">&nbsp;&nbsp; ตั้งค่าองค์กร </a>
                 </label>
               </div>
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="index.php?page=content/backup" onclick="return confirm('กรุณายืนยันการสำรองข้อมูลอีกครั้ง !!!')">
+                        <img src="images/backup-restore.ico" width="25">&nbsp;&nbsp; backup </a>
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="control-sidebar-subheading">
+                    <a href="#" onClick="window.open('content/openDB.php','','width=400,height=350'); return false;" title="ข้อมูลสำรอง">
+                        <img src="images/database.ico" width="25">&nbsp;&nbsp; ข้อมูลสำรอง</a>
+                </label>
+              </div>
                </form>
           </div><!-- /.tab-pane -->
         </div>

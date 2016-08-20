@@ -1,6 +1,7 @@
 <?php
-require 'read_conn.php';
-class Conn_DB extends Read_DB{
+//require 'read_conn.php';
+//class Conn_DB extends Read_DB{
+class Conn_DB{
     public $dbconfig=array(
         "hostname"=>NULL,
         "username"=>NULL,
@@ -11,8 +12,11 @@ class Conn_DB extends Read_DB{
         "charector_set"=>NULL
     );
     public $db;
+    public function __construct($conn_db) {
+        $this->db = $conn_db;
+    }
     public function conn_mysqli(){
-        $conn_db=$this->Read_Text();
+        $conn_db=$this->db;
         $this->dbconfig["hostname"]= trim($conn_db[0]) ;
         $this->dbconfig["username"]= trim($conn_db[1]) ;
         $this->dbconfig["password"]= trim($conn_db[2]) ;
@@ -22,7 +26,7 @@ class Conn_DB extends Read_DB{
         $this->dbconfig["charector_set"]= "utf8";
       
         
-        $host=$this->dbconfig["hostname"];
+        echo $host=$this->dbconfig["hostname"];
         $user=$this->dbconfig["username"];
         $pass=$this->dbconfig["password"];
         $database=$this->dbconfig["database"];

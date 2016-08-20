@@ -10,17 +10,17 @@ class dbPDO_mng extends ConnPDO_db{
 	//	  ฟังก์ชันสำหรับคิวรี่คำสั่ง sql
     function query($sql) {
         $this->sql=$sql;
-        $db=$this->conn_PDO();
-        $this->db=$db;
+        $this->db=$this->conn_PDO();
+       // $this->db=$db;
         try
 		{
             $query=$this->db->prepare($this->sql); 
             $query->execute();
-            return true;
+            return $query;
         } catch(PDOException $e)
 		{
 			echo $e->getMessage();	
-			return false;
+			return $query=false;
 		}
     }
 
