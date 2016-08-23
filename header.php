@@ -265,8 +265,8 @@ if($db != FALSE){
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                    <li><a href="?page=content/add_saving"><i class="fa fa-circle-o text-yellow"></i> การออม</a></li>
-                    <li><a href="?page=content/add_repay"><i class="fa fa-circle-o text-yellow"></i> จ่ายคืนเงินกู้</a></li>
+                    <!--<li><a href="?page=content/add_saving"><i class="fa fa-circle-o text-yellow"></i> การออม</a></li>
+                    <li><a href="?page=content/add_repay"><i class="fa fa-circle-o text-yellow"></i> จ่ายคืนเงินกู้</a></li>-->
                     <li><a href="?page=content/add_receipts"><i class="fa fa-circle-o text-yellow"></i> การรับเงิน</a></li>
                 <!--<li>
                   <a href="#"><i class="fa fa-circle-o text-blue"></i> รายงาน <i class="fa fa-angle-left pull-right"></i></a>

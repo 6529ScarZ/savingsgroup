@@ -55,7 +55,7 @@
                 $table = "address";
                 $address = $mydata->insert($table, $data);
                 
-                $data2 = array($person_id[0]['person_id'],0,0,1);
+                $data2 = array($person_id[0]['person_id'],0,1,0);
                 $table2 = "saving_account";
                 $add_account = $mydata->insert($table2, $data2);
 

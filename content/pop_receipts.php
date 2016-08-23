@@ -48,8 +48,8 @@ $myconn=new Detial();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $db=$myconn->conn_PDO();
-    $loan = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
-    $loan_id=$myconn->sslDec($loan);
+    $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
+    $person_id=$myconn->sslDec($id);
 
     $sql = "SELECT p1.member_no,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
 IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,

@@ -41,7 +41,7 @@
         $conn_DB2->close_PDO();
         
         if(!empty($edit_person[0]['loan_id'])){
-        $sql= "select lc.loan_number,con.contract_name,con.witdawal,lc.loan_total,la.loan_total as loan_acc,
+        $sql= "select lc.loan_id, lc.loan_number,con.contract_name,con.witdawal,lc.loan_total,la.loan_total as loan_acc,
 		la.`month`,la.period,ROUND(((con.witdawal/12)*la.loan_total)/100,2) AS witd
                 from loan_card lc 
 		INNER JOIN loan_account la ON la.loan_id=lc.loan_id
@@ -69,7 +69,7 @@
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                    <form class="navbar-form" name="form" role="form" action='index.php?page=process/prcrepay' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
+                    <form class="navbar-form" name="form" role="form" action='index.php?page=process/prcreceipts' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
     <div class="col-lg-2">
         <img src="<?= $photo_person?>" height="200">
     </div>    
@@ -136,6 +136,7 @@
                 <div class="form-group">
          			<label> จำนวนเงินที่ส่งคืน &nbsp;</label>
                                 <input type="text" name="repay" id="repay" placeholder="จำนวนเงิน" required="" value="<?php if(isset($method)=='edit'){ echo $edit_loan[0]['period'];}?>">
+                                <input type="hidden" name="loan_id" id="loan_id" value="<?php if(isset($method)=='edit'){ echo $edit_loan[0]['loan_id'];}?>">
                 </div>&nbsp;
                 <div class="form-group">
          			<label> ดอกเบี่ย &nbsp;</label>
@@ -202,7 +203,7 @@ function calculate()
    
                 <?php }
                 if(isset($method)=='edit'){?>
-    <input type="hidden" name="method" id="method" value="repay">
+    <input type="hidden" name="method" id="method" value="receipts">
     <input type="hidden" name="person_id" id="person_id" value="<?=$edit_person[0]['person_id'];?>">
     <input type="hidden" name="repay_id" id="repay_id" value="<?= $edit_id?>">
    <input class="btn btn-primary" type="submit" name="Submit" id="Submit" value="บันทึกการรับเงิน">

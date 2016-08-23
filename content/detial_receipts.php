@@ -52,16 +52,17 @@ $db=$myconn->conn_PDO();
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
 $person_id=$myconn->sslDec($id);
     $sql = "SELECT p1.photo, p1.member_no,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
-IF (p1.sex=1,'ชาย','หญิง')AS sex_name,IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,
+IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,CONCAT(sa.saving_total,' ','บาท')AS saving,
 lc.loan_number,con.contract_name,CONCAT(con.witdawal,' ','ปี') AS witdawal,concat(lc.loan_total,' ',' บาท') as total,
 CONCAT(la.period,' ','บาท')AS period,CONCAT(la.month,' ','เดือน')AS month,CONCAT(la.loan_total,' ','บาท')AS loan_total
 FROM person p1
 INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
 INNER JOIN member_status m2 ON m2.mem_status_id=p1.mem_status_id
-INNER JOIN loan_card lc ON lc.person_id=p1.person_id
-INNER JOIN loan_account la ON la.loan_id=lc.loan_id
-INNER JOIN contract con ON con.contract_id=lc.contract_id
-WHERE lc.person_id='$person_id'";
+INNER JOIN saving_account sa ON sa.person_id=p1.person_id
+LEFT OUTER JOIN loan_card lc ON lc.person_id=p1.person_id
+LEFT OUTER JOIN loan_account la ON la.loan_id=lc.loan_id
+LEFT OUTER JOIN contract con ON con.contract_id=lc.contract_id
+WHERE p1.person_id='$person_id'";
     $myconn->imp_sql($sql);
     $myconn->select('');
    include_once ('../plugins/funcDateThai.php');
@@ -84,7 +85,7 @@ WHERE lc.person_id='$person_id'";
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <?php
-                        $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","เพศ","ประเภทสมาชิก","สถานะ","เลขที่เงินกู้","ประเภทเงินกู้","ดอกเบี้ยร้อยละ","ยอดเงินกู้ทั้งหมด",
+                        $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","ประเภทสมาชิก","สถานะ","เงินออมทั้งหมด","เลขที่เงินกู้","ประเภทเงินกู้","ดอกเบี้ยร้อยละ","ยอดเงินกู้ทั้งหมด",
                             "ส่งงวดละ","ระยะเวลาที่ส่ง","ยอดเงินกู้ที่เหลือ");
                         $myconn->create_Detial_photoLeft($title,"../photo/");
                         $myconn->close_PDO();
