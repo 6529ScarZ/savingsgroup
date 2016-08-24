@@ -72,6 +72,7 @@ class dbPDO_mng extends ConnPDO_db{
 		{
         $data = $this->db->prepare($this->sql);
         $data->execute(); 
+        return true;
                 } catch(PDOException $e)
 		{
 			echo $e->getMessage();	
@@ -112,6 +113,7 @@ class dbPDO_mng extends ConnPDO_db{
 		{
         $data = $this->db->prepare($this->sql);
         $data->execute($this->execute); 
+        return true;
                 } catch(PDOException $e)
 		{
 			echo $e->getMessage();	
@@ -130,6 +132,7 @@ class dbPDO_mng extends ConnPDO_db{
 		{
         $data = $this->db->prepare($this->sql);
         $data->execute($this->execute); 
+        return true;
                 } catch(PDOException $e)
 		{
 			echo $e->getMessage();	

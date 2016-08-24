@@ -107,8 +107,9 @@ if($db != FALSE){
                      if (null !==(filter_input(INPUT_GET, 'popup'))){
                       $popup=  filter_input(INPUT_GET, 'popup');
                       $popup_name=  filter_input(INPUT_GET, 'popname');
-                      $id= filter_input(INPUT_GET, 'id',FILTER_SANITIZE_ENCODED);    
-                      $cod_popup="window.open('content/pop_$popup_name.php?id=$id','','width=470,height=450'); return false;";
+                      $id= filter_input(INPUT_GET, 'id',FILTER_SANITIZE_ENCODED);  
+                      $date=  filter_input(INPUT_GET, 'date');
+                      $cod_popup="window.open('content/pop_$popup_name.php?date=$date&id=$id','','width=470,height=450'); return false;";
                      }
   
                       ?>

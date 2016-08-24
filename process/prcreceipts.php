@@ -95,8 +95,8 @@
                 $where = "person_id=:person_id";
                 $execute = array(':person_id' => $preson_id);
                 $saving_account = $mydata->update($table, $data, $where, $field, $execute);
-             if(isset($add_repay)){   
-            ///////////////รายการเงินกู้ของสมาชิก////////////////    
+             if((null !== filter_input(INPUT_POST, 'repay')) and ($add_repay != false)){   
+            ///////////////รายการเงินกู้ของสมาชิก////////////////  
             $sql = "select loan_total from loan_account where loan_id=$loan_id";
             $mydata->imp_sql($sql);
             $loan_total = $mydata->select('');
@@ -130,7 +130,7 @@
             $interest = $mydata->update($table, $data, $where, $field, $execute);
              }
                 ?>
-                <!--<META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_receipts&popup=true&popname=receipts&id=<?php echo $mydata->sslEnc($preson_id); ?>'>
+                <META HTTP-EQUIV='Refresh' CONTENT='2;URL=index.php?page=content/add_receipts&popup=true&popname=receipts&date=<?= $date->format('Y-m-d H:m:s')?>&id=<?php echo $mydata->sslEnc($preson_id); ?>'>
                 <?php
             
         }

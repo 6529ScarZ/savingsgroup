@@ -93,9 +93,9 @@ WHERE p1.person_id='$person_id'";
                      <br>
                     <?php
                         $myconn->conn_PDO();
-                        $sql="SELECT sr.receive_date FROM saving_repayment sr 
+                        $sql="SELECT sr.d_update FROM saving_repayment sr 
                             
-                                WHERE sr.person_id=$person_id GROUP BY sr.receive_date ORDER BY sr.saving_repay_id ASC";
+                                WHERE sr.person_id=$person_id GROUP BY sr.d_update ORDER BY sr.saving_repay_id ASC";
                         $myconn->imp_sql($sql);
                         $date=$myconn->select("");
                         $title=  array("วันที่จ่าย","จำนวนเงินออม","จำนวนเงินต้น","ดอกเบี้ย","ค่าปรับ","ผู้บันทึก","ใบเสร็จ");
@@ -111,17 +111,17 @@ WHERE p1.person_id='$person_id'";
                 $ii=0;
                 $C = 1;
                         for($c=0;$c<count($date);$c++){
-                        $loan_date[$c]=$date[$c]['receive_date'];
+                        $loan_date[$c]=$date[$c]['d_update'];
                         $sql="SELECT receive_date,
-(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=1 AND sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))saving,
-(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=2 AND sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))loan_budget,
-(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=3 AND sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))witdawal,
-(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=4 AND sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))fine,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=1 AND sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))saving,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=2 AND sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))loan_budget,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=3 AND sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))witdawal,
+(SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=4 AND sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date[$c]' AND '$loan_date[$c]'))fine,
 CONCAT(p.fname,' ',p.lname) as updater ,loan_id as id
 FROM saving_repayment sr
 INNER JOIN person p ON p.person_id=sr.updater
-WHERE sr.person_id=$person_id AND (sr.receive_date BETWEEN '$loan_date[$c]' AND '$loan_date[$c]') 
-GROUP BY receive_date
+WHERE sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date[$c]' AND '$loan_date[$c]') 
+GROUP BY d_update
 ORDER BY sr.saving_repay_id ASC";
                         
                         $myconn->imp_sql($sql);

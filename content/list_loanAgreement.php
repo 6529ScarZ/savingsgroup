@@ -25,11 +25,11 @@ $code";
         $column=array("เลขที่สัญญาเงินกู้","ผู้กู้","วันที่เริ่มสัญญา","วันที่ครบกำหนด","รายละเอียด");//หากเป็น TB_mng ต้องเพิ่ม แก้ไข,ลบเข้าไปด้วย 
                             } else {
                              $sql="SELECT lc.loan_number,CONCAT(p.fname,' ',p.lname) AS fullname,lc.loan_startdate,lc.loan_enddate,
-lc.loan_id AS id ,lc.loan_id AS id2 ,lc.loan_id AS id3 
+lc.loan_id AS id ,lc.loan_id AS id2 ,lc.loan_id AS id3,lc.loan_id AS id4 
 FROM loan_card lc 
 INNER JOIN person p ON p.person_id=lc.person_id
 where lc.approve='W'";  
-        $column=array("เลขที่สัญญาเงินกู้","ผู้กู้","วันที่เริ่มสัญญา","วันที่ครบกำหนด","รายละเอียด","แก้ไข","ลบ");//หากเป็น TB_mng ต้องเพิ่ม แก้ไข,ลบเข้าไปด้วย 
+        $column=array("เลขที่สัญญาเงินกู้","ผู้กู้","วันที่เริ่มสัญญา","วันที่ครบกำหนด","อนุมัติ","พิมพ์สัญญา","แก้ไข","ลบ");//หากเป็น TB_mng ต้องเพิ่ม แก้ไข,ลบเข้าไปด้วย 
                             }
 
 //หากเป็น TB_mng ต้องเพิ่ม id ต่อทาย 3 id เข้าไปด้วย 
@@ -48,7 +48,7 @@ where lc.approve='W'";
                  if(!empty($method)){
                      $mydata->createPDO_TB_Detial("loanAgreement");
                              } else {
-                             $mydata->createPDO_TB_mng("loanAgreement");//ใส่ process ที่ต้องการสร้าง   
+                     $mydata->createPDO_TB_mngPDF("loanAgreement");//ใส่ process ที่ต้องการสร้าง   
                              }
                 
                 $mydata->close_PDO();

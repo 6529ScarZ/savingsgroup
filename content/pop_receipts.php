@@ -50,17 +50,24 @@ $myconn->para_read($read);
 $db=$myconn->conn_PDO();
     $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
     $person_id=$myconn->sslDec($id);
+    $loan_date=  filter_input(INPUT_GET, 'date');
 
     $sql = "SELECT p1.member_no,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
 IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,
-concat(s.saving_total,' ',' บาท') as total,sr.receive_date,concat(sr.receive_money,' ',' บาท') as save,
+concat(s.saving_total,' ',' บาท') as total,sr.receive_date,
+concat((SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=1 AND sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date' AND '$loan_date')),' ',' บาท')saving,
+concat((SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=2 AND sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date' AND '$loan_date')),' ',' บาท')loan_budget,
+concat((SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=3 AND sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date' AND '$loan_date')),' ',' บาท')witdawal,
+concat((SELECT sr.receive_money FROM saving_repayment sr WHERE sr.saving_code=4 AND sr.person_id=$person_id AND (sr.d_update BETWEEN '$loan_date' AND '$loan_date')),' ',' บาท')fine,
 (SELECT CONCAT(p1.fname,'  ',p1.lname) FROM person p1 WHERE p1.person_id=sr.updater) up_man
 FROM person p1
 INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
 INNER JOIN member_status m2 ON m2.mem_status_id=p1.mem_status_id
 INNER JOIN saving_account s on s.person_id=p1.person_id
 INNER JOIN saving_repayment sr on sr.person_id=s.person_id
-WHERE p1.person_id='$person_id' order by sr.saving_repay_id desc limit 1";
+WHERE p1.person_id='$person_id' 
+GROUP BY d_update
+order by sr.saving_repay_id desc limit 1";
     $myconn->imp_sql($sql);
     $myconn->select('');
    include_once ('../plugins/funcDateThai.php');
@@ -75,7 +82,7 @@ WHERE p1.person_id='$person_id' order by sr.saving_repay_id desc limit 1";
                     <div class="box-body">
                     <?php 
                         $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","ประเภทสมาชิก","สถานะ","จำนวนเงินออมในบัญชี",
-                            "วันที่ฝาก","จำนวนเงินที่ออม","ผู้บันทึกการออม");
+                            "วันที่ฝาก","จำนวนเงินที่ออม","จ่ายเงินกู้","ดอกเบี้ยเงินกู้","ค่าปรับ","ผู้บันทึกการออม");
                         $myconn->create_Detial($title);
                         $myconn->close_PDO();
                         ?>
