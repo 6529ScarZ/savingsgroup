@@ -47,26 +47,139 @@ $myconn=new EnDeCode();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $db=$myconn->conn_PDO();
+if($db != FALSE){
+//$db=$conn_DB->getDb();
+//===ชื่อกลุ่ม
+                    $sql = "select * from  community order by comm_id limit 1";
+                    $myconn->imp_sql($sql);
+                    $resultComm=$myconn->select('');
+}
+                    if (!empty($resultComm[0]['logo'])) {
+                                    $pic = $resultComm[0]['logo'];
+                                    $fol = "logo/";
+                                } else {
+                                    $pic = 'agency.ico';
+                                    $fol = "images/";
+                                }
+
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
 $loan_id=$myconn->sslDec($id);
+$sql2="SELECT lc.loan_number,loan_startdate,CONCAT(pr.pname,p.fname,' ',p.lname)AS fullname,
+(TIMESTAMPDIFF(year,p.birth,NOW()))AS age,p.cid,p.member_no,sa.saving_total,
+CONCAT(ad.hourseno,'  ม.',ad.moo,' ต.',dis.DISTRICT_NAME,' อ.',amp.AMPHUR_NAME,' จ.',pro.PROVINCE_NAME)AS address,
+lc.loan_total,lc.loan_character,co.contract_name,co.witdawal,
+(SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_1)AS bonds1,
+(SELECT p.member_no FROM person p WHERE p.person_id=lc.bondsman_1)AS mem_no1,
+(SELECT sa.saving_total FROM saving_account sa WHERE sa.person_id=lc.bondsman_1)AS saving1,
+(SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_2)AS bonds2,
+(SELECT p.member_no FROM person p WHERE p.person_id=lc.bondsman_2)AS mem_no2,
+(SELECT sa.saving_total FROM saving_account sa WHERE sa.person_id=lc.bondsman_2)AS saving2,
+(SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_3)AS bonds3,
+(SELECT p.member_no FROM person p WHERE p.person_id=lc.bondsman_3)AS mem_no3,
+(SELECT sa.saving_total FROM saving_account sa WHERE sa.person_id=lc.bondsman_3)AS saving3
+FROM loan_card lc
+#INNER JOIN loan_account la ON la.loan_id=lc.loan_id
+INNER JOIN contract co ON co.contract_id=lc.contract_id
+INNER JOIN person p ON p.person_id=lc.person_id
+INNER JOIN preface pr ON pr.pname_id=p.pname_id
+INNER JOIN address ad ON ad.person_id=p.person_id
+INNER JOIN district dis ON dis.DISTRICT_ID=ad.district
+INNER JOIN amphur amp ON amp.AMPHUR_ID=ad.amphur
+INNER JOIN province pro ON pro.PROVINCE_ID=ad.province
+INNER JOIN saving_account sa ON sa.person_id=p.person_id
+WHERE lc.loan_id=:loan_id LIMIT 1";
+$myconn->imp_sql($sql2);
+$execute = array(':loan_id' => $loan_id);
+$loan_data=$myconn->select($execute);
 
 include_once ('../plugins/funcDateThai.php');
 include '../plugins/function_date.php';
 
 require_once('../plugins/library/mpdf60/mpdf.php'); //ที่อยู่ของไฟล์ mpdf.php ในเครื่องเรานะครับ
 ob_start(); // ทำการเก็บค่า html นะครับ*/
-echo $loan_id;
+$loan_id;
 ?>
-  
-test print PDF.
-ทดสอบพิมพ์ PDF
+<table width="100%" border="0">
+  <tr>
+      <td width="12%" rowspan="2" align="center" valign="top">&nbsp;<img src="../<?= $fol.$pic?>" width="100"></td>
+      <td colspan="3" valign="bottom"><h4>&nbsp;สัญญาเงินกู้ยืมเงิน วิสาหกิจชุมชน <?= $resultComm[0]['group_name']?></h4></td>
+  </tr>
+  <tr>
+    <td width="29%" height="43">&nbsp;</td>
+    <td colspan="2">&nbsp;สัญญาเลขที่ &nbsp;<?= $loan_data[0]['loan_number']?>&nbsp; ลงวันที่ &nbsp;<?= DateThai2($loan_data[0]['loan_startdate'])?>&nbsp; </td>
+  </tr>
+  <tr>
+    <td colspan="4"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ข้าพเจ้าฯ &nbsp;<?= $loan_data[0]['fullname']?>&nbsp; อายุ &nbsp;<?= $loan_data[0]['age']?>&nbsp; ปี เลขบัตร ปชช &nbsp;<?= $loan_data[0]['cid']?>&nbsp; 
+                <br>เลขสมาชิก &nbsp;<?= $loan_data[0]['member_no']?>&nbsp; 
+มีหุ้น &nbsp;<?= $loan_data[0]['saving_total']?>&nbsp; บาท ภูมิลำเนาเลขที่ &nbsp;<?= $loan_data[0]['address']?>&nbsp; ได้กู้ยืมเงินจากวิสาหกิจชุมชน 
+<?= $resultComm[0]['group_name']?> &nbsp;<?= $loan_data[0]['loan_total']?>&nbsp; บาท( &nbsp;<?= $loan_data[0]['loan_character']?>&nbsp; )
+ประเภทเงินกู้ &nbsp;<?= $loan_data[0]['contract_name']?>&nbsp; กำหนดผ่อนชำระเงินกู้เป็นรายเดือน ภายใน ๖๐ งวด งวดละ………....บาท พร้อมดอกเบี้ยอัตราร้อยละ &nbsp;<?= $loan_data[0]['witdawal']?>&nbsp; บาทต่อเดือน หากไม่สามารถชำระตามกำหนด จะเสียค่าปรับเป็นเงิน ๕ บาทต่อเดือน 
+โดยบุคคลผู้คำประกันและผู้คำประกันทั้งหมดยินยอมชดใช้หนี้ตามจำนวนที่ค้างชำระพร้อมดอกเบี้ย แก่วิสาหกิจชุมชน <?= $resultComm[0]['group_name']?> แทนข้าพเจ้า คือ
+<br>
+    </p>
+</td>
+  </tr>
+  <tr>
+    <td colspan="3">
+      <p>๑.&nbsp;<?= $loan_data[0]['bonds1']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no1']?>&nbsp; มีหุ้น &nbsp;<?= $loan_data[0]['saving1']?>&nbsp; บาท</p>
+      <p>๒.&nbsp;<?= $loan_data[0]['bonds2']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no2']?>&nbsp; มีหุ้น &nbsp;<?= $loan_data[0]['saving2']?>&nbsp; บาท</p>
+      <p>๓.&nbsp;<?= $loan_data[0]['bonds3']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no3']?>&nbsp; มีหุ้น &nbsp;<?= $loan_data[0]['saving3']?>&nbsp; บาท</p>
+        &nbsp; และข้าพเจ้าได้รับเงินกู้ตามจำนวนดังกล่าวครบถ้วนแล้ว </td>
+    <td width="35%">
+        <p>ลงชื่อ…………………………………..ผู้ค้ำประกัน ๑ </p>
+        <p>ลงชื่อ…………………………………..ผู้ค้ำประกัน ๒</p>
+        <p>ลงชื่อ…………………………………..ผู้ค้ำประกัน ๓ </p>
+        <p>&nbsp;</p></td>
+  </tr>
+<tr>
+    <td colspan="4" align="center">&nbsp;
+<br>                            ลงชื่อ………………………………..….สมาชิกผู้กู้เงิน                                                                        
+<br>                                ( &nbsp;<?= $loan_data[0]['fullname']?>&nbsp; )
+<br>วันที่ &nbsp;<?= DateThai2($loan_data[0]['loan_startdate'])?>&nbsp; 
+<br><br>ลงชื่อ………………………………..….กรรมการผู้จ่ายเงิน   
+<br><br>     (……………………………...…..…)
+<br><br>วันที่……………………       
+<hr>
+</td>
+  </tr>
+<tr>
+    <td colspan="4" align="center">&nbsp;
+    ส่วนของคณะกรรมการ
+
+<br><br>ความเห็นของคณะกรรมการพิจารณาเงินกู้     [ &nbsp; ] อนุมัติ   [ &nbsp; ] ไม่อนุมัติ เพราะ …………………………………..……………………
+
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ลงชื่อ………………………………..ประธานกรรมการพิจารณาเงินกู้   
+<br><br>	                                    (……………………………...…..…) 		
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ลงชื่อ………………………………..กรรมการพิจารณาเงินกู้
+<br><br>                                               (……………………………...…..…) 
+<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ลงชื่อ………………………………..กรรมการพิจารณาเงินกู้/พยาน
+<br><br>                      		   (……………………………...…..…)               
+<p>ความเห็นของประธานวิสาหกิจชุมชนฯ</p>                                    
+<br>[ &nbsp; ] อนุมัติ     [ &nbsp; ] ไม่อนุมัติ เพราะ ………………………………………………………………….
+<br><br>                                         ลงชื่อ………………………………..
+<br><br>                                              (……………………………...…..…)
+<br><br>                                              วันที่…………………………..
+
+
+<br><br>หมายเหตุ เอกสารให้จัดทำขึ้น ๒ ฉบับ มอบให้ผู้กู้ ๑ ฉบับและเก็บไว้ที่ วิสาหกิจชุมชนฯ ๑ ฉบับ 
+
+</td>
+  </tr>
+
+
+
+</table>
 
     <?php 
 $time_re=  date('Y_m_d');
 $html = ob_get_contents();
 ob_clean();
 
-$pdf = new mPDF('tha2','A4','10','');
+$pdf = new mPDF('tha2','A4','11','');
 $pdf->autoScriptToLang = true;
 $pdf->autoLangToFont = true;
 $pdf->SetDisplayMode('fullpage');
@@ -77,7 +190,7 @@ echo "<meta http-equiv='refresh' content='0;url=../ContractPDF/Contract$loan_id 
 $myconn->close_PDO();?>
 
         <!-- //////////////////foot//////////////// -->                    
-        <div class="control-sidebar-bg"></div>
+    <div class="control-sidebar-bg"></div>
         <!-- jQuery 2.1.4 -->
      <div class="control-sidebar-bg"></div>
     </div><!-- ./wrapper -->

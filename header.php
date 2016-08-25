@@ -10,7 +10,7 @@ $conn_DB->para_read($read);
 $db=$conn_DB->conn_PDO();
 if($db != FALSE){
 //$db=$conn_DB->getDb();
-//===ชื่อโรงพยาบาล
+//===ชื่อกลุ่ม
                     $sql = "select * from  community order by comm_id limit 1";
                     $conn_DB->imp_sql($sql);
                     $resultComm=$conn_DB->select('');
