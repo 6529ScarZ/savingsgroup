@@ -102,11 +102,11 @@ if($_POST['confirm']=='Y'){
                   
                 }if ($add_loanAcc &  $add_interest =false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
-                echo "<a href='../content/detial_loanAgreement.php?id=$loan_id' >กลับ</a>";
+                echo "<a href='../content/detial_loanAgreement.php?id=".$mydata->sslEnc($loan_id)."' >กลับ</a>";
             } else {
-                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=$loan_id'>";
+                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=".$mydata->sslEnc($loan_id)."'>";
 }}  else {
-                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=$loan_id'>";
+                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loanAgreement.php?kill=kill&id=".$mydata->sslEnc($loan_id)."'>";
 }
              } }elseif ($method == 'pay_loan'){
                 $loan_id=filter_input(INPUT_POST, 'loan_id',FILTER_SANITIZE_NUMBER_INT);
@@ -133,9 +133,9 @@ if($_POST['confirm']=='Y'){
                 $up_la=$mydata->update($table2, $data2, $where2, $field2, $execute2);
                 if ($up_budget and $up_la =false) {
                 echo "<span class='glyphicon glyphicon-remove'></span>";
-                echo "<a href='../content/detial_loan.php?id=$loan_id' >กลับ</a>";
+                echo "<a href='../content/detial_loan.php?id=".$mydata->sslEnc($loan_id)."' >กลับ</a>";
             } else {
-                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loan.php?kill=kill&id=$loan_id'>";
+                echo" <META HTTP-EQUIV='Refresh' CONTENT='2;URL=../content/detial_loan.php?kill=kill&id=".$mydata->sslEnc($loan_id)."'>";
 }
             }
     } elseif (null !== (filter_input(INPUT_GET, 'method'))) {

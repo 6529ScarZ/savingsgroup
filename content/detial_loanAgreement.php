@@ -65,15 +65,34 @@ $myconn->para_read($read);
 $db=$myconn->conn_PDO();
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
 $loan_id=$myconn->sslDec($id);
+$sql="SELECT la.status
+FROM loan_account la
+WHERE la.loan_id=:loan_id";
+$myconn->imp_sql($sql);
+$execute=array(':loan_id'=>$loan_id);
+$ck_status=$myconn->select($execute);
+if(!empty($ck_status[0]['status'])){
+$check=$ck_status[0]['status'];}  else {
+$check=NULL;    
+}
+if($check==0 or $check==NULL){
+    $code_sel="";
+    $code_join="";
+}  else {
+    $code_sel=",concat(la.month,' ','เดือน')as month,concat(la.period,' ','บาท')as period";
+    $code_join="INNER JOIN loan_account la ON la.loan_id=lc.loan_id";
+}
 $sql ="SELECT lc.loan_number,p.member_no,CONCAT(p.fname,' ',p.lname) AS fullname,p.cid,
 concat(lc.loan_total,' ','บาท')as total,c.contract_name,c.witdawal,
 lc.loan_startdate,lc.loan_enddate,lc.note,
 (SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_1)bondsman_1,
 (SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_2)bondsman_2,
 (SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_3)bondsman_3
+$code_sel
 FROM loan_card lc 
 INNER JOIN person p ON p.person_id=lc.person_id
 INNER JOIN contract c ON c.contract_id=lc.contract_id
+$code_join
 WHERE lc.loan_id=$loan_id";
 $myconn->imp_sql($sql);
 $myconn2=new Detial();
@@ -90,22 +109,27 @@ $myconn2->close_PDO();
             <div class="col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">ข้อมูลวัสดุ</h3>
+                        <h3 class="panel-title">ข้อมูลการกู้</h3>
                     </div>
                     <div class="panel-body">
                         <div class="col-lg-12">
-              <div class="box box-success box-solid">
+              <div class="box box-warning box-solid">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><img src='../images/icon_set2/dolly.ico' width='25'> ข้อมูลสมาชิก</h3>
+                  <h3 class="box-title"><img src='../images/Money-Increase.ico' width='25'> ข้อมูลสัญญากู้</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body" align='center'>
-                     <?php 
+                     <?php if($check==0 or $check==NULL){
                         $title=  array("สัญญาเงินกู้เลขที่","หมายเลขสมาชิก","ชื่อ-นามสกุล","เลขบัตรประชาชน","จำนวนเงินกู้","ประเภทเงินกู้",
                             "ดอกเบี้ย (ร้อยละ/ปี)","วันที่เริ่มสัญญาเงินกู้","วันที่ครบกำหนดสัญญา","การนำไปใช้ประโยชน์",
-                            "สมาชิกผู้ค้ำประกันคนที่ 1","สมาชิกผู้ค้ำประกันคนที่ 2","สมาชิกผู้ค้ำประกันคนที่ 3");
+                            "สมาชิกผู้ค้ำประกันคนที่ 1","สมาชิกผู้ค้ำประกันคนที่ 2","สมาชิกผู้ค้ำประกันคนที่ 3"); 
+                     }else{
+                        $title=  array("สัญญาเงินกู้เลขที่","หมายเลขสมาชิก","ชื่อ-นามสกุล","เลขบัตรประชาชน","จำนวนเงินกู้","ประเภทเงินกู้",
+                            "ดอกเบี้ย (ร้อยละ/ปี)","วันที่เริ่มสัญญาเงินกู้","วันที่ครบกำหนดสัญญา","การนำไปใช้ประโยชน์",
+                            "สมาชิกผู้ค้ำประกันคนที่ 1","สมาชิกผู้ค้ำประกันคนที่ 2","สมาชิกผู้ค้ำประกันคนที่ 3","ระยะเวลาที่ต้องใช้คืน","จำนวนเงินงวดที่ต้องใช้คืน");
+                     }
                         $myconn->create_Detial($title);
                         $myconn->close_PDO();
                          if($approve[0]['approve']=='W'){

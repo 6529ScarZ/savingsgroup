@@ -56,13 +56,14 @@ if (empty($_SESSION['user'])) {
     }  else {
         $body="";
 }
-    $loan_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
     require '../class/Detial.php';
 $myconn=new Detial();
 $read='../connection/conn_DB.txt';
 $myconn->para_read($read);
 $myconn->conn_PDO();
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
+$loan_id=$myconn->sslDec($id);
 $sql ="SELECT lc.loan_number,p.member_no,CONCAT(p.fname,' ',p.lname) AS fullname,p.cid,
 concat(lc.loan_total,' ','บาท')as total,c.contract_name,c.witdawal,
 lc.loan_startdate,lc.loan_enddate,lc.note,

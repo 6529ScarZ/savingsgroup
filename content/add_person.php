@@ -6,10 +6,10 @@
             <h1><font color='blue'>  แก้ไขข้อมูลสมาชิก </font></h1> 
             <ol class="breadcrumb">
               <li><a href="index.php"><i class="fa fa-home"></i> หน้าหลัก</a></li>
-              <li><a href="pre_person.php"><i class="fa fa-edit"></i> ข้อมูลพื้นฐาน</a></li>
+              <li><a href="index.php?page=content/add_person"><i class="fa fa-edit"></i> ข้อมูลพื้นฐาน</a></li>
               <li class="active"><i class="fa fa-edit"></i> แก้ไขข้อมูลสมาชิก</li>
                <?php }}else{?>
-            <h1><img src='images/adduser.ico' width='75'><font color='blue'>  เพิ่มข้อมูลสมาชิก </font></h1> 
+            <h1><img src='images/icon_set1/user_add.ico' width='35'><font color='blue'>  เพิ่มข้อมูลสมาชิก </font></h1> 
             <ol class="breadcrumb">
               <li><a href="index.php"><i class="fa fa-home"></i> หน้าหลัก</a></li>
               <li class="active"><i class="fa fa-edit"></i> เพิ่มข้อมูลสมาชิก</li>
@@ -40,7 +40,7 @@
               <?php if(empty($method)){$coll_bos='collapsed-box';}?>
               <div class="box box-success box-solid <?= $coll_bos?>">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><img src='images/phonebook.ico' width='25'> ข้อมูลสมาชิก</h3>
+                  <h3 class="box-title"><img src='images/icon_set1/user_manage.ico' width='25'> ข้อมูลสมาชิก</h3>
                     <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                   </div><!-- /.box-tools -->

@@ -1,8 +1,8 @@
 <div class="row">
           <div class="col-lg-12">
-              <div class="box box-success box-solid">
+              <div class="box box-danger box-solid">
                 <div class="box-header">
-                  <h3 class="box-title"><img src='images/icon_set2/dolly.ico' width='25'> ตารางสัญญากู้</h3>
+                  <h3 class="box-title"><img src='images/Money-Increase.ico' width='25'> ตารางสัญญากู้</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                             <?php

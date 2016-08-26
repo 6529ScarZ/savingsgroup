@@ -28,11 +28,12 @@
         if ($method == 'receipts') {
             $preson_id = filter_input(INPUT_POST, 'person_id');
             $money = filter_input(INPUT_POST, 'money');
+            $save_date=filter_input(INPUT_POST, 'save_date');
 ////////////////add statement เงินออม//////////////////
             $sql = "select account_id from saving_account where person_id=$preson_id";
             $mydata->imp_sql($sql);
             $account = $mydata->select('');
-            $data = array($preson_id, $account[0]['account_id'], 1, 'null', $money, $date->format('Y-m-d')
+            $data = array($preson_id, $account[0]['account_id'], 1, 'null', $money, $save_date
                 , $date->format('Y-m-d H:m:s'), $_SESSION['user']);
             $table = "saving_repayment";
             $add_saving = $mydata->insert($table, $data);
@@ -40,13 +41,13 @@
                 ////////////////add statement เงินต้น//////////////////
                 $loan_id = filter_input(INPUT_POST, 'loan_id');
                 $repay = filter_input(INPUT_POST, 'repay');
-                $data = array($preson_id, null, 2, $loan_id, $repay, $date->format('Y-m-d')
+                $data = array($preson_id, null, 2, $loan_id, $repay, $save_date
                     , $date->format('Y-m-d H:m:s'), $_SESSION['user']);
                 $table = "saving_repayment";
                 $add_repay = $mydata->insert($table, $data);
                 ////////////////add statement ดอกเบี่ย////////////////// 
                 $witdawal = filter_input(INPUT_POST, 'witdawal');
-                $data = array($preson_id, null, 3, $loan_id, $witdawal, $date->format('Y-m-d')
+                $data = array($preson_id, null, 3, $loan_id, $witdawal, $save_date
                     , $date->format('Y-m-d H:m:s'), $_SESSION['user']);
                 $table = "saving_repayment";
                 $add_witdawal = $mydata->insert($table, $data);
@@ -55,7 +56,7 @@
                     ////////////////add statement ค่าปรับ//////////////////  
 
                     echo $fine = filter_input(INPUT_POST, 'fine');
-                    $data = array($preson_id, null, 4, $loan_id, $fine, $date->format('Y-m-d')
+                    $data = array($preson_id, null, 4, $loan_id, $fine, $save_date
                         , $date->format('Y-m-d H:m:s'), $_SESSION['user']);
                     $table = "saving_repayment";
                     $add_fine = $mydata->insert($table, $data);

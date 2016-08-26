@@ -77,13 +77,13 @@ $myconn->imp_sql($sql);
             <div class="col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">ข้อมูลวัสดุ</h3>
+                        <h3 class="panel-title">ข้อมูลองค์กร</h3>
                     </div>
                     <div class="panel-body">
                         <div class="col-lg-12">
               <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><img src='../images/icon_set2/dolly.ico' width='25'> ข้อมูลสมาชิก</h3>
+                  <h3 class="box-title"><img src='../images/agency.ico' width='25'> ข้อมูลองค์กร</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                   </div><!-- /.box-tools -->

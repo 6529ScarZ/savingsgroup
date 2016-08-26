@@ -51,20 +51,39 @@ $myconn->para_read($read);
 $db=$myconn->conn_PDO();
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_ENCODED);
 $person_id=$myconn->sslDec($id);
+$sql="SELECT la.status
+FROM loan_account la
+WHERE la.person_id=:person_id ORDER BY la.loan_acc_id DESC";
+$myconn->imp_sql($sql);
+$execute=array(':person_id'=>$person_id);
+$ck_status=$myconn->select($execute);
+if(!empty($ck_status[0]['status'])){
+$check=$ck_status[0]['status'];}  else {
+$check=NULL;    
+}
+if($check==0 or $check==NULL){
+    $code_sel="";
+    $code_join="";
+    $code_order="";
+}else{
+    $code_sel=",lc.loan_number,con.contract_name,CONCAT(con.witdawal,' ','ปี') AS witdawal,concat(lc.loan_total,' ',' บาท') as total,
+CONCAT(la.period,' ','บาท')AS period,CONCAT(la.month,' ','เดือน')AS month,CONCAT(la.loan_total,' ','บาท')AS loan_total";
+    $code_join="LEFT OUTER JOIN loan_card lc ON lc.person_id=p1.person_id
+LEFT OUTER JOIN loan_account la ON la.loan_id=lc.loan_id
+LEFT OUTER JOIN contract con ON con.contract_id=lc.contract_id";
+    $code_order="order by lc.loan_id desc limit 1";
+}
     $sql = "SELECT p1.photo, p1.member_no,CONCAT(p2.pname,p1.fname,'  ',p1.lname) AS fullname,
-IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,CONCAT(sa.saving_total,' ','บาท')AS saving,
-lc.loan_number,con.contract_name,CONCAT(con.witdawal,' ','ปี') AS witdawal,concat(lc.loan_total,' ',' บาท') as total,
-CONCAT(la.period,' ','บาท')AS period,CONCAT(la.month,' ','เดือน')AS month,CONCAT(la.loan_total,' ','บาท')AS loan_total
+IF (p1.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name ,m2.mem_status,CONCAT(sa.saving_total,' ','บาท')AS saving
+$code_sel
 FROM person p1
 INNER JOIN preface p2 ON p2.pname_id=p1.pname_id
 INNER JOIN member_status m2 ON m2.mem_status_id=p1.mem_status_id
 INNER JOIN saving_account sa ON sa.person_id=p1.person_id
-LEFT OUTER JOIN loan_card lc ON lc.person_id=p1.person_id
-LEFT OUTER JOIN loan_account la ON la.loan_id=lc.loan_id
-LEFT OUTER JOIN contract con ON con.contract_id=lc.contract_id
-WHERE p1.person_id='$person_id'";
-    $myconn->imp_sql($sql);
-    $myconn->select('');
+$code_join
+WHERE p1.person_id=$person_id $code_order";
+$myconn->imp_sql($sql);
+$myconn->select('');
    include_once ('../plugins/funcDateThai.php');
     ?>
     <body class="hold-transition skin-green fixed sidebar-mini">
@@ -72,21 +91,25 @@ WHERE p1.person_id='$person_id'";
             <div class="col-lg-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">ข้อมูลวัสดุ</h3>
+                        <h3 class="panel-title">ข้อมูลการออม</h3>
                     </div>
                     <div class="panel-body">
                         <div class="col-lg-12">
               <div class="box box-success box-solid">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><img src='../images/icon_set2/dolly.ico' width='25'> ข้อมูลสมาชิก</h3>
+                  <h3 class="box-title"><img src='../images/icon_set1/user_manage.ico' width='25'> ข้อมูลรายการออม</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                   </div><!-- /.box-tools -->
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     <?php
+                    if($check==0 or $check==NULL){
+                        $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","ประเภทสมาชิก","สถานะ","เงินออมทั้งหมด");
+                    }  else {
                         $title=  array("เลขที่สมาชิก","ชื่อ - นามสกุล","ประเภทสมาชิก","สถานะ","เงินออมทั้งหมด","เลขที่เงินกู้","ประเภทเงินกู้","ดอกเบี้ยร้อยละ","ยอดเงินกู้ทั้งหมด",
                             "ส่งงวดละ","ระยะเวลาที่ส่ง","ยอดเงินกู้ที่เหลือ");
+                    }
                         $myconn->create_Detial_photoLeft($title,"../photo/");
                         $myconn->close_PDO();
                         ?>
@@ -98,7 +121,7 @@ WHERE p1.person_id='$person_id'";
                                 WHERE sr.person_id=$person_id GROUP BY sr.d_update ORDER BY sr.saving_repay_id ASC";
                         $myconn->imp_sql($sql);
                         $date=$myconn->select("");
-                        $title=  array("วันที่จ่าย","จำนวนเงินออม","จำนวนเงินต้น","ดอกเบี้ย","ค่าปรับ","ผู้บันทึก","ใบเสร็จ");
+                        $title=  array("วันที่จ่าย","จำนวนเงินออม","จำนวนเงินต้น","ดอกเบี้ย","ค่าปรับ","ผู้บันทึก");
                         $code_color = array("0" => "default", "1" => "success", "2" => "warning", "3" => "danger", "4" => "info");
                 echo "<div align='center' class='table-responsive'>";
                 echo "<table class='table table-hover'>";
@@ -140,14 +163,14 @@ ORDER BY sr.saving_repay_id ASC";
                             } else {
                                 echo "<td align='center'>" . $loan_data[0][$field[$i]] . "</td>";
                             }
-                        } else{
+                        } /*else{
                             if ($i = (count($field))-1) {?>
                                         <td align='center'>
-                                    <a href="#" onClick="window.open('content/repay_PDF.php?id=<?= $loan_data[0][$field[$i]] ?>', '', 'width=550,height=700');
+                                    <a href="#" onClick="window.open('content/receipts_PDF.php?id=<?= $loan_data[0][$field[$i]] ?>', '', 'width=550,height=700');
                                             return false;" title="รายละเอียด">     
                                         <img src='../images/printer.ico' width='25'></a></td>
                                  <?php  }
-                                }
+                                }*/
                     }
                             
                             $C++;

@@ -6,10 +6,10 @@
             <h1><font color='blue'>  การรับเงิน </font></h1> 
             <ol class="breadcrumb">
               <li><a href="index.php"><i class="fa fa-home"></i> หน้าหลัก</a></li>
-              <li><a href="?page=content/add_repay"><i class="fa fa-edit"></i> การรับเงิน</a></li>
+              <li><a href="?page=content/add_receipts"><i class="fa fa-edit"></i> การรับเงิน</a></li>
               <li class="active"><i class="fa fa-edit"></i> การลงบันทึกรับเงิน</li>
                <?php }}else{?>
-            <h1><img src='images/adduser.ico' width='75'><font color='blue'>  การรับเงิน </font></h1> 
+            <h1><img src='images/money_plus.ico' width='35'><font color='blue'>  การรับเงิน </font></h1> 
             <ol class="breadcrumb">
               <li><a href="index.php"><i class="fa fa-home"></i> หน้าหลัก</a></li>
               <li class="active"><i class="fa fa-edit"></i> การรับเงิน</li>
@@ -28,14 +28,16 @@
         $sql= "select p.*,concat(p2.pname,p.fname,'  ',p.lname) as fullname,sa.saving_total,
             IF (p.sex=1,'ชาย',IF (p.sex=2,'หญิง','UNKNOW')) as sex_name,
             IF (p.user_type=1,'สมาชิกทั่วไป','สมาชิกสมทบ')as user_type_name,m.mem_status,sa.saving_limit,
-            (select lc.loan_id from loan_card lc where lc.person_id='$edit_id' and la.check_pay='Y' AND la.`status`=1)as loan_id
+            (select lc.loan_id from loan_card lc 
+            left outer join loan_account la on la.loan_id=lc.loan_id
+            where lc.person_id='$edit_id' and la.check_pay='Y' AND la.`status`=1)as loan_id
             from person p 
             left outer join loan_card lc on p.person_id=lc.person_id
             left outer join loan_account la on la.loan_id=lc.loan_id
             inner join saving_account sa on sa.person_id=p.person_id
             inner join preface p2 on p2.pname_id=p.pname_id
             INNER JOIN member_status m ON m.mem_status_id=p.mem_status_id
-                where p.person_id='$edit_id'";
+                where p.person_id='$edit_id' GROUP BY p.person_id";
         $conn_DB2->imp_sql($sql);
         $edit_person=$conn_DB2->select('');
         $conn_DB2->close_PDO();
@@ -61,9 +63,9 @@
 <div class="row">
           <div class="col-lg-12">
               <?php if(empty($method)){$coll_bos='collapsed-box';}?>
-              <div class="box box-success box-solid <?= $coll_bos?>">
+              <div class="box box-info box-solid <?= $coll_bos?>">
                 <div class="box-header with-border">
-                  <h3 class="box-title"><img src='images/phonebook.ico' width='25'> ส่งคืนเงินกู้</h3>
+                  <h3 class="box-title"><img src='images/money_plus.ico' width='25'> การรับเงิน</h3>
                     <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                   </div><!-- /.box-tools -->
@@ -201,7 +203,12 @@ function calculate()
                                 &nbsp;บาท
 </div><br><br>
    
-                <?php }
+                <?php } ?>
+                <div class="form-group">
+         			<label> วันที่ออมเงิน &nbsp;</label>
+                                <input type="date" name="save_date" id="save_date" placeholder="" value="<?= date('Y-m-d')?>">
+                </div><br>
+<?php
                 if(isset($method)=='edit'){?>
     <input type="hidden" name="method" id="method" value="receipts">
     <input type="hidden" name="person_id" id="person_id" value="<?=$edit_person[0]['person_id'];?>">
