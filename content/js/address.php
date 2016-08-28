@@ -32,7 +32,7 @@ function Check_txt(){
 </script>
     <div class="form-group"> 
                     <label> จังหวัด &nbsp;</label>
-	<select class="form-control" name='province' id='province' onchange="data_show(this.value,'amphur');">
+	<select class="form-control select2" name='province' id='province' onchange="data_show(this.value,'amphur');">
 		<option value="">---โปรดเลือกจังหวัด---</option>
 		<?php
 		$sql="select * from province Order By PROVINCE_NAME ASC";
@@ -46,7 +46,7 @@ function Check_txt(){
     </div>
       <div class="form-group">
         <label> อำเภอ &nbsp;</label>
-	<select class="form-control" name='amphur' id='amphur'onchange="data_show(this.value,'district');">
+	<select class="form-control select2" name='amphur' id='amphur'onchange="data_show(this.value,'district');">
             <?php if(isset($method)=='edit'){
                 $sql = "select * from amphur where AMPHUR_ID='".$edit_person[0]['amphur']."'";
                                 $conn_DB2->imp_sql($sql);
@@ -62,7 +62,7 @@ function Check_txt(){
 	</div>
         <div class="form-group">
         <label> ตำบล &nbsp;</label>  
-	<select class="form-control" name='district' id='district'>
+	<select class="form-control select2" name='district' id='district'>
             <?php if(isset($method)=='edit'){
                 $sql = "select * from district where DISTRICT_ID='".$edit_person[0]['district']."'";
                                 $conn_DB2->imp_sql($sql);

@@ -57,7 +57,7 @@
                     </div><br><br>
                     <div class="form-group">
          			<label> คำนำหน้า &nbsp;</label>
- 				<select name="pname" id="pname" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
+ 				<select name="pname" id="pname" required  class="form-control select2"  onkeydown="return nextbox(event, 'fname');"> 
 				<?php	$sql = "SELECT *  FROM preface order by pname_id ";
                                 $conn_DB2= new DbPDO_mng();
                                 $read="connection/conn_DB.txt";
@@ -83,7 +83,7 @@
              	</div>
                 <div class="form-group">
          			<label> เพศ &nbsp;</label>
- 				<select name="sex" id="sex" required  class="form-control"  onkeydown="return nextbox(event, 'birth');">
+ 				<select name="sex" id="sex" required  class="form-control select2"  onkeydown="return nextbox(event, 'birth');">
                                     <?php if(!empty($edit_person[0]['sex'])){
                                           if($edit_person[0]['sex']==1){?>
                                 <option value=''> เพศ </option>
@@ -113,7 +113,7 @@
                 </div><br><br>
                 <div class="form-group">
          			<label> สถานะสมรส &nbsp;</label>
- 				<select name="mstatus" id="mstatus" required  class="form-control"  onkeydown="return nextbox(event, 'member_status');"> 
+ 				<select name="mstatus" id="mstatus" required  class="form-control select2"  onkeydown="return nextbox(event, 'member_status');"> 
 				<?php	$sql = "SELECT *  FROM mstatus order by mstatus_id";
                                 //$conn_DB2->conn_mysqli();
                                 $conn_DB2->imp_sql($sql);
@@ -139,7 +139,7 @@
                 </div>
                 <div class="form-group">
         <label> ประเภทสมาชิก &nbsp;</label>
-	<select name='user_type' id='user_type'class='form-control' onchange="data_show(this.value,'process');"  required >
+	<select name='user_type' id='user_type'class='form-control select2' onchange="data_show(this.value,'process');"  required >
 			<?php 		
 				echo "<option value=''>เลือกประเภทสมาชิก</option>";			
 		 		if($edit_person[0]['user_type']=="2"){$ok='selected';}
@@ -151,7 +151,7 @@
                         </div>
                 <div class="form-group">
          			<label> สถานะการเป็นสมาชิก &nbsp;</label>
- 				<select name="member_status" id="member_status" required  class="form-control"  onkeydown="return nextbox(event, 'hourseno');"> 
+ 				<select name="member_status" id="member_status" required  class="form-control select2"  onkeydown="return nextbox(event, 'hourseno');"> 
 				<?php	$sql = "SELECT *  FROM member_status order by mem_status_id";
                                 //$conn_DB2->conn_mysqli();
                                 $conn_DB2->imp_sql($sql);

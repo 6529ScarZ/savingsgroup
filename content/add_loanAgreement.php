@@ -47,9 +47,9 @@
 <form class="navbar-form" role="form" action='index.php?page=process/prcloanAgreement' enctype="multipart/form-data" method='post' onSubmit="return Check_txt()">
                     <div class="form-group"> 
                 <label> สมาชิกที่ยื่นกู้ &nbsp;</label>
-                        <select name="person_id" id="person_id" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
+                        <select name="person_id" id="person_id" required  class="form-control select2"  onkeydown="return nextbox(event, 'fname');"> 
 				<?php	$sql = "SELECT person_id,concat(fname,' ',lname) as fullname  FROM person order by fname";
-				 echo "<option value=''>เลือกบุคลากร</option>";
+				 echo "<option value=''>&nbsp;&nbsp;&nbsp;&nbsp;เลือกบุคลากร&nbsp;&nbsp;&nbsp;&nbsp;</option>";
                 $conn_DB2->conn_PDO();
                 $conn_DB2->imp_sql($sql);
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
@@ -65,7 +65,7 @@
                     </div>
                     <div class="form-group">
          			<label>&nbsp; ประเภทเงินกู้ &nbsp;</label>
- 				<select name="contract_id" id="contract_id" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
+ 				<select name="contract_id" id="contract_id" required  class="form-control select2"  onkeydown="return nextbox(event, 'fname');"> 
 				<?php	$sql = "SELECT *  FROM contract order by contract_id ";
                                 $conn_DB2->conn_PDO();
                                 $conn_DB2->imp_sql($sql);
@@ -100,9 +100,9 @@
                 </div><br><br>
                 <div class="form-group">
          			<label> หมายเลขสมาชิกผู้ค้ำประกันคนที่ 1 &nbsp;</label>
-                        <select name="bondsman_1" id="bondsman_1" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
+                        <select name="bondsman_1" id="bondsman_1" required  class="form-control select2"  onkeydown="return nextbox(event, 'fname');"> 
 				<?php	$sql = "SELECT person_id,concat(fname,' ',lname) as fullname  FROM person order by fname";
-				 echo "<option value=''>เลือกบุคลากร</option>";
+				 echo "<option value=''>&nbsp;&nbsp;&nbsp;&nbsp;เลือกบุคลากร&nbsp;&nbsp;&nbsp;&nbsp;</option>";
                 $conn_DB2->conn_PDO();
                 $conn_DB2->imp_sql($sql);
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
@@ -115,9 +115,9 @@
                 </div><br><br>
                 <div class="form-group">
          			<label> หมายเลขสมาชิกผู้ค้ำประกันคนที่ 2 &nbsp;</label>
-                        <select name="bondsman_2" id="bondsman_2" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
+                        <select name="bondsman_2" id="bondsman_2" required  class="form-control select2"  onkeydown="return nextbox(event, 'fname');"> 
 				<?php	$sql = "SELECT person_id,concat(fname,' ',lname) as fullname  FROM person order by fname";
-				 echo "<option value=''>เลือกบุคลากร</option>";
+				 echo "<option value=''>&nbsp;&nbsp;&nbsp;&nbsp;เลือกบุคลากร&nbsp;&nbsp;&nbsp;&nbsp;</option>";
                 $conn_DB2->conn_PDO();
                 $conn_DB2->imp_sql($sql);
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
@@ -130,9 +130,9 @@
                 </div><br><br>
                 <div class="form-group">
          			<label> หมายเลขสมาชิกผู้ค้ำประกันคนที่ 3 &nbsp;</label>
-                        <select name="bondsman_3" id="bondsman_3" required  class="form-control"  onkeydown="return nextbox(event, 'fname');"> 
+                        <select name="bondsman_3" id="bondsman_3" required  class="form-control select2" onkeydown="return nextbox(event, 'fname');"> 
 				<?php	$sql = "SELECT person_id,concat(fname,' ',lname) as fullname  FROM person order by fname";
-				 echo "<option value=''>เลือกบุคลากร</option>";
+				 echo "<option value=''>&nbsp;&nbsp;&nbsp;&nbsp;เลือกบุคลากร&nbsp;&nbsp;&nbsp;&nbsp;</option>";
                 $conn_DB2->conn_PDO();
                 $conn_DB2->imp_sql($sql);
                 $result=$conn_DB2->select('');//เรียกใช้ค่าจาก function ต้องใช้ตัวแปรรับ
