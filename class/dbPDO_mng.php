@@ -72,7 +72,7 @@ class dbPDO_mng extends ConnPDO_db{
 		{
         $data = $this->db->prepare($this->sql);
         $data->execute(); 
-        return true;
+        return $this->db->lastInsertId();
                 } catch(PDOException $e)
 		{
 			echo $e->getMessage();	
