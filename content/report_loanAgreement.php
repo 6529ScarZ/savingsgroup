@@ -27,6 +27,6 @@
 ?>
 <section class="content">
 <br>
-    <?php include 'content/list_loanAgreement.php';?>
+    <?php include 'content/list_loanAgreement2.php';?>
     </section>
          
