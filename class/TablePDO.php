@@ -24,9 +24,13 @@ class TablePDO extends EnDeCode {
         echo "</tr></thead><tbody>";
         $c = 0;
         $C = 1;
+        $ii=0;
         for ($I = 0; $I < count($query); $I++) {
             $num_field = $this->count_field();
-            echo "<tr class='" . $code_color[$I] . "'>";
+            if($ii>=5){
+                        $ii=0;
+                    }
+            echo "<tr class='" . $code_color[$ii] . "'>";
             echo "<td align='center'>" . $C . "</td>";
             for ($i = 0; $i < ($num_field); $i++) {
                if ($this->validateDate($query[$c][$field[$i]], 'Y-m-d')) {
@@ -37,6 +41,7 @@ class TablePDO extends EnDeCode {
             }
             $c++;
             $C++;
+            $ii++;
             echo "</tr>";
         }
         echo "</tbody>";
@@ -135,9 +140,13 @@ class TablePDO extends EnDeCode {
                 echo "</tr></thead><tbody>";
                 $c = 0;
                 $C = 1;
+                $ii=0;
                 for ($I = 0; $I < count($query); $I++) {
                     $num_field = $this->count_field();
-                    echo "<tr class='" . $code_color[$I] . "'>";
+                    if($ii>=5){
+                        $ii=0;
+                    }
+                    echo "<tr class='" . $code_color[$ii] . "'>";
                     echo "<td align='center'>" . $C . "</td>";
                     for ($i = 0; $i < ($num_field); $i++) {
                         if ($i < ($num_field - 2)) {
@@ -167,6 +176,7 @@ class TablePDO extends EnDeCode {
                             }
                             $c++;
                             $C++;
+                            $ii++;
                             echo "</tr>";
                         }
                         echo "</tbody>";
@@ -193,9 +203,13 @@ class TablePDO extends EnDeCode {
                         echo "</tr></thead><tbody>";
                         $c = 0;
                         $C = 1;
+                        $ii=0;
                         for ($I = 0; $I < count($query); $I++) {
                             $num_field = $this->count_field();
-                            echo "<tr class='" . $code_color[$I] . "'>";
+                            if($ii>=5){
+                        $ii=0;
+                    }
+                            echo "<tr class='" . $code_color[$ii] . "'>";
                             echo "<td align='center'>" . $C . "</td>";
                             for ($i = 0; $i < ($num_field); $i++) {
                                 if ($i < ($num_field - 1)) {
@@ -217,6 +231,7 @@ class TablePDO extends EnDeCode {
                                 }
                                 $c++;
                                 $C++;
+                                $ii++;
                                 echo "</tr>";
                             }
                             echo "</tbody>";
@@ -243,9 +258,13 @@ class TablePDO extends EnDeCode {
                             echo "</tr></thead><tbody>";
                             $c = 0;
                             $C = 1;
+                            $ii=0;
                             for ($I = 0; $I < count($query); $I++) {
                                 $num_field = $this->count_field();
-                                echo "<tr class='" . $code_color[$I] . "'>";
+                                if($ii>=5){
+                        $ii=0;
+                    }
+                                echo "<tr class='" . $code_color[$ii] . "'>";
                                 echo "<td align='center'>" . $C . "</td>";
                                 for ($i = 0; $i < ($num_field); $i++) {
 
@@ -273,6 +292,7 @@ class TablePDO extends EnDeCode {
                                     }
                                     $c++;
                                     $C++;
+                                    $ii++;
                                     echo "</tr>";
                                 }
                                 echo "</tbody>";
@@ -310,9 +330,13 @@ class TablePDO extends EnDeCode {
                                 echo "</tr></thead><tbody>";
                                 $c = 0;
                                 $C = 1;
+                                $ii=0;
                                 for ($I = 0; $I < count($query); $I++) {
                                     $num_field = $this->count_field();
-                                    echo "<tr class='" . $code_color[$I] . "'>";
+                                    if($ii>=5){
+                        $ii=0;
+                    }
+                                    echo "<tr class='" . $code_color[$ii] . "'>";
                                     echo "<td align='center'>" . $C . "</td>";
                                     for ($i = 0; $i < ($num_field); $i++) {
                                         if ($this->validateDate($query[$c][$field[$i]], 'Y-m-d')) {
@@ -323,6 +347,7 @@ class TablePDO extends EnDeCode {
                                     }
                                     $c++;
                                     $C++;
+                                    $ii++;
                                     echo "</tr>";
                                 }
                                 echo "</tbody></table></div>";
@@ -343,9 +368,13 @@ class TablePDO extends EnDeCode {
         echo "</tr></thead><tbody>";
         $c = 0;
         $C = 1;
+        $ii=0;
         for ($I = 0; $I < count($query); $I++) {
             $num_field = $this->count_field();
-            echo "<tr class='" . $code_color[$I] . "'>";
+            if($ii>=5){
+                        $ii=0;
+                    }
+            echo "<tr class='" . $code_color[$ii] . "'>";
             echo "<td align='center'>" . $C . "</td>";
             for ($i = 0; $i < ($num_field); $i++) {
                 if ($i < ($num_field - 2)) {
@@ -376,6 +405,7 @@ class TablePDO extends EnDeCode {
                     }
                     $c++;
                     $C++;
+                    $ii++;
                     echo "</tr>";
                 }
                 echo "</tbody>";
@@ -402,9 +432,13 @@ class TablePDO extends EnDeCode {
         echo "</tr></thead><tbody>";
         $c = 0;
         $C = 1;
+        $ii=0;
         for ($I = 0; $I < count($query); $I++) {
             $num_field = $this->count_field();
-            echo "<tr class='" . $code_color[$I] . "'>";
+            if($ii>=5){
+                        $ii=0;
+                    }
+            echo "<tr class='" . $code_color[$ii] . "'>";
             echo "<td align='center'>" . $C . "</td>";
             for ($i = 0; $i < ($num_field); $i++) {
                 if ($i < ($num_field - 4)) {
@@ -451,6 +485,7 @@ class TablePDO extends EnDeCode {
                     }
                     $c++;
                     $C++;
+                    $ii++;
                     echo "</tr>";
                 }
                 echo "</tbody>";
@@ -480,9 +515,13 @@ class TablePDO extends EnDeCode {
         echo "</tr></thead><tbody>";
         $c = 0;
         $C = 1;
+        $ii=0;
         for ($I = 0; $I < count($query); $I++) {
             $num_field = $this->count_field();
-            echo "<tr class='" . $code_color[$I] . "'>";
+            if($ii>=5){
+                        $ii=0;
+                    }
+            echo "<tr class='" . $code_color[$ii] . "'>";
             echo "<td align='center'>" . $C . "</td>";
             for ($i = 0; $i < ($num_field); $i++) {
                 if ($i < ($num_field - 4)) {
@@ -531,6 +570,7 @@ class TablePDO extends EnDeCode {
                     }
                     $c++;
                     $C++;
+                    $ii++;
                     echo "</tr>";
                 }
                 echo "</tbody>";
