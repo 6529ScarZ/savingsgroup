@@ -82,10 +82,6 @@
                 <label> จำนวนเงินกู้ &nbsp;</label>
                 <input value='<?php if(isset($method)=='edit'){ echo $edit_person[0]['loan_total'];}?>' type="text" class="form-control" name="loan_total" id="loan_total" placeholder="จำนวนเงินกู้" onkeydown="return nextbox(event, 'lname')" onKeyUp="javascript:inputDigits(this);" required>
              	</div>
-                    <div class="form-group"> 
-                <label>&nbsp; จำนวนเงินกู้(ตัวอักษร) &nbsp;</label>
-                <input value='<?php if(isset($method)=='edit'){ echo $edit_person[0]['loan_character'];}?>' type="text" class="form-control" name="loan_character" id="loan_character" placeholder="จำนวนเงินกู้(ตัวอักษร)" onkeydown="return nextbox(event, 'sex')" onKeyUp="javascript:inputString(this);" required>
-             	</div>
                 <div class="form-group">
                     <label>&nbsp; การนำไปใช้ประโยชน์ &nbsp;</label>
                     <textarea class="form-control" name="note" id="note" cols="50" placeholder="รายละเอียดการนำเงินไปใช้ประโยชน์"><?php if(isset($method)=='edit'){ echo $edit_person[0]['note'];}?></textarea>

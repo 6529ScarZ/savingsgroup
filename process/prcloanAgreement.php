@@ -36,7 +36,7 @@ if (isset($_POST['check']) == 'plus') {
                 echo "<a href='index.php?page=content/add_loanAgreement' >*** มีรายการกู้ที่ยังชำระไม่หมด กรุณาชำระให้หมดก่อนครับ ***</a>"; 
              }  else {
             $data = array($_POST['person_id'], $_POST['contract_id'], $_POST['loan_number'],
-                $_POST['loan_startdate'], $_POST['loan_enddate'], $_POST['loan_total'], $_POST['loan_character'],$_POST['note'],
+                $_POST['loan_startdate'], $_POST['loan_enddate'], $_POST['loan_total'],$_POST['note'],
                 $_POST['bondsman_1'], $_POST['bondsman_2'], $_POST['bondsman_3'],'W',$date->format('Y-m-d H:m:s'),$_SESSION['user']);
             $table = "loan_card";
             $add_loan = $mydata->insert($table, $data);
@@ -51,7 +51,7 @@ if (isset($_POST['check']) == 'plus') {
             $loan_id=filter_input(INPUT_POST, 'edit_id',FILTER_SANITIZE_NUMBER_INT);
                 
             $data = array($_POST['person_id'], $_POST['contract_id'], $_POST['loan_number'],
-                $_POST['loan_startdate'], $_POST['loan_enddate'], $_POST['loan_total'], $_POST['loan_character'],$_POST['note'],
+                $_POST['loan_startdate'], $_POST['loan_enddate'], $_POST['loan_total'],$_POST['note'],
                 $_POST['bondsman_1'], $_POST['bondsman_2'], $_POST['bondsman_3'],'W',$date->format('Y-m-d H:m:s'),$_SESSION['user']);
             $table = "loan_card";
             $where="loan_id=:loan_id";

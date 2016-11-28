@@ -67,7 +67,7 @@ $loan_id=$myconn->sslDec($id);
 $sql2="SELECT lc.loan_number,loan_startdate,CONCAT(pr.pname,p.fname,' ',p.lname)AS fullname,
 (TIMESTAMPDIFF(year,p.birth,NOW()))AS age,p.cid,p.member_no,sa.saving_total,
 CONCAT(ad.hourseno,'  ม.',ad.moo,' ต.',dis.DISTRICT_NAME,' อ.',amp.AMPHUR_NAME,' จ.',pro.PROVINCE_NAME)AS address,
-lc.loan_total,lc.loan_character,co.contract_name,co.witdawal,
+lc.loan_total,co.contract_name,co.witdawal,
 (SELECT CONCAT(p.fname,' ',p.lname) FROM person p WHERE p.person_id=lc.bondsman_1)AS bonds1,
 (SELECT p.member_no FROM person p WHERE p.person_id=lc.bondsman_1)AS mem_no1,
 (SELECT sa.saving_total FROM saving_account sa WHERE sa.person_id=lc.bondsman_1)AS saving1,
@@ -94,6 +94,7 @@ $loan_data=$myconn->select($execute);
 
 include_once ('../plugins/funcDateThai.php');
 include '../plugins/function_date.php';
+include '../plugins/Convert_num_text.php';
 
 require_once('../plugins/library/mpdf60/mpdf.php'); //ที่อยู่ของไฟล์ mpdf.php ในเครื่องเรานะครับ
 ob_start(); // ทำการเก็บค่า html นะครับ*/
@@ -112,9 +113,9 @@ $loan_id;
     <td colspan="4"><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 ข้าพเจ้าฯ &nbsp;<?= $loan_data[0]['fullname']?>&nbsp; อายุ &nbsp;<?= $loan_data[0]['age']?>&nbsp; ปี เลขบัตร ปชช &nbsp;<?= $loan_data[0]['cid']?>&nbsp; 
                 <br>เลขสมาชิก &nbsp;<?= $loan_data[0]['member_no']?>&nbsp; 
-มีหุ้น &nbsp;<?= $loan_data[0]['saving_total']?>&nbsp; บาท ภูมิลำเนาเลขที่ &nbsp;<?= $loan_data[0]['address']?>&nbsp; ได้กู้ยืมเงินจากวิสาหกิจชุมชน 
-<?= $resultComm[0]['group_name']?> &nbsp;<?= $loan_data[0]['loan_total']?>&nbsp; บาท( &nbsp;<?= $loan_data[0]['loan_character']?>&nbsp; )
-ประเภทเงินกู้ &nbsp;<?= $loan_data[0]['contract_name']?>&nbsp; กำหนดผ่อนชำระเงินกู้เป็นรายเดือน ภายใน ๖๐ งวด งวดละ………....บาท พร้อมดอกเบี้ยอัตราร้อยละ &nbsp;<?= $loan_data[0]['witdawal']?>&nbsp; บาทต่อเดือน หากไม่สามารถชำระตามกำหนด จะเสียค่าปรับเป็นเงิน ๕ บาทต่อเดือน 
+มีหุ้น &nbsp;<?= number_format($loan_data[0]['saving_total'])?>&nbsp; บาท ภูมิลำเนาเลขที่ &nbsp;<?= $loan_data[0]['address']?>&nbsp; ได้กู้ยืมเงินจากวิสาหกิจชุมชน 
+<?= $resultComm[0]['group_name']?> &nbsp;<?= number_format($loan_data[0]['loan_total'])?>&nbsp; บาท( &nbsp;<?= num2wordsThai(number_format($loan_data[0]['loan_total']))?>บาทถ้วน&nbsp; )
+ประเภทเงินกู้ &nbsp;<?= $loan_data[0]['contract_name']?>&nbsp; กำหนดผ่อนชำระเงินกู้เป็นรายเดือน ภายใน ๖๐ งวด งวดละ………....บาท พร้อมดอกเบี้ยอัตราร้อยละ &nbsp;<?= number_format($loan_data[0]['witdawal'])?>&nbsp; บาทต่อเดือน หากไม่สามารถชำระตามกำหนด จะเสียค่าปรับเป็นเงิน ๕ บาทต่อเดือน 
 โดยบุคคลผู้คำประกันและผู้คำประกันทั้งหมดยินยอมชดใช้หนี้ตามจำนวนที่ค้างชำระพร้อมดอกเบี้ย แก่วิสาหกิจชุมชน <?= $resultComm[0]['group_name']?> แทนข้าพเจ้า คือ
 <br>
     </p>
@@ -122,9 +123,9 @@ $loan_id;
   </tr>
   <tr>
     <td colspan="3">
-      <p>๑.&nbsp;<?= $loan_data[0]['bonds1']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no1']?>&nbsp; มีหุ้น &nbsp;<?= $loan_data[0]['saving1']?>&nbsp; บาท</p>
-      <p>๒.&nbsp;<?= $loan_data[0]['bonds2']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no2']?>&nbsp; มีหุ้น &nbsp;<?= $loan_data[0]['saving2']?>&nbsp; บาท</p>
-      <p>๓.&nbsp;<?= $loan_data[0]['bonds3']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no3']?>&nbsp; มีหุ้น &nbsp;<?= $loan_data[0]['saving3']?>&nbsp; บาท</p>
+      <p>๑.&nbsp;<?= $loan_data[0]['bonds1']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no1']?>&nbsp; มีหุ้น &nbsp;<?= number_format($loan_data[0]['saving1'])?>&nbsp; บาท</p>
+      <p>๒.&nbsp;<?= $loan_data[0]['bonds2']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no2']?>&nbsp; มีหุ้น &nbsp;<?= number_format($loan_data[0]['saving2'])?>&nbsp; บาท</p>
+      <p>๓.&nbsp;<?= $loan_data[0]['bonds3']?>&nbsp;เลขสมาชิก&nbsp;<?= $loan_data[0]['mem_no3']?>&nbsp; มีหุ้น &nbsp;<?= number_format($loan_data[0]['saving3'])?>&nbsp; บาท</p>
         &nbsp; และข้าพเจ้าได้รับเงินกู้ตามจำนวนดังกล่าวครบถ้วนแล้ว </td>
     <td width="35%">
         <p>ลงชื่อ…………………………………..ผู้ค้ำประกัน ๑ </p>

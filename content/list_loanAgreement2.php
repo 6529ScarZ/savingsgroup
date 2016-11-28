@@ -5,7 +5,7 @@
                   <h3 class="box-title"><img src='images/Money-Increase.ico' width='25'> ตารางสัญญากู้</h3>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                            <?php /*
+                            <?php 
                             if(!empty($method)){
                             if($method=='approve'){
                              $code_sel="";
@@ -30,13 +30,13 @@ $code";
         $column=array("เลขที่สัญญาเงินกู้","ผู้กู้","วันที่เริ่มสัญญา","วันที่ครบกำหนด","รายละเอียด","พิมพ์สัญญา");     
          }else{                   
         $column=array("เลขที่สัญญาเงินกู้","ผู้กู้","วันที่เริ่มสัญญา","วันที่ครบกำหนด","รายละเอียด");//หากเป็น TB_mng ต้องเพิ่ม แก้ไข,ลบเข้าไปด้วย 
-         }              } else {*/
+         }              } else {
                              $sql="SELECT lc.loan_number,CONCAT(p.fname,' ',p.lname) AS fullname,lc.loan_startdate,lc.loan_enddate,
 lc.loan_id AS id ,lc.approve ,lc.loan_id AS id3,lc.loan_id AS id4 
 FROM loan_card lc 
 INNER JOIN person p ON p.person_id=lc.person_id";  
         $column=array("เลขที่สัญญาเงินกู้","ผู้กู้","วันที่เริ่มสัญญา","วันที่ครบกำหนด","อนุมัติ","สถานะ","แก้ไข","ลบ");//หากเป็น TB_mng ต้องเพิ่ม แก้ไข,ลบเข้าไปด้วย 
-                           // }
+                            }
 
 //หากเป็น TB_mng ต้องเพิ่ม id ต่อทาย 3 id เข้าไปด้วย 
 
@@ -51,15 +51,15 @@ INNER JOIN person p ON p.person_id=lc.person_id";
                 $mydata->para_read($read);
                 $db=$mydata->conn_PDO();
                 $mydata->imp_sql($sql);
-               /*  if(!empty($method)){
+                if(!empty($method)){
                      if ($method=='pay') {
                      $mydata->createPDO_TB_PDF("loanAgreement");    
                      }else{
                      $mydata->createPDO_TB_Detial("loanAgreement");
-                     }} else {*/
+                     }} else {
                 //////ทดสอบการแสดงสถานะ/////////////////
                      $mydata->createPDO_TB_mngSTATUS("loanAgreement","W","Y","N");//ใส่ process ที่ต้องการสร้าง   
-                            // }
+                            }
                 
                 $mydata->close_PDO();
     ?>

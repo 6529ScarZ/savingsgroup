@@ -1,0 +1,4 @@
+ALTER TABLE `community`
+MODIFY COLUMN `tel`  varchar(10) NULL DEFAULT NULL AFTER `post`;
+ALTER TABLE `loan_card`
+DROP COLUMN `loan_character`;
